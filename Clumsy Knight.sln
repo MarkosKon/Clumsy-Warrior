@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30110.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clumsy Knight", "Clumsy Knight\Clumsy Knight\Clumsy Knight.csproj", "{0740BE6F-377E-4753-8981-B74DA24C3425}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "Clumsy KnightContent", "Clumsy Knight\Clumsy KnightContent\Clumsy KnightContent.contentproj", "{AE7DB2DE-166F-465E-A9CE-8CE5021E5A24}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0740BE6F-377E-4753-8981-B74DA24C3425}.Debug|x86.ActiveCfg = Debug|x86
+		{0740BE6F-377E-4753-8981-B74DA24C3425}.Debug|x86.Build.0 = Debug|x86
+		{0740BE6F-377E-4753-8981-B74DA24C3425}.Release|x86.ActiveCfg = Release|x86
+		{0740BE6F-377E-4753-8981-B74DA24C3425}.Release|x86.Build.0 = Release|x86
+		{AE7DB2DE-166F-465E-A9CE-8CE5021E5A24}.Debug|x86.ActiveCfg = Debug|x86
+		{AE7DB2DE-166F-465E-A9CE-8CE5021E5A24}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
