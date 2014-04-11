@@ -3,6 +3,7 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
+    //Simple comment.
 
     /// <summary>
     /// The Skeleton class that inherits from the abstract Enemy
