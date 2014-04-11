@@ -36,7 +36,7 @@ namespace Clumsy_Knight
     {
         public BigFatTile(int i, Rectangle newRectangle)
         {
-            texture = Content.Load<Texture2D>("Map" + i);
+            texture = Content.Load<Texture2D>("sprites/map/Map" + i);
             this.Rectangle = newRectangle;
         }
     }

@@ -89,32 +89,32 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Map.png">
+    <Compile Include="sprites\map\Map.png">
       <Name>Map</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Map1.png">
+    <Compile Include="sprites\map\Map1.png">
       <Name>Map1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Map3.png">
+    <Compile Include="sprites\map\Map3.png">
       <Name>Map3</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Map6.png">
+    <Compile Include="sprites\map\Map6.png">
       <Name>Map6</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Map8.png">
+    <Compile Include="sprites\map\Map8.png">
       <Name>Map8</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Map9.png">
+    <Compile Include="sprites\map\Map9.png">
       <Name>Map9</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -142,21 +142,21 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Map4.png">
+    <Compile Include="sprites\map\Map4.png">
       <Name>Map4</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Map2.png">
+    <Compile Include="sprites\map\Map2.png">
       <Name>Map2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Map5.png">
+    <Compile Include="sprites\map\Map5.png">
       <Name>Map5</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
