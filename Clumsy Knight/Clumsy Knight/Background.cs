@@ -6,9 +6,6 @@
     using Microsoft.Xna.Framework.Input;
     using System;
     using System.Collections.Generic;
-    //test
-    //test2
-    //A change by Boolshift.
 
 
 
@@ -34,7 +31,9 @@
         //
         public Texture2D groundTexture;
         public Rectangle groundRectangle;
+        public Rectangle groundRectangle2;
         public Vector2 groundPosition;
+        public Vector2 groundPosition2;
 
         //Variables for the mountain object.
         //
@@ -69,11 +68,13 @@
             sunRectangle = new Rectangle(0, 0, 2000, 2000);
             sunPosition = new Vector2(-280, 0);
 
-            groundRectangle = new Rectangle(0, 0, 800, 480);
-            groundPosition = new Vector2(-277, 0);
+            groundRectangle = new Rectangle(0, 0, 800, 136);
+            groundRectangle2 = new Rectangle(0, 0, 800, 136);
+            groundPosition = new Vector2(-277, 220);
+            groundPosition2 = new Vector2(-277+800, 220);
 
             mountainRectangle = new Rectangle(0, 0, 800, 480);
-            mountainPosition = new Vector2(-100, 100);
+            mountainPosition = new Vector2(-100, 40);
 
             castleRectangle = new Rectangle(4000, 217, 300, 150);
 
@@ -128,6 +129,7 @@
                 sunPosition.X += 3f;
                 mountainPosition.X += 2.9f;
                 groundPosition.X += 2.4f;
+                groundPosition2.X += 2.4f;
             }
             //The same if the player goes left.
             else if (Keyboard.GetState().IsKeyDown(Keys.Left))
@@ -141,6 +143,7 @@
                 sunPosition.X -= 3f;
                 mountainPosition.X -= 2.9f;
                 groundPosition.X -= 2.4f;
+                groundPosition2.X -= 2.4f;
             }
             //The clouds are constantly moving regardless of the player's movement.
             else
@@ -160,8 +163,15 @@
                     cloudPosition[i].Y = skyPosition.Y + rnd.Next(0, 200);
                 }
             }
+            if (groundPosition.X <= (skyPosition.X - 800))
+            {
+                groundPosition.X=skyPosition.X+800;
+            }
+            if (groundPosition2.X <= (skyPosition.X - 800))
+            {
+                groundPosition2.X = skyPosition.X + 800;
+            }
         }
-
         /// <summary>
         /// This method is called from the Game's Draw method
         /// (Eventually will be called from the "Gamescreen").
@@ -174,6 +184,7 @@
             spriteBatch.Draw(sunTexture,sunPosition,sunRectangle,Color.White,0f,new Vector2(0,0),0.05f,SpriteEffects.None,0f);
             spriteBatch.Draw(mountainTexture,mountainPosition, mountainRectangle, Color.White);
             spriteBatch.Draw(groundTexture,groundPosition, groundRectangle, Color.White);
+            spriteBatch.Draw(groundTexture, groundPosition2, groundRectangle2, Color.White);
             spriteBatch.Draw(castleTexture, castleRectangle, Color.White);
             for (int i=0; i<3; i++)
             {
