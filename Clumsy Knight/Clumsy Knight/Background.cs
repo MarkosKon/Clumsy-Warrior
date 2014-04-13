@@ -4,6 +4,7 @@
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
     using Microsoft.Xna.Framework.Input;
+    using System;
     using System.Collections.Generic;
     //test
     //test2
@@ -48,34 +49,44 @@
 
         //Variables for the cloud objects.
         //
-        public List<Texture2D> cloudTexture;
-        public List<Rectangle> cloudRectangle;
-        public List<Vector2> cloudPosition;
+        public Texture2D[] cloudTexture;
+        public Rectangle[] cloudRectangle;
+        public Vector2[] cloudPosition;
         private Vector2 cloudSpeed;
+
+        Random rnd;
         
         /// <summary>
         /// The constructor
         /// </summary>
         public Background()
         {
+            rnd=new Random();
+
             skyRectangle = new Rectangle(0, 0, 800, 480);
             skyPosition = new Vector2(-277, 0);
+
             sunRectangle = new Rectangle(0, 0, 2000, 2000);
             sunPosition = new Vector2(-280, 0);
+
             groundRectangle = new Rectangle(0, 0, 800, 480);
             groundPosition = new Vector2(-277, 0);
+
             mountainRectangle = new Rectangle(0, 0, 800, 480);
             mountainPosition = new Vector2(-100, 100);
+
             castleRectangle = new Rectangle(4000, 217, 300, 150);
-            cloudRectangle=new List<Rectangle>();
-            cloudTexture = new List<Texture2D>();
-            cloudPosition = new List<Vector2>();
-            cloudRectangle.Add(new Rectangle(0,0,120,60));
-            cloudRectangle.Add(new Rectangle(0, 0, 150, 83));
-            cloudRectangle.Add(new Rectangle(0, 0, 85, 48));
-            cloudPosition.Add(new Vector2(0,100));
-            cloudPosition.Add(new Vector2(400,80));
-            cloudPosition.Add(new Vector2(700,76));
+
+            cloudRectangle=new Rectangle[3];
+            cloudTexture = new Texture2D[3];
+            cloudPosition = new Vector2[3];
+            cloudRectangle[0]=new Rectangle(0,0,120,60);
+            cloudRectangle[1]=new Rectangle(0, 0, 150, 83);
+            cloudRectangle[2]=new Rectangle(0, 0, 85, 48);
+            for (int i = 0; i < 3;i++ )
+            {
+                cloudPosition[i]=new Vector2(rnd.Next(-300, 400), rnd.Next(0, 200));
+            }
             cloudSpeed = new Vector2(3, 0);
         }
 
@@ -92,9 +103,9 @@
             groundTexture = contentManager.Load<Texture2D>("sprites/background/ground/ground");
             mountainTexture = contentManager.Load<Texture2D>("sprites/background/mountain/mountain");
             castleTexture = contentManager.Load<Texture2D>("sprites/background/castle/castle");
-            cloudTexture.Add(contentManager.Load<Texture2D>("sprites/background/clouds/cloud1"));
-            cloudTexture.Add(contentManager.Load<Texture2D>("sprites/background/clouds/cloud2"));
-            cloudTexture.Add(contentManager.Load<Texture2D>("sprites/background/clouds/cloud3"));
+            cloudTexture[0]=contentManager.Load<Texture2D>("sprites/background/clouds/cloud1");
+            cloudTexture[1]=contentManager.Load<Texture2D>("sprites/background/clouds/cloud2");
+            cloudTexture[2]=contentManager.Load<Texture2D>("sprites/background/clouds/cloud3");
         }
 
         /// <summary>
@@ -108,8 +119,9 @@
             //in order to give a feel of perspective.
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
-                for (int i = 0; i < cloudPosition.Count; i++)
+                for (int i = 0; i < 3; i++)
                 {
+                    cloudSpeed.X = 3.1f;
                     cloudPosition[i] += cloudSpeed;
                 }
                 skyPosition.X += 3f;
@@ -120,8 +132,9 @@
             //The same if the player goes left.
             else if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
-                for (int i = 0; i < cloudPosition.Count; i++)
+                for (int i = 0; i < 3; i++)
                 {
+                    cloudSpeed.X = 2.8f;
                     cloudPosition[i] -= cloudSpeed;
                 }
                 skyPosition.X -= 3f;
@@ -129,16 +142,24 @@
                 mountainPosition.X -= 2.9f;
                 groundPosition.X -= 2.4f;
             }
-            /*if (skyRectangle.X + 800 <= 0)
+            //The clouds are constantly moving regardless of the player's movement.
+            else
             {
-                skyRectangle.X = backgroundRectangle2.X + 800;
+                for (int i = 0; i <3; i++)
+                {
+                    cloudSpeed.X = 0.1f;
+                    cloudPosition[i] += cloudSpeed;
+                }
             }
-            if (backgroundRectangle2.X + 800 <= 0)
+            //If a cloud disappers from the screen randomly change its position to appear on the left of the screen. 
+            for (int i = 0; i < 3; i++)
             {
-                backgroundRectangle2.X = skyRectangle.X + 800;
+                if (cloudPosition[i].X >= (skyPosition.X+800))
+                {
+                    cloudPosition[i].X = skyPosition.X-rnd.Next(150,500);
+                    cloudPosition[i].Y = skyPosition.Y + rnd.Next(0, 200);
+                }
             }
-            skyRectangle.X -= 3;
-            backgroundRectangle2.X -= 3;*/
         }
 
         /// <summary>
