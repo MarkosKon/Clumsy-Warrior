@@ -24,7 +24,7 @@ namespace Clumsy_Knight
 
         public Player player;
 
-        List<Platform> platforms = new List<Platform>();
+        //List<Platform> platforms = new List<Platform>();
 
         Map map;
 
@@ -71,9 +71,9 @@ namespace Clumsy_Knight
 
             player = new Player(Content.Load<Texture2D>("sprites/player/FlameGuy"), new Vector2(100, 0), 44, 47);
 
-            platforms.Add(new Platform(Content.Load<Texture2D>("sprites/platform/Platform"), new Vector2(0, 350)));
+            /*platforms.Add(new Platform(Content.Load<Texture2D>("sprites/platform/Platform"), new Vector2(0, 350)));
             platforms.Add(new Platform(Content.Load<Texture2D>("sprites/platform/Platform"), new Vector2(350, 300)));
-            platforms.Add(new Platform(Content.Load<Texture2D>("sprites/platform/Platform"), new Vector2(700, 350)));
+            platforms.Add(new Platform(Content.Load<Texture2D>("sprites/platform/Platform"), new Vector2(700, 350)));*/
 
             Tile.Content = Content;
             map.Generate(new int[,]{
@@ -127,7 +127,7 @@ namespace Clumsy_Knight
             player.Update(gameTime);
             Rectangle arectangle = new Rectangle((int)player.position.X, (int)player.position.Y, player.frameWidth, player.frameHeight);
 
-            foreach (Platform platform in platforms)
+            /*foreach (Platform platform in platforms)
             {
                 if (arectangle.isOnTopOf(platform.platformRectangle))
                 {
@@ -135,7 +135,7 @@ namespace Clumsy_Knight
                     player.hasJumped = false;
                     break;
                 }
-            }
+            }*/
             background.Update(gameTime);
             map.Update(gameTime, player);
 
@@ -162,10 +162,10 @@ namespace Clumsy_Knight
             player.Draw(spriteBatch);
             map.Draw(spriteBatch);
             boss.Draw(spriteBatch);
-            foreach (Platform platform in platforms)
+            /*foreach (Platform platform in platforms)
             {
                 platform.Draw(spriteBatch);
-            }
+            }*/
             spriteBatch.End();
             base.Draw(gameTime);
         }
