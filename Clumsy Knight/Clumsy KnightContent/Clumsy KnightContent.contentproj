@@ -89,11 +89,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="sprites\map\Map1.png">
-      <Name>Map1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="sprites\map\Map3.png">
       <Name>Map3</Name>
       <Importer>TextureImporter</Importer>
@@ -160,6 +155,13 @@
   <ItemGroup>
     <Compile Include="sprites\background\mountain\mountain.png">
       <Name>mountain</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="sprites\map\Map1.png">
+      <Name>Map1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
