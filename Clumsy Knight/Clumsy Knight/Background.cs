@@ -76,7 +76,7 @@
             mountainRectangle = new Rectangle(0, 0, 498, 247);
             mountainPosition = new Vector2(-100, 100);
 
-            castleRectangle = new Rectangle(4000, 217, 300, 150);
+            castleRectangle = new Rectangle(2900, 217, 300, 150);
 
             cloudRectangle=new Rectangle[3];
             cloudTexture = new Texture2D[3];

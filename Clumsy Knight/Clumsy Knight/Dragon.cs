@@ -106,7 +106,7 @@
                     if (Math.Abs(player.position.X - this.position.X) < 200)
                     {
                         //Is the player left to the dragon;
-                        if ((player.position.X - this.position.X) < 0)
+                        if ((player.position.X+(player.rectangle.Width/2) - (this.position.X+(this.enemyRectangle.Width/2))) < 0)
                         {
                             this.speed.X = (-1.0f) * Math.Abs(this.speed.X);//speed must be negative.
                         }
@@ -121,7 +121,7 @@
                     else
                     {
                         //Do your regular thing.
-                        if (position.X <= 3500 || position.X >= 3900)
+                        if (position.X <= 2450 || position.X >= 3000)
                         {
                             //Found a boundary change direction.
                             speed = -speed;

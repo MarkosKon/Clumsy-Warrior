@@ -43,7 +43,7 @@ namespace Clumsy_Knight
         protected override void Initialize()
         {
             IsMouseVisible = true;
-            boss= new Dragon(DifficultyLevel.normal, new Vector2(3600, 235));
+            boss= new Dragon(DifficultyLevel.normal, new Vector2(2500, 235));
             skeleton=new Skeleton(DifficultyLevel.normal, new Vector2(360, 0));
 
             background = new Background();
