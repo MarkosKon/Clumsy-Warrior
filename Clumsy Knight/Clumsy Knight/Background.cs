@@ -71,10 +71,10 @@
             groundRectangle = new Rectangle(0, 0, 800, 136);
             groundRectangle2 = new Rectangle(0, 0, 800, 136);
             groundPosition = new Vector2(-277, 220);
-            groundPosition2 = new Vector2(-277+800, 220);
+            groundPosition2 = new Vector2(-277+798, 220);
 
-            mountainRectangle = new Rectangle(0, 0, 800, 480);
-            mountainPosition = new Vector2(-100, 40);
+            mountainRectangle = new Rectangle(0, 0, 498, 247);
+            mountainPosition = new Vector2(-100, 100);
 
             castleRectangle = new Rectangle(4000, 217, 300, 150);
 
@@ -165,11 +165,11 @@
             }
             if (groundPosition.X <= (skyPosition.X - 800))
             {
-                groundPosition.X=skyPosition.X+800;
+                groundPosition.X=skyPosition.X+798;
             }
             if (groundPosition2.X <= (skyPosition.X - 800))
             {
-                groundPosition2.X = skyPosition.X + 800;
+                groundPosition2.X = skyPosition.X + 798;
             }
         }
         /// <summary>
