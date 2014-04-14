@@ -11,6 +11,24 @@ namespace Clumsy_Knight
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        SpriteBatch spriteBatch1;
+
+        enum GameState
+        {
+            Mainmenu,
+            Playing,
+
+        }
+        GameState CurrentGameState = GameState.Mainmenu;
+
+        KeyboardState keyboardState;
+        KeyboardState oldKeyboardState;
+
+        HighScoreScreen scoreScreen;
+        //MenuComponent menuComponent;
+        GameScreen activeScreen;
+        StartScreen startScreen;
+        ActionScreen actionScreen;
 
         //Instantiate some objects.
         //
@@ -63,6 +81,22 @@ namespace Clumsy_Knight
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteBatch1 = new SpriteBatch(GraphicsDevice);
+
+            startScreen = new StartScreen(this, spriteBatch1, Content.Load<SpriteFont>("menufont"), Content.Load<Texture2D>("MenuBackground"));
+            Components.Add(startScreen);
+            startScreen.Hide();
+
+            actionScreen = new ActionScreen(this, spriteBatch1);//, Content.Load<Texture2D>("Destiny"));            
+            Components.Add(actionScreen);
+            actionScreen.Hide();
+
+            scoreScreen = new HighScoreScreen(this, spriteBatch1);//, Content.Load<Texture2D>("Map3"));
+            Components.Add(scoreScreen);
+            startScreen.Hide();
+
+            activeScreen = startScreen;
+            activeScreen.Show();
 
             background.LoadContent(Content);
 
@@ -109,6 +143,14 @@ namespace Clumsy_Knight
             // TODO: Unload any non ContentManager content here
         }
 
+
+        private bool CheckKey(Keys theKey)
+        {
+            return keyboardState.IsKeyUp(theKey) &&
+            oldKeyboardState.IsKeyDown(theKey);
+        }
+
+
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -116,33 +158,62 @@ namespace Clumsy_Knight
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            keyboardState = Keyboard.GetState();
             // Allows the game to exit
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
 
-
-            boss.Update(gameTime, player);
-            skeleton.Update(gameTime, player);
-
-            player.Update(gameTime);
-            Rectangle arectangle = new Rectangle((int)player.position.X, (int)player.position.Y, player.frameWidth, player.frameHeight);
-
-            /*foreach (Platform platform in platforms)
+            switch (CurrentGameState)
             {
-                if (arectangle.isOnTopOf(platform.platformRectangle))
-                {
-                    player.velocity.Y = 0f;
-                    player.hasJumped = false;
+                case GameState.Mainmenu:
+                    if (activeScreen == startScreen)
+                    {
+                        if (CheckKey(Keys.Enter))
+                        {
+                            if (startScreen.SelectedIndex == 0) CurrentGameState = GameState.Playing;
+                            {
+                                activeScreen.Hide();
+                                activeScreen = actionScreen;
+                                activeScreen.Show();
+
+                            }
+                            if (startScreen.SelectedIndex == 1)
+                            {
+                                activeScreen.Hide();
+                                activeScreen = scoreScreen;
+                                activeScreen.Show();
+                            }
+                            if (startScreen.SelectedIndex == 2)
+                            {
+                                this.Exit();
+                            }
+
+                        }
+                    }
                     break;
-                }
-            }*/
-            background.Update(gameTime);
-            map.Update(gameTime, player);
+                case GameState.Playing:
+                    boss.Update(gameTime, player);
+                    skeleton.Update(gameTime, player);
 
-            camera.Update(gameTime, this);
+                    player.Update(gameTime);
+                    Rectangle arectangle = new Rectangle((int)player.position.X, (int)player.position.Y, player.frameWidth, player.frameHeight);
+                    background.Update(gameTime);
+                    map.Update(gameTime, player);
 
-
+                    camera.Update(gameTime, this);
+                    /*foreach (Platform platform in platforms)
+                    {
+                        if (arectangle.isOnTopOf(platform.platformRectangle))
+                        {
+                            player.velocity.Y = 0f;
+                            player.hasJumped = false;
+                            break;
+                        }
+                    }*/
+                    break;
+            }
             base.Update(gameTime);
+            oldKeyboardState = keyboardState;
         }
 
         /// <summary>
@@ -157,17 +228,27 @@ namespace Clumsy_Knight
                 BlendState.AlphaBlend,
                 null, null, null, null,
                 camera.transform);
-            background.Draw(spriteBatch);
-            skeleton.Draw(spriteBatch);
-            player.Draw(spriteBatch);
-            map.Draw(spriteBatch);
-            boss.Draw(spriteBatch);
-            /*foreach (Platform platform in platforms)
+            spriteBatch1.Begin();
+            switch (CurrentGameState)
             {
-                platform.Draw(spriteBatch);
-            }*/
-            spriteBatch.End();
+                case GameState.Mainmenu:
+                    break;
+
+                case GameState.Playing:
+                    background.Draw(spriteBatch);
+                    skeleton.Draw(spriteBatch);
+                    player.Draw(spriteBatch);
+                    map.Draw(spriteBatch);
+                    boss.Draw(spriteBatch);
+                    /*foreach (Platform platform in platforms)
+                    {
+                        platform.Draw(spriteBatch);
+                    }*/
+                    break;
+            }
             base.Draw(gameTime);
+            spriteBatch1.End();
+            spriteBatch.End();
         }
     }
 
