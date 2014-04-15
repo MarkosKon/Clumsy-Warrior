@@ -88,7 +88,7 @@
             {
                 cloudPosition[i]=new Vector2(rnd.Next(-300, 400), rnd.Next(0, 200));
             }
-            cloudSpeed = new Vector2(3, 0);
+            //cloudSpeed = new Vector2(3, 0);
         }
 
         /// <summary>
@@ -114,7 +114,7 @@
         ///(Eventually will be called from the "Gamescreen").
         /// </summary>
         /// <param name="gameTime">A GameTime parameter from the main.</param>
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime,Player player)
         {
             //If the player moves right move the background objects accordingly
             //in order to give a feel of perspective.
@@ -122,28 +122,28 @@
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    cloudSpeed.X = 3.1f;
+                    cloudSpeed.X = player.velocity.X+0.1f;
                     cloudPosition[i] += cloudSpeed;
                 }
-                skyPosition.X += 3f;
-                sunPosition.X += 3f;
-                mountainPosition.X += 2.9f;
-                groundPosition.X += 2.4f;
-                groundPosition2.X += 2.4f;
+                skyPosition.X += player.velocity.X;
+                sunPosition.X += player.velocity.X;
+                mountainPosition.X += player.velocity.X-0.1f;
+                groundPosition.X += player.velocity.X-0.6f;
+                groundPosition2.X += player.velocity.X-0.6f;
             }
             //The same if the player goes left.
             else if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    cloudSpeed.X = 2.8f;
-                    cloudPosition[i] -= cloudSpeed;
+                    cloudSpeed.X = player.velocity.X+0.2f;
+                    cloudPosition[i] += cloudSpeed;
                 }
-                skyPosition.X -= 3f;
-                sunPosition.X -= 3f;
-                mountainPosition.X -= 2.9f;
-                groundPosition.X -= 2.4f;
-                groundPosition2.X -= 2.4f;
+                skyPosition.X += player.velocity.X;
+                sunPosition.X += player.velocity.X;
+                mountainPosition.X += player.velocity.X + 0.1f;
+                groundPosition.X += player.velocity.X + 0.6f;
+                groundPosition2.X += player.velocity.X + 0.6f;
             }
             //The clouds are constantly moving regardless of the player's movement.
             else

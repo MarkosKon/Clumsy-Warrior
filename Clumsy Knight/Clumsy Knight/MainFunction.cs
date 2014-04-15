@@ -197,7 +197,7 @@ namespace Clumsy_Knight
 
                     player.Update(gameTime);
                     Rectangle arectangle = new Rectangle((int)player.position.X, (int)player.position.Y, player.frameWidth, player.frameHeight);
-                    background.Update(gameTime);
+                    background.Update(gameTime,this.player);
                     map.Update(gameTime, player);
 
                     camera.Update(gameTime, this);
