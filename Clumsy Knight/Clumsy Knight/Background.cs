@@ -136,9 +136,9 @@
                 }
                 skyPosition.X += player.speed.X;
                 sunPosition.X += player.speed.X;
-                mountainPosition.X += player.speed.X + (player.speed.X/30);
-                groundPosition.X += player.speed.X + (player.speed.X / 6); 
-                groundPosition2.X += player.speed.X + (player.speed.X / 6); 
+                mountainPosition.X += player.speed.X - (player.speed.X/30);
+                groundPosition.X += player.speed.X - (player.speed.X / 6); 
+                groundPosition2.X += player.speed.X - (player.speed.X / 6); 
             }
             //The clouds are constantly moving regardless of the player's movement.
             else
@@ -176,14 +176,14 @@
         {
             spriteBatch.Draw(skyTexture,skyPosition,skyRectangle,Color.White);
             spriteBatch.Draw(sunTexture,sunPosition,sunRectangle,Color.White,0f,new Vector2(0,0),0.05f,SpriteEffects.None,0f);
-            spriteBatch.Draw(mountainTexture,mountainPosition, mountainRectangle, Color.White);
-            spriteBatch.Draw(groundTexture,groundPosition, groundRectangle, Color.White);
-            spriteBatch.Draw(groundTexture, groundPosition2, groundRectangle2, Color.White);
-            spriteBatch.Draw(castleTexture, castleRectangle, Color.White);
-            for (int i=0; i<3; i++)
+            spriteBatch.Draw(mountainTexture, mountainPosition, mountainRectangle, Color.White);
+            for (int i = 0; i < 3; i++)
             {
                 spriteBatch.Draw(cloudTexture[i], cloudPosition[i], cloudRectangle[i], Color.White);
             }
+            spriteBatch.Draw(groundTexture,groundPosition, groundRectangle, Color.White);
+            spriteBatch.Draw(groundTexture, groundPosition2, groundRectangle2, Color.White);
+            spriteBatch.Draw(castleTexture, castleRectangle, Color.White);
         }
 
     }
