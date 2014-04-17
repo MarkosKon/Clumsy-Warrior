@@ -80,8 +80,8 @@
                 case EnemyState.standing:
                     interval = 150;
                     frameWidth = 44;
-                    frameHeight = 72;
-                    enemyRectangle = new Rectangle(32 + currentFrame * frameWidth, 48, frameWidth, frameHeight);
+                    frameHeight = 94;
+                    enemyRectangle = new Rectangle(32 + currentFrame * frameWidth, 11, frameWidth, frameHeight);
                     AnimateStanding(gameTime);
                     //A patrol AI.
                     if (standingWaitTime > 4000)
@@ -91,10 +91,10 @@
                     }
                     break;
                 case EnemyState.walking:
-                    interval = 150;
-                    frameWidth = 48;
-                    frameHeight = 72;
-                    enemyRectangle = new Rectangle(10 + currentFrame * frameWidth, 126, frameWidth, frameHeight);
+                    interval = 100;
+                    frameWidth = 53;
+                    frameHeight = 94;
+                    enemyRectangle = new Rectangle(58 + currentFrame * frameWidth, 108, frameWidth, frameHeight);
                     AnimateWalking(gameTime);
                     position = position + speed;
                     //A patrol AI.
@@ -111,11 +111,11 @@
                 case EnemyState.attacking:
                     interval = 180;
                     frameWidth = 86;
-                    frameHeight = 98;
+                    frameHeight = 94;
                     enemyRectangle = new Rectangle(7+currentFrame * frameWidth, 203, frameWidth, frameHeight);
                     AnimateAttacking(gameTime);
                     //A patrol AI.
-                    if (attackingWaitTime > 13000)
+                    if (attackingWaitTime > 11500)
                     {
                         attackingWaitTime = 0;
                         enemyState = EnemyState.walking;
@@ -164,7 +164,7 @@
             {
                 currentFrame++;
                 timer = 0;
-                if (currentFrame > 8)
+                if (currentFrame > 7)
                 {
                     currentFrame = 0;
                 }
