@@ -7,7 +7,7 @@
 
     /// <summary>
     /// The Dragon class that inherits from the abstract Enemy
-    /// class. Dragon will be used as a boss.
+    /// class. Dragon is used as a boss.
     /// </summary>
     public class Dragon :  Enemy 
     {
@@ -58,8 +58,7 @@
         }
 
         /// <summary>
-        /// This method is called from the Game's LoadContent method 
-        /// (Eventually will be called from the "Gamescreen").
+        ///A method to load dragon's spritesheet called from MainFunction.LoadContent.
         /// </summary>
         /// <param name="content">We need a content parameter from the main because we
         /// want to load the texture in this class.</param>
@@ -69,8 +68,7 @@
         }
 
         /// <summary>
-        ///This method is called from the Game's Update method
-        ///(Eventually will be called from the "Gamescreen").
+        ///A method to update dragon's parameters called from MainFunction.Update.
         /// </summary>
         /// <param name="gameTime">A GameTime parameter from the main.</param>
         /// <param name="player">The player object from the main as a parameter
@@ -227,8 +225,7 @@
         }
 
         /// <summary>
-        /// This method is called from the Game's Draw method
-        /// (Eventually will be called from the "Gamescreen").
+        /// A method to draw the dragon on screen called from MainFunction.Draw.
         /// </summary>
         /// <param name="spriteBatch">We give spriteBatch as parameter because the current class
         /// don't know anything about it.</param>

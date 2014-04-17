@@ -21,8 +21,7 @@
         }
 
         /// <summary>
-        ///This method is called from the Game's Update method
-        ///(Eventually will be called from the "Gamescreen").
+        ///A method to update the camera called from MainFunction.Update.
         /// </summary>
         /// <param name="gameTime">A GameTime parameter from the main.</param>
         /// <param name="game">The Game object itself from the main.</param>

@@ -8,9 +8,9 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Clumsy_Knight
 {
     //
-    class Map
+    public class Map
     {
-        private List<BigFatTile> collisionMap1 = new List<BigFatTile>();
+        public List<BigFatTile> collisionMap1 = new List<BigFatTile>();
 
         public List<BigFatTile> CollisionMap1
         {
@@ -47,17 +47,7 @@ namespace Clumsy_Knight
 
         public void Update (GameTime gametime,Player player)
         {
-            Rectangle arectangle = new Rectangle((int)player.position.X, (int)player.position.Y, player.frameHeight, player.frameWidth);
-            foreach (BigFatTile tile in collisionMap1)
-            {
-                if (arectangle.isOnTopOf(tile.Rectangle))
-                {
-                    player.velocity.Y = 0f;
-                    player.hasJumped = false;
-                    break;
-                }
-            }
-
+            
         }
 
         public void Draw(SpriteBatch spriteBatch)

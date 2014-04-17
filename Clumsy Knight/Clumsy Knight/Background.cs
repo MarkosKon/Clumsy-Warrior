@@ -7,10 +7,8 @@
     using System;
     using System.Collections.Generic;
 
-
-
     /// <summary>
-    /// A background class that is used to draw a dynamic 
+    /// A background class used for drawing a dynamic 
     /// background that changes according to player's movement.
     /// </summary>
     public class Background
@@ -88,12 +86,10 @@
             {
                 cloudPosition[i]=new Vector2(rnd.Next(-300, 400), rnd.Next(0, 200));
             }
-            //cloudSpeed = new Vector2(3, 0);
         }
 
         /// <summary>
-        /// This method is called from the Game's LoadContent method 
-        /// (Eventually will be called from the "Gamescreen").
+        /// A method to load content for background "objects" called from MainFunction.LoadContent.
         /// </summary>
         /// <param name="content">We need a content parameter from the main because we
         /// want to load the texture in this class.</param>
@@ -110,40 +106,39 @@
         }
 
         /// <summary>
-        ///This method is called from the Game's Update method
-        ///(Eventually will be called from the "Gamescreen").
+        ///A method to update background "objects" called from MainFunction.Update.
         /// </summary>
         /// <param name="gameTime">A GameTime parameter from the main.</param>
         public void Update(GameTime gameTime,Player player)
         {
             //If the player moves right move the background objects accordingly
             //in order to give a feel of perspective.
-            if (Keyboard.GetState().IsKeyDown(Keys.Right))
+            if (Keyboard.GetState().IsKeyDown(Keys.Right) && player.speed.X != 0)
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    cloudSpeed.X = player.velocity.X+0.1f;
+                    cloudSpeed.X = player.speed.X + (player.speed.X/30);
                     cloudPosition[i] += cloudSpeed;
                 }
-                skyPosition.X += player.velocity.X;
-                sunPosition.X += player.velocity.X;
-                mountainPosition.X += player.velocity.X-0.1f;
-                groundPosition.X += player.velocity.X-0.6f;
-                groundPosition2.X += player.velocity.X-0.6f;
+                skyPosition.X += player.speed.X;
+                sunPosition.X += player.speed.X;
+                mountainPosition.X += player.speed.X - (player.speed.X/30);
+                groundPosition.X += player.speed.X - (player.speed.X/6);
+                groundPosition2.X += player.speed.X - (player.speed.X/6);
             }
             //The same if the player goes left.
-            else if (Keyboard.GetState().IsKeyDown(Keys.Left))
+            else if (Keyboard.GetState().IsKeyDown(Keys.Left)&&player.speed.X!=0)
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    cloudSpeed.X = player.velocity.X+0.2f;
+                    cloudSpeed.X = player.speed.X - (player.speed.X/30);
                     cloudPosition[i] += cloudSpeed;
                 }
-                skyPosition.X += player.velocity.X;
-                sunPosition.X += player.velocity.X;
-                mountainPosition.X += player.velocity.X + 0.1f;
-                groundPosition.X += player.velocity.X + 0.6f;
-                groundPosition2.X += player.velocity.X + 0.6f;
+                skyPosition.X += player.speed.X;
+                sunPosition.X += player.speed.X;
+                mountainPosition.X += player.speed.X + (player.speed.X/30);
+                groundPosition.X += player.speed.X + (player.speed.X / 6); 
+                groundPosition2.X += player.speed.X + (player.speed.X / 6); 
             }
             //The clouds are constantly moving regardless of the player's movement.
             else
@@ -173,8 +168,7 @@
             }
         }
         /// <summary>
-        /// This method is called from the Game's Draw method
-        /// (Eventually will be called from the "Gamescreen").
+        /// A method to draw background "objects" on the screen called from MainFunction.Draw.
         /// </summary>
         /// <param name="spriteBatch">We give spriteBatch as parameter because the current class
         /// don't know anything about it.</param>

@@ -5,7 +5,7 @@ namespace Clumsy_Knight
     using Microsoft.Xna.Framework.Input;
     using System.Collections.Generic;
     /// <summary>
-    /// This is the main function (GameScreen?) for our game.
+    /// This is the main function of the game.
     /// </summary>
     public class MainFunction : Microsoft.Xna.Framework.Game
     {
@@ -13,12 +13,6 @@ namespace Clumsy_Knight
         SpriteBatch spriteBatch;
         SpriteBatch spriteBatch1;
 
-        enum GameState
-        {
-            Mainmenu,
-            Playing,
-
-        }
         GameState CurrentGameState = GameState.Mainmenu;
 
         KeyboardState keyboardState;
@@ -195,21 +189,12 @@ namespace Clumsy_Knight
                     boss.Update(gameTime, player);
                     skeleton.Update(gameTime, player);
 
-                    player.Update(gameTime);
+                    player.Update(gameTime,this.map);
                     Rectangle arectangle = new Rectangle((int)player.position.X, (int)player.position.Y, player.frameWidth, player.frameHeight);
-                    background.Update(gameTime,this.player);
+                    background.Update(gameTime, player);
                     map.Update(gameTime, player);
 
                     camera.Update(gameTime, this);
-                    /*foreach (Platform platform in platforms)
-                    {
-                        if (arectangle.isOnTopOf(platform.platformRectangle))
-                        {
-                            player.velocity.Y = 0f;
-                            player.hasJumped = false;
-                            break;
-                        }
-                    }*/
                     break;
             }
             base.Update(gameTime);
@@ -252,6 +237,13 @@ namespace Clumsy_Knight
         }
     }
 
+    enum GameState
+    {
+        Mainmenu,
+        Playing,
+
+    }
+
     /// <summary>
     /// This enum struct defines the difficulty level of the game.
     /// </summary>
@@ -261,17 +253,16 @@ namespace Clumsy_Knight
         hard
     }
 
-    static class RectangleHelper
+    /// <summary>
+    /// This enum struct represents the different states of an enemy.
+    /// </summary>
+    public enum EnemyState
     {
-        const int penetrationMargin = 5;
-
-        public static bool isOnTopOf(this Rectangle r1, Rectangle r2)
-        {
-            return (r1.Bottom <= r2.Top + 5 &&
-                r1.Bottom >= r2.Top - 5 &&
-                r1.Right >= r2.Left &&
-                r1.Left <= r2.Right);
-        }
+        standing,
+        walking,
+        attacking,
+        takingDamage,
+        dying
     }
 }
 

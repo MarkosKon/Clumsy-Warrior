@@ -15,7 +15,7 @@ namespace Clumsy_Knight
         Vector2 origin;
 
         public Vector2 position;
-        public Vector2 velocity;
+        public Vector2 speed;
 
         int currentFrame;
         public int frameWidth;
@@ -25,43 +25,51 @@ namespace Clumsy_Knight
         float interval = 75;
 
         public bool hasJumped;
+        public bool isOnLeft;
+        public bool isOnRight;
         //KeyboardState oldstate;
 
         public Player(Texture2D texture, Vector2 position, int newFrameWidth, int newFrameHeight)
         {
             origin = new Vector2(0, 0);
-            velocity = new Vector2(0, 0);
+            speed = new Vector2(0, 0);
             this.texture = texture;
             this.position = position;
             currentFrame = 0;
             frameWidth = newFrameWidth;
             frameHeight = newFrameHeight;
             hasJumped = true;
+            isOnLeft=true;
+            isOnRight=true;
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime,Map map)
         {
-            position += velocity;
-            //rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
-
             rectangle = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
-
-
-            //position = position + velocity;
 
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
                 AnimateRight(gameTime);
-                velocity.X = 3f;
+                speed.X = 3f;
+                if (isOnLeft)
+                {
+                    isOnLeft = false;
+                }
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
                 AnimateLeft(gameTime);
-                velocity.X = -3f;
+                speed.X = -3f;
+                if (isOnRight)
+                {
+                    isOnRight = false;
+                }
             }
             else
             {
-                velocity.X = 0f;
+                speed.X = 0f;
+                isOnLeft = false;
+                isOnRight = false;
             }
 
             KeyboardState newstate = Keyboard.GetState();
@@ -70,32 +78,42 @@ namespace Clumsy_Knight
             if (newstate.IsKeyDown(Keys.Space) && hasJumped == false)
             {
                 position.Y -= 10;
-                velocity.Y = -5;
+                speed.Y = -5;
                 hasJumped = true;
             }
             if (position.Y >= 480)
             {
                 hasJumped = false;
-                velocity.Y = 0;
+                speed.Y = 0;
             }
-            velocity.Y += 0.15f;
-           // }
-            //oldstate = newstate;
-            
-            //Gravity it will fall faster and faster.
-                /*if (hasJumped == true)
+            Rectangle arectangle = new Rectangle((int)position.X, (int)position.Y, frameHeight, frameWidth);
+            foreach (BigFatTile tile in map.CollisionMap1)
+            {
+                if (arectangle.isOnTopOf(tile.Rectangle))
                 {
-                    float i = 1;
-                    velocity.Y += 0.15f * i;
+                    speed.Y = 0f;
+                    hasJumped = false;
+                    //break;
                 }
-
-                if (hasJumped == false)
+                else if (arectangle.isOnBottomOf(tile.Rectangle))
                 {
-                    //float i = 1;
-                    //velocity.Y += 0.15f * i;
-                    velocity.Y = 0;
+                    position.Y += 2;
+                    speed.Y = 3;
+                    //break;
                 }
-                 */
+                if (arectangle.isOnLeftOf(tile.Rectangle)&&isOnLeft!=true)
+                {
+                    isOnLeft = true;
+                    speed.X = 0f;
+                }
+                else if (arectangle.isOnRightOf(tile.Rectangle)&&isOnRight!=true)
+                {
+                    isOnRight = true;
+                    speed.X = 0f;
+                }
+            }
+            position += speed;
+            speed.Y += 0.15f;
         }
 
         public void AnimateRight(GameTime gameTime)

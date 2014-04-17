@@ -120,16 +120,4 @@
             
         }
     }
-
-    /// <summary>
-    /// This enum struct represents the different states of an enemy.
-    /// </summary>
-    public enum EnemyState
-    {
-        standing,
-        walking,
-        attacking,
-        takingDamage,
-        dying
-    }
 }
