@@ -100,7 +100,7 @@
                     //A patrol AI.
                     //
                     //Do your regular thing.
-                    if (position.X <= 350 || position.X >= 720)
+                    if (position.X <= 1350 || position.X >= 1720)
                     {
                         //Found a boundary change direction.
                         speed = -speed;
@@ -172,7 +172,7 @@
         }
 
         /// <summary>
-        /// This method "guides" the Draw method for the standing attacking.
+        /// This method "guides" the Draw method for the attacking animation.
         /// </summary>
         /// <param name="gameTime">We need a GameTime parameter from the main because we
         /// want to animate for a specific time.</param>

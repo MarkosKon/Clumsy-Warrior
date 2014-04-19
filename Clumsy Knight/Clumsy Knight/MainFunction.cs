@@ -56,9 +56,7 @@ namespace Clumsy_Knight
         {
             IsMouseVisible = true;
             boss= new Dragon(DifficultyLevel.normal, new Vector2(2500, 235));
-            skeleton=new Skeleton(DifficultyLevel.normal, new Vector2(360, 0));
-
-            background = new Background();
+            skeleton=new Skeleton(DifficultyLevel.normal, new Vector2(1370, 255));
 
             camera = new Camera(/*GraphicsDevice.Viewport*/);
 
@@ -92,12 +90,14 @@ namespace Clumsy_Knight
             activeScreen = startScreen;
             activeScreen.Show();
 
-            background.LoadContent(Content);
-
             boss.LoadContent(Content);
             skeleton.LoadContent(Content);
 
             player = new Player(Content.Load<Texture2D>("sprites/player/FlameGuy"), new Vector2(100, 0), 44, 47);
+
+            background = new Background(player);
+
+            background.LoadContent(Content);
 
             /*platforms.Add(new Platform(Content.Load<Texture2D>("sprites/platform/Platform"), new Vector2(0, 350)));
             platforms.Add(new Platform(Content.Load<Texture2D>("sprites/platform/Platform"), new Vector2(350, 300)));
@@ -188,12 +188,10 @@ namespace Clumsy_Knight
                 case GameState.Playing:
                     boss.Update(gameTime, player);
                     skeleton.Update(gameTime, player);
-
                     player.Update(gameTime,this.map);
                     Rectangle arectangle = new Rectangle((int)player.position.X, (int)player.position.Y, player.frameWidth, player.frameHeight);
                     background.Update(gameTime, player);
                     map.Update(gameTime, player);
-
                     camera.Update(gameTime, this);
                     break;
             }

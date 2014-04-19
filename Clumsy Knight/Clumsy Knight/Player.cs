@@ -41,6 +41,8 @@ namespace Clumsy_Knight
             hasJumped = true;
             isOnLeft=true;
             isOnRight=true;
+            //I added this line because we need it in background initialization.
+            rectangle = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
         }
 
         public void Update(GameTime gameTime,Map map)

@@ -205,7 +205,7 @@
         }
 
         /// <summary>
-        /// This method "guides" the Draw method for the standing attacking.
+        /// This method "guides" the Draw method for the attacking animation.
         /// </summary>
         /// <param name="gameTime">We need a GameTime parameter from the main because we
         /// want to animate for a specific time.</param>
