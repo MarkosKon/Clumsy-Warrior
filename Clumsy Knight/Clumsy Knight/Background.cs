@@ -5,7 +5,7 @@
     using Microsoft.Xna.Framework.Graphics;
     using Microsoft.Xna.Framework.Input;
     using System;
-    using System.Collections.Generic;
+    using System.Collections.Generic;//
 
     /// <summary>
     /// A background class used for drawing a dynamic 
