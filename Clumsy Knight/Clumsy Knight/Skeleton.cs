@@ -3,7 +3,7 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
-    //A Simple comment.
+    using System;
 
     /// <summary>
     /// The Skeleton class that inherits from the abstract Enemy
@@ -11,10 +11,11 @@
     /// </summary>
     public class Skeleton : Enemy
     {
-        //Variables used in AI patrol.
+        //Variables used to switch between states.
         //
         private float standingWaitTime;
         private float attackingWaitTime;
+        private float walkingWaitTime;
 
         ///<summary>
         ///The constructor of the Skeleton class.
@@ -35,19 +36,22 @@
             frameWidth = 0;
             frameHeight = 0;
             enemyState = EnemyState.walking;
+            currentFrame = 0;
             standingWaitTime = 0;
+            walkingWaitTime = 0;
+            attackingWaitTime = 0;
             //Initialize members according to the game difficulty.
             switch (this.difficulty)
             {
                 case DifficultyLevel.normal:
                     health = 100;
-                    speed = new Vector2(2, 0);
+                    speed = new Vector2(1.5f, 0);
                     damage = 10;
                     break;
                 case DifficultyLevel.hard:
                     health = 200;
-                    speed = new Vector2(3, 0);
-                    damage = 20;
+                    speed = new Vector2(2, 0);
+                    damage = 15;
                     break;
                 default:
                     //Something went wrong.
@@ -78,48 +82,62 @@
             switch (enemyState)
             {
                 case EnemyState.standing:
-                    interval = 150;
-                    frameWidth = 44;
-                    frameHeight = 94;
-                    enemyRectangle = new Rectangle(32 + currentFrame * frameWidth, 11, frameWidth, frameHeight);
-                    AnimateStanding(gameTime);
-                    //A patrol AI.
-                    if (standingWaitTime > 4000)
+                    //If skeleton was not standing recently initialize some values.
+                    if (standingWaitTime==0)
                     {
-                        standingWaitTime = 0;
-                        enemyState = EnemyState.attacking;
-                    }
-                    break;
-                case EnemyState.walking:
-                    interval = 100;
-                    frameWidth = 53;
-                    frameHeight = 94;
-                    enemyRectangle = new Rectangle(58 + currentFrame * frameWidth, 108, frameWidth, frameHeight);
-                    AnimateWalking(gameTime);
-                    position = position + speed;
-                    //A patrol AI.
-                    //
-                    //Do your regular thing.
-                    if (position.X <= 1350 || position.X >= 1720)
-                    {
-                        //Found a boundary change direction.
-                        speed = -speed;
-                        enemyState = EnemyState.standing;
+                        interval = 150;
+                        frameWidth = 44;
+                        frameHeight = 94;
                         currentFrame = 0;
                     }
+                    //If skeleton had been standing for a certain time, start walking.
+                    else if (standingWaitTime > 10000)
+                    {
+                        standingWaitTime = 0;
+                        enemyState = EnemyState.walking;
+                        break;
+                    }
+                    enemyRectangle = new Rectangle(32 + currentFrame * frameWidth, 11, frameWidth, frameHeight);
+                    AnimateStanding(gameTime);
+                    break;
+                case EnemyState.walking:
+                    position = position + speed;
+                    //If skeleton was not walking recently initialize some values.
+                    if (walkingWaitTime == 0)
+                    {
+                        interval = 100;
+                        frameWidth = 53;
+                        frameHeight = 94;
+                        currentFrame = 0;
+                    }
+                    else if (walkingWaitTime>15000)
+                    {
+                        walkingWaitTime = 0;
+                        enemyState = EnemyState.standing;
+                        speed = -speed;
+                        break;
+                    }
+                    enemyRectangle = new Rectangle(58 + currentFrame * frameWidth, 108, frameWidth, frameHeight);
+                    AnimateWalking(gameTime);
                     break;
                 case EnemyState.attacking:
-                    interval = 180;
-                    frameWidth = 86;
-                    frameHeight = 94;
-                    enemyRectangle = new Rectangle(7+currentFrame * frameWidth, 203, frameWidth, frameHeight);
-                    AnimateAttacking(gameTime);
-                    //A patrol AI.
-                    if (attackingWaitTime > 11500)
+                    //If skeleton was not attacking recently initialize some values.
+                    if (attackingWaitTime==0)
+                    { 
+                        interval = 200;
+                        frameWidth = 86;
+                        frameHeight = 94;
+                        currentFrame = 0;
+                    }
+                    //If skeleton has been attacking recently, stops and stands for a while.
+                    else if (attackingWaitTime > 5000)
                     {
                         attackingWaitTime = 0;
-                        enemyState = EnemyState.walking;
+                        enemyState = EnemyState.standing;
+                        break;
                     }
+                    enemyRectangle = new Rectangle(6+currentFrame * frameWidth, 203, frameWidth, frameHeight);
+                    AnimateAttacking(gameTime);
                     break;
                 case EnemyState.takingDamage:
                     frameWidth = 110;
@@ -129,6 +147,34 @@
                 default:
                     //Something went wrong.
                     break;
+            }
+            //The following conditions are considered critical and override the previous if true.
+            //
+            //Find the centers.
+            Vector2 skeletonCenter = new Vector2(this.position.X + (this.enemyRectangle.Width / 2), this.position.Y + (this.enemyRectangle.Height / 2));
+            Vector2 playerCenter = new Vector2(player.position.X + (player.rectangle.Width / 2), player.position.Y + (player.rectangle.Height / 2));
+            //Is the player near to the skeleton;
+            if (Math.Abs(playerCenter.X - skeletonCenter.X) < 100)
+            {
+                //Is the player left to the skeleton;
+                if ((playerCenter.X - skeletonCenter.X) < 0)
+                {
+                    //In other words, speed must be negative.
+                    this.speed.X = (-1.0f) * Math.Abs(this.speed.X);
+                }
+                //Is the player right to the skeleton;
+                else
+                {
+                    //Speed must be positive.
+                    this.speed.X = Math.Abs(this.speed.X);
+                }
+                //If the player is really near and haven't attacked recently, start attacking.
+                if (Math.Abs(playerCenter.X - skeletonCenter.X) < 10&&attackingWaitTime==0)
+                {
+                    enemyState = EnemyState.attacking;
+                    walkingWaitTime = 0;
+                    standingWaitTime = 0;
+                }
             }
         }
 
@@ -140,7 +186,7 @@
         public override void AnimateStanding(GameTime gameTime)
         {
             timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            standingWaitTime += timer;//a patrol AI.
+            standingWaitTime += timer;
             if (timer > interval)
             {
                 currentFrame++;
@@ -160,6 +206,7 @@
         public override void AnimateWalking(GameTime gameTime)
         {
             timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            walkingWaitTime += timer;
             if (timer > interval)
             {
                 currentFrame++;
@@ -179,7 +226,7 @@
         public override void AnimateAttacking(GameTime gameTime)
         {
             timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            attackingWaitTime += timer;//a patrol AI.
+            attackingWaitTime += timer;
             if (timer > interval)
             {
                 currentFrame++;
@@ -198,53 +245,14 @@
         /// don't know anything about it.</param>
         public override void Draw(SpriteBatch spriteBatch) 
         {
-            //What is the state of the enemy;                          
-            switch (enemyState)
+            //Checks the enemy's direction and draws the texture accordingly.
+            if (speed.X > 0)
             {
-                case EnemyState.standing:
-                    //Checks the enemy's direction and draws the texture accordingly.
-                    if (speed.X > 0)
-                    {
-                        spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.White, rotation, origin, 1f, SpriteEffects.FlipHorizontally, 0f);
-                    }
-                    else
-                    {
-                        spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
-                    }
-                    break;
-                case EnemyState.walking:
-                    if (speed.X > 0)
-                    {
-                        spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
-                    }
-                    else
-                    {
-                        spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.White, rotation, origin, 1f, SpriteEffects.FlipHorizontally, 0f);
-                    }
-                    break;
-                case EnemyState.attacking:
-                    if (speed.X > 0)
-                    {
-                        spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.White, rotation, origin, 1f, SpriteEffects.FlipHorizontally, 0f);
-                    }
-                    else
-                    {
-                        spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
-                    }
-                    break;
-                case EnemyState.takingDamage:
-                    if (speed.X > 0)
-                    {
-                        spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.Red, rotation, origin, 1f, SpriteEffects.FlipHorizontally, 0f);
-                    }
-                    else
-                    {
-                        spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.Red, rotation, origin, 1f, SpriteEffects.None, 0f);
-                    }
-                    break;
-                default:
-                    //Something went wrong.
-                    break;
+                spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+            }
+            else
+            {
+                spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.White, rotation, origin, 1f, SpriteEffects.FlipHorizontally, 0f);
             }
         }
     }
