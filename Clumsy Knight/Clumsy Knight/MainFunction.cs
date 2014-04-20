@@ -13,6 +13,12 @@ namespace Clumsy_Knight
         SpriteBatch spriteBatch;
         SpriteBatch spriteBatch1;
 
+        bool paused = false;
+        Texture2D pausedTexture;
+        Rectangle pausedRectangle;
+        Button btnPlay, btnQuit;
+
+
         GameState CurrentGameState = GameState.Mainmenu;
 
         KeyboardState keyboardState;
@@ -174,7 +180,7 @@ namespace Clumsy_Knight
                                 activeScreen.Show();
 
                             }
-                            if (startScreen.SelectedIndex == 1)
+                            if (startScreen.SelectedIndex == 1) CurrentGameState = GameState.HighScore;
                             {
                                 activeScreen.Hide();
                                 activeScreen = scoreScreen;
@@ -198,6 +204,9 @@ namespace Clumsy_Knight
                     map.Update(gameTime, player);
                     camera.Update(gameTime, this);
                     break;
+                //case GameState.HighScore:
+                // Here we put everything for the high score 
+                // break;
             }
             base.Update(gameTime);
             oldKeyboardState = keyboardState;
@@ -233,6 +242,9 @@ namespace Clumsy_Knight
                         platform.Draw(spriteBatch);
                     }*/
                     break;
+                // case GameState.HighScore:
+                //we draw the high score
+                //   break;
             }
             base.Draw(gameTime);
             spriteBatch1.End();
@@ -243,7 +255,8 @@ namespace Clumsy_Knight
     enum GameState
     {
         Mainmenu,
-        Playing,
+        HighScore,
+        Playing
 
     }
 
