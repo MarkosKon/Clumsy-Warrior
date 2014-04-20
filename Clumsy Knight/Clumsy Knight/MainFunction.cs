@@ -28,6 +28,7 @@ namespace Clumsy_Knight
         //
         Dragon boss;
         Skeleton skeleton;
+        Enemy orc;
 
 
         Background background;
@@ -57,6 +58,7 @@ namespace Clumsy_Knight
             IsMouseVisible = true;
             boss= new Dragon(DifficultyLevel.normal, new Vector2(2500, 235));
             skeleton=new Skeleton(DifficultyLevel.normal, new Vector2(1370, 255));
+            orc = new Orc(DifficultyLevel.normal,new Vector2(550,30));
 
             camera = new Camera(/*GraphicsDevice.Viewport*/);
 
@@ -92,6 +94,7 @@ namespace Clumsy_Knight
 
             boss.LoadContent(Content);
             skeleton.LoadContent(Content);
+            orc.LoadContent(Content);
 
             player = new Player(Content.Load<Texture2D>("sprites/player/FlameGuy"), new Vector2(100, 0), 44, 47);
 
@@ -188,6 +191,7 @@ namespace Clumsy_Knight
                 case GameState.Playing:
                     boss.Update(gameTime, player);
                     skeleton.Update(gameTime, player);
+                    orc.Update(gameTime,player);
                     player.Update(gameTime,this.map);
                     Rectangle arectangle = new Rectangle((int)player.position.X, (int)player.position.Y, player.frameWidth, player.frameHeight);
                     background.Update(gameTime, player);
@@ -220,6 +224,7 @@ namespace Clumsy_Knight
                 case GameState.Playing:
                     background.Draw(spriteBatch);
                     skeleton.Draw(spriteBatch);
+                    orc.Draw(spriteBatch);
                     player.Draw(spriteBatch);
                     map.Draw(spriteBatch);
                     boss.Draw(spriteBatch);

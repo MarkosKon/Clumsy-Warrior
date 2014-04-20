@@ -23,11 +23,11 @@
         /// <param name="position">The position of the enemy on the screen.</param>
         public Skeleton(DifficultyLevel difficulty, Vector2 position) 
         {
+            this.difficulty = difficulty;
+            this.position = position;
             //Some initialization follows.
             //
             origin = new Vector2(0, 0);
-            this.difficulty = difficulty;
-            this.position = position;
             health = 0;
             right = false;
             interval = 150;
@@ -41,12 +41,12 @@
             {
                 case DifficultyLevel.normal:
                     health = 100;
-                    speed = new Vector2(3, 0);
+                    speed = new Vector2(2, 0);
                     damage = 10;
                     break;
                 case DifficultyLevel.hard:
                     health = 200;
-                    speed = new Vector2(5, 0);
+                    speed = new Vector2(3, 0);
                     damage = 20;
                     break;
                 default:
