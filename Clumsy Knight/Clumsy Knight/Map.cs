@@ -52,9 +52,8 @@ namespace Clumsy_Knight
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (BigFatTile map in collisionMap1)
-                map.Draw(spriteBatch);
-
+            foreach (BigFatTile tile in collisionMap1)
+                tile.Draw(spriteBatch);
         }
     }
 }

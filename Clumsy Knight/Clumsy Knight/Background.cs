@@ -43,6 +43,7 @@
         //
         public Texture2D castleTexture;
         public Rectangle castleRectangle;
+        public Vector2 castlePosition;
 
         //Variables for the cloud objects.
         //
@@ -56,25 +57,30 @@
         /// <summary>
         /// The constructor
         /// </summary>
-        public Background()
+        public Background(Player player)
         {
+            //Center vector calculates how much the camera will move everything to left or right.
+            Vector2 center = new Vector2((player.position.X + (player.rectangle.Width / 2)) - 400, 0);
             rnd=new Random();
 
+            //Place everything according to player and to camera.
             skyRectangle = new Rectangle(0, 0, 800, 480);
-            skyPosition = new Vector2(-277, 0);
+            skyPosition = new Vector2(center.X, 0);
 
-            sunRectangle = new Rectangle(0, 0, 2000, 2000);
-            sunPosition = new Vector2(-280, 0);
+            sunRectangle = new Rectangle(0, 0, 100, 100);
+            sunPosition = new Vector2(center.X+3, 0);
 
             groundRectangle = new Rectangle(0, 0, 800, 136);
             groundRectangle2 = new Rectangle(0, 0, 800, 136);
-            groundPosition = new Vector2(-277, 220);
-            groundPosition2 = new Vector2(-277+798, 220);
+            groundPosition = new Vector2(center.X, center.Y+220);
+            groundPosition2 = new Vector2(center.X+798, center.Y+220);
 
             mountainRectangle = new Rectangle(0, 0, 498, 247);
-            mountainPosition = new Vector2(-100, 100);
+            mountainPosition = new Vector2(center.X+100, center.Y+100);
 
-            castleRectangle = new Rectangle(2900, 217, 300, 150);
+            //Castle is placed staticly (doesn't move).
+            castleRectangle = new Rectangle(0, 0, 300, 150);
+            castlePosition = new Vector2(2900, 217);
 
             cloudRectangle=new Rectangle[3];
             cloudTexture = new Texture2D[3];
@@ -84,7 +90,7 @@
             cloudRectangle[2]=new Rectangle(0, 0, 85, 48);
             for (int i = 0; i < 3;i++ )
             {
-                cloudPosition[i]=new Vector2(rnd.Next(-300, 400), rnd.Next(0, 200));
+                cloudPosition[i]=new Vector2(rnd.Next((int)center.X-30,(int)center.X+670), rnd.Next((int)center.Y,(int)center.Y+200));
             }
         }
 
@@ -131,7 +137,7 @@
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    cloudSpeed.X = player.speed.X - (player.speed.X/30);
+                    cloudSpeed.X = player.speed.X - (player.speed.X/15);
                     cloudPosition[i] += cloudSpeed;
                 }
                 skyPosition.X += player.speed.X;
@@ -158,6 +164,8 @@
                     cloudPosition[i].Y = skyPosition.Y + rnd.Next(0, 200);
                 }
             }
+            //Loop the ground if the player goes right.
+            //
             if (groundPosition.X <= (skyPosition.X - 800))
             {
                 groundPosition.X=skyPosition.X+798;
@@ -165,6 +173,16 @@
             if (groundPosition2.X <= (skyPosition.X - 800))
             {
                 groundPosition2.X = skyPosition.X + 798;
+            }
+            //Loop the ground if the player goes left.
+            //
+            if (groundPosition.X >= (skyPosition.X + 800)) 
+            {
+                groundPosition.X = skyPosition.X - 798;
+            }
+            if (groundPosition2.X >= (skyPosition.X + 800))
+            {
+                groundPosition2.X = skyPosition.X - 798;
             }
         }
         /// <summary>
@@ -175,7 +193,7 @@
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(skyTexture,skyPosition,skyRectangle,Color.White);
-            spriteBatch.Draw(sunTexture,sunPosition,sunRectangle,Color.White,0f,new Vector2(0,0),0.05f,SpriteEffects.None,0f);
+            spriteBatch.Draw(sunTexture,sunPosition,sunRectangle,Color.White);
             spriteBatch.Draw(mountainTexture, mountainPosition, mountainRectangle, Color.White);
             for (int i = 0; i < 3; i++)
             {
@@ -183,7 +201,7 @@
             }
             spriteBatch.Draw(groundTexture,groundPosition, groundRectangle, Color.White);
             spriteBatch.Draw(groundTexture, groundPosition2, groundRectangle2, Color.White);
-            spriteBatch.Draw(castleTexture, castleRectangle, Color.White);
+            spriteBatch.Draw(castleTexture, castlePosition, castleRectangle, Color.White);
         }
 
     }

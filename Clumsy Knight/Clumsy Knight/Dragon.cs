@@ -24,11 +24,11 @@
         /// <param name="position">The position of the enemy on the screen.</param>
         public Dragon(DifficultyLevel difficulty, Vector2 position) 
         {
+            this.difficulty = difficulty;
+            this.position = position;
             //Some initialization follows.
             //
             origin = new Vector2(0, 0);
-            this.difficulty = difficulty;
-            this.position = position;
             health = 0;
             right = false;
             interval = 150;
@@ -205,7 +205,7 @@
         }
 
         /// <summary>
-        /// This method "guides" the Draw method for the standing attacking.
+        /// This method "guides" the Draw method for the attacking animation.
         /// </summary>
         /// <param name="gameTime">We need a GameTime parameter from the main because we
         /// want to animate for a specific time.</param>

@@ -46,7 +46,7 @@
         public Vector2 speed;
         public int damage;
 
-        //A struct declared at the end of Enemy.cs
+        //A struct declared at the end of MainFunction.cs
         public EnemyState enemyState;
 
         ///<summary>
