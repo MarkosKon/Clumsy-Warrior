@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-
-namespace Clumsy_Knight
+﻿namespace Clumsy_Knight
 {
+    using Microsoft.Xna.Framework.Graphics;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Input;
     public class Player
     {
         Texture2D texture;
@@ -31,8 +26,8 @@ namespace Clumsy_Knight
         public float health=100;
         public float score=0;
 
-        //KeyboardState oldstate;
-
+        //These state variable are used as a check to avoid initiliazing many times other member variables
+        //used for drawing a specific movement from the spritesheet.
         PlayerState newPlayerState;
         PlayerState oldPlayerState;
 
@@ -57,10 +52,15 @@ namespace Clumsy_Knight
 
         public void Update(GameTime gameTime,Map map)
         {
+            //The animation frames dimensions differ from movement to movement so we specify as origin the bottom left of the frame.
+            //By doing this the player will not fall inside the tiles if the frameHeight increases.
             origin = new Vector2(0,frameHeight);
+            //According to player state initialize/change some values used by draw.
+            //
             switch(newPlayerState)
             {
                 case PlayerState.standing:
+                    //If player was not standing in the previous update call.
                     if (oldPlayerState!=PlayerState.standing)
                     {
                         interval = 150;
@@ -69,7 +69,7 @@ namespace Clumsy_Knight
                         currentFrame = 0;
                     }
                     rectangle = new Rectangle(currentFrame * frameWidth, 9, frameWidth, frameHeight);
-                    AnimateStanding(gameTime);
+                    Animate(gameTime,14);
                     break;
                 case PlayerState.walking:
                     if (oldPlayerState != PlayerState.walking)
@@ -80,7 +80,7 @@ namespace Clumsy_Knight
                         currentFrame = 0;
                     }
                     rectangle = new Rectangle(currentFrame * frameWidth, 200, frameWidth, frameHeight);
-                    AnimateWalking(gameTime);
+                    Animate(gameTime,5);
                     break;
                 case PlayerState.attacking:
                     if (oldPlayerState != PlayerState.attacking)
@@ -91,10 +91,15 @@ namespace Clumsy_Knight
                         currentFrame = 0;
                     }
                     rectangle = new Rectangle(currentFrame * frameWidth, 287, frameWidth, frameHeight);
-                    AnimateAttacking(gameTime);
+                    Animate(gameTime,5);
                     break;
             }
             oldPlayerState = newPlayerState;
+            //The following code changes the state and member variables of the player. It is focused on the behaviour of
+            //the player unlike with the previous tha focuses on the drawing of the player.
+            //
+            //Check for keyboard input.
+            //
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
                 newPlayerState = PlayerState.walking;
@@ -118,6 +123,8 @@ namespace Clumsy_Knight
                 newPlayerState = PlayerState.attacking;
                 if (speed.X > 0)
                 {
+                    //We assign small numbers in speed.X instead of 0 because we don't want to change the direction
+                    //of the player (Draw method draws according to player's direction).
                     speed.X = 0.00001f;
                 }
                 else
@@ -139,10 +146,7 @@ namespace Clumsy_Knight
                 isOnLeft = false;
                 isOnRight = false;
             }
-
-            KeyboardState newstate = Keyboard.GetState();
-
-            if (newstate.IsKeyDown(Keys.Space) && hasJumped == false)
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) && hasJumped == false)
             {
                 position.Y -= 10;
                 speed.Y = -5;
@@ -153,6 +157,8 @@ namespace Clumsy_Knight
                 hasJumped = false;
                 speed.Y = 0;
             }
+            //Check for collisions with the map.
+            //
             Rectangle arectangle = new Rectangle((int)position.X, (int)position.Y-frameHeight, frameWidth, frameHeight);
             foreach (BigFatTile tile in map.CollisionMap1)
             {
@@ -177,11 +183,12 @@ namespace Clumsy_Knight
                     speed.X = -0.00001f;
                 }
             }
+            //Change the position and the Y speed anyway.
             position += speed;
             speed.Y += 0.15f;
         }
 
-        public void AnimateStanding(GameTime gameTime)
+        public void Animate(GameTime gameTime,int targetFrames)
         {
             timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             if (timer > interval)
@@ -189,47 +196,17 @@ namespace Clumsy_Knight
                 currentFrame++;
                 timer = 0;
 
-                //3 is full
-                if (currentFrame > 14)
+                if (currentFrame > targetFrames)
                 {
                     currentFrame = 0;
                 }
             }
         }
 
-        public void AnimateWalking(GameTime gameTime)
-        {
-            timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            if (timer > interval)
-            {
-                currentFrame++;
-                timer = 0;
-
-                if (currentFrame > 5)
-                {
-                    currentFrame = 0;
-                }
-            }
-        }
-
-        public void AnimateAttacking(GameTime gameTime)
-        {
-            timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            if (timer > interval)
-            {
-                currentFrame++;
-                timer = 0;
-
-                //3 is full
-                if (currentFrame > 5)
-                {
-                    currentFrame = 0;
-                }
-            }
-        }
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            //Check the direction of the player and then draw.
             if (speed.X > 0)
             {
                 spriteBatch.Draw(texture, position, rectangle, Color.White, 0f, origin, 1f, SpriteEffects.FlipHorizontally, 0);
@@ -238,14 +215,6 @@ namespace Clumsy_Knight
             {
                 spriteBatch.Draw(texture, position, rectangle, Color.White, 0f, origin, 1f, SpriteEffects.None, 0);
             }
-        }
-
-        enum PlayerState
-        {
-            walking,
-            standing,
-            attacking,
-            init
         }
     }
 }

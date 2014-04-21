@@ -12,6 +12,7 @@ namespace Clumsy_Knight
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         SpriteBatch spriteBatch1;
+        //Temporary, for displaying player score and health.
         SpriteFont font;
 
         bool paused = false;
@@ -35,6 +36,7 @@ namespace Clumsy_Knight
         //
         Dragon boss;
         Skeleton skeleton;
+        //or Orc orc;
         Enemy orc;
 
 
@@ -109,10 +111,6 @@ namespace Clumsy_Knight
             background = new Background(player);
 
             background.LoadContent(Content);
-
-            /*platforms.Add(new Platform(Content.Load<Texture2D>("sprites/platform/Platform"), new Vector2(0, 350)));
-            platforms.Add(new Platform(Content.Load<Texture2D>("sprites/platform/Platform"), new Vector2(350, 300)));
-            platforms.Add(new Platform(Content.Load<Texture2D>("sprites/platform/Platform"), new Vector2(700, 350)));*/
 
             Tile.Content = Content;
             map.Generate(new int[,]{
@@ -280,6 +278,17 @@ namespace Clumsy_Knight
         attacking,
         takingDamage,
         dying
+    }
+
+    /// <summary>
+    /// This enum struct represents the different states of the player.
+    /// </summary>
+    enum PlayerState
+    {
+        walking,
+        standing,
+        attacking,
+        init
     }
 }
 
