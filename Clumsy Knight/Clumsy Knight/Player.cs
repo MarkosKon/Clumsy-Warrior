@@ -29,9 +29,11 @@ namespace Clumsy_Knight
         public bool isOnRight;
         //KeyboardState oldstate;
 
+        PlayerState playerState;
+
         public Player(Texture2D texture, Vector2 position, int newFrameWidth, int newFrameHeight)
         {
-            origin = new Vector2(0, 0);
+            origin = new Vector2(0,0);
             speed = new Vector2(0, 0);
             this.texture = texture;
             this.position = position;
@@ -41,17 +43,19 @@ namespace Clumsy_Knight
             hasJumped = true;
             isOnLeft=true;
             isOnRight=true;
+            playerState = PlayerState.standing;
             //I added this line because we need it in background initialization.
             rectangle = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
         }
 
         public void Update(GameTime gameTime,Map map)
         {
-            rectangle = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
+            rectangle = new Rectangle(currentFrame * frameWidth, 9, frameWidth, frameHeight);
 
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
-                AnimateRight(gameTime);
+                playerState = PlayerState.walking;
+                AnimateWalking(gameTime);
                 speed.X = 3f;
                 if (isOnLeft)
                 {
@@ -60,7 +64,7 @@ namespace Clumsy_Knight
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
-                AnimateLeft(gameTime);
+                AnimateWalking(gameTime);
                 speed.X = -3f;
                 if (isOnRight)
                 {
@@ -69,7 +73,16 @@ namespace Clumsy_Knight
             }
             else
             {
-                speed.X = 0f;
+                playerState = PlayerState.standing;
+                AnimateStanding(gameTime);
+                if (speed.X>0)
+                {
+                    speed.X = 0.001f;
+                }
+                else
+                {
+                    speed.X = -0.001f;
+                }
                 isOnLeft = false;
                 isOnRight = false;
             }
@@ -118,41 +131,55 @@ namespace Clumsy_Knight
             speed.Y += 0.15f;
         }
 
-        public void AnimateRight(GameTime gameTime)
+        public void AnimateStanding(GameTime gameTime)
         {
-            timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds / 2;
+            timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             if (timer > interval)
             {
                 currentFrame++;
                 timer = 0;
 
                 //3 is full
-                if (currentFrame > 3)
+                if (currentFrame > 14)
                 {
                     currentFrame = 0;
                 }
             }
         }
 
-        public void AnimateLeft(GameTime gameTime)
+        public void AnimateWalking(GameTime gameTime)
         {
-            timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds / 2;
+            timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             if (timer > interval)
             {
                 currentFrame++;
                 timer = 0;
 
                 //7 is full
-                if (currentFrame > 7 || currentFrame < 4)
+                if (currentFrame > 5)
                 {
-                    currentFrame = 4;
+                    currentFrame = 0;
                 }
             }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, position, rectangle, Color.White, 0f, origin, 1.0f, SpriteEffects.None, 0);
+            if (speed.X>0)
+            {
+                spriteBatch.Draw(texture, position, rectangle, Color.White, 0f, origin, 1f, SpriteEffects.FlipHorizontally, 0);
+            }
+            else
+            {
+                spriteBatch.Draw(texture, position, rectangle, Color.White, 0f, origin, 1f, SpriteEffects.None, 0);
+            }
+        }
+
+        enum PlayerState
+        {
+            walking,
+            standing,
+            attacking
         }
     }
 }

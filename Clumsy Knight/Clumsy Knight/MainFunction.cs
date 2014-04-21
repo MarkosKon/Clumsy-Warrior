@@ -102,7 +102,7 @@ namespace Clumsy_Knight
             skeleton.LoadContent(Content);
             orc.LoadContent(Content);
 
-            player = new Player(Content.Load<Texture2D>("sprites/player/FlameGuy"), new Vector2(100, 0), 44, 47);
+            player = new Player(Content.Load<Texture2D>("sprites/player/knight"), new Vector2(100, 0), 96, 72);
 
             background = new Background(player);
 
