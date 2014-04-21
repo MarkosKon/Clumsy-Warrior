@@ -60,7 +60,7 @@
         public Background(Player player)
         {
             //Center vector calculates how much the camera will move everything to left or right.
-            Vector2 center = new Vector2((player.position.X + (player.rectangle.Width / 2)) - 400, 0);
+            Vector2 center = new Vector2((player.position.X /*+ (player.rectangle.Width / 2)*/) - 400, 0);
             rnd=new Random();
 
             //Place everything according to player and to camera.
@@ -119,7 +119,7 @@
         {
             //If the player moves right move the background objects accordingly
             //in order to give a feel of perspective.
-            if (Keyboard.GetState().IsKeyDown(Keys.Right) && player.speed.X != 0)
+            if (Keyboard.GetState().IsKeyDown(Keys.Right) /*&& Math.Abs(player.speed.X) != 0.001f*/)
             {
                 for (int i = 0; i < 3; i++)
                 {
@@ -168,21 +168,21 @@
             //
             if (groundPosition.X <= (skyPosition.X - 800))
             {
-                groundPosition.X=skyPosition.X+798;
+                groundPosition.X=skyPosition.X+797;
             }
             if (groundPosition2.X <= (skyPosition.X - 800))
             {
-                groundPosition2.X = skyPosition.X + 798;
+                groundPosition2.X = skyPosition.X + 797;
             }
             //Loop the ground if the player goes left.
             //
             if (groundPosition.X >= (skyPosition.X + 800)) 
             {
-                groundPosition.X = skyPosition.X - 798;
+                groundPosition.X = skyPosition.X - 797;
             }
             if (groundPosition2.X >= (skyPosition.X + 800))
             {
-                groundPosition2.X = skyPosition.X - 798;
+                groundPosition2.X = skyPosition.X - 797;
             }
         }
         /// <summary>

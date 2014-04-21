@@ -12,6 +12,7 @@ namespace Clumsy_Knight
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         SpriteBatch spriteBatch1;
+        SpriteFont font;
 
         bool paused = false;
         Texture2D pausedTexture;
@@ -102,7 +103,8 @@ namespace Clumsy_Knight
             skeleton.LoadContent(Content);
             orc.LoadContent(Content);
 
-            player = new Player(Content.Load<Texture2D>("sprites/player/knight"), new Vector2(100, 0), 96, 72);
+            player = new Player(Content.Load<Texture2D>("sprites/player/knight"), new Vector2(100, 0), 96, 67);
+            font = Content.Load<SpriteFont>("menufont");
 
             background = new Background(player);
 
@@ -199,7 +201,6 @@ namespace Clumsy_Knight
                     skeleton.Update(gameTime, player);
                     orc.Update(gameTime,player);
                     player.Update(gameTime,this.map);
-                    Rectangle arectangle = new Rectangle((int)player.position.X, (int)player.position.Y, player.frameWidth, player.frameHeight);
                     background.Update(gameTime, player);
                     map.Update(gameTime, player);
                     camera.Update(gameTime, this);
@@ -237,10 +238,10 @@ namespace Clumsy_Knight
                     player.Draw(spriteBatch);
                     map.Draw(spriteBatch);
                     boss.Draw(spriteBatch);
-                    /*foreach (Platform platform in platforms)
-                    {
-                        platform.Draw(spriteBatch);
-                    }*/
+                    spriteBatch.DrawString(font, "Health", new Vector2(player.position.X, player.position.Y - 120), Color.Red);
+                    spriteBatch.DrawString(font, player.health.ToString(), new Vector2(player.position.X, player.position.Y-100), Color.White);
+                    spriteBatch.DrawString(font, "Score", new Vector2(player.position.X+100, player.position.Y - 120), Color.Red);
+                    spriteBatch.DrawString(font, player.score.ToString(), new Vector2(player.position.X + 100, player.position.Y-100), Color.White);
                     break;
                 // case GameState.HighScore:
                 //we draw the high score
