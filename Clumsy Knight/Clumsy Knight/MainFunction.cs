@@ -105,7 +105,7 @@ namespace Clumsy_Knight
             skeleton.LoadContent(Content);
             orc.LoadContent(Content);
 
-            player = new Player(Content.Load<Texture2D>("sprites/player/knight"), new Vector2(100, 0), 96, 67);
+            player = new Player(Content.Load<Texture2D>("sprites/player/knight"), new Vector2(550, 0), 96, 67);
             font = Content.Load<SpriteFont>("menufont");
 
             background = new Background(player);
@@ -244,9 +244,13 @@ namespace Clumsy_Knight
                     map.Draw(spriteBatch);
                     boss.Draw(spriteBatch);
                     spriteBatch.DrawString(font, "Health", new Vector2(player.position.X, player.position.Y - 120), Color.Red);
-                    spriteBatch.DrawString(font, player.health.ToString(), new Vector2(player.position.X, player.position.Y-100), Color.White);
+                    spriteBatch.DrawString(font, player.health.ToString(), new Vector2(player.position.X, player.position.Y-100), Color.Black);
                     spriteBatch.DrawString(font, "Score", new Vector2(player.position.X+100, player.position.Y - 120), Color.Red);
-                    spriteBatch.DrawString(font, player.score.ToString(), new Vector2(player.position.X + 100, player.position.Y-100), Color.White);
+                    spriteBatch.DrawString(font, player.score.ToString(), new Vector2(player.position.X + 100, player.position.Y-100), Color.Black);
+                    /*Rectangle pRectangle = new Rectangle((int)player.position.X, (int)player.position.Y - player.frameHeight, player.frameWidth, player.frameHeight);
+                    Rectangle oRectangle = new Rectangle((int)orc.position.X, (int)orc.position.Y, orc.frameWidth, orc.frameHeight);
+                    spriteBatch.Draw(player.texture, pRectangle, Color.Green);
+                    spriteBatch.Draw(orc.enemyTexture, oRectangle, Color.Blue);*/
                     break;
                 // case GameState.HighScore:
                 //we draw the high score

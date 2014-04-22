@@ -126,6 +126,7 @@
             {
                 isVisible = false;
             }
+            //foreach(Color color in textureColors)
             enemyTexture.GetData(0, enemyRectangle, textureColors, currentFrame*currentFrameY, frameHeight * frameWidth);
         }
 
@@ -164,7 +165,7 @@
             if (isVisible)
             { 
                 if (speed.X>0)
-                {
+                { 
                     spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.White, rotation, origin, 1f, SpriteEffects.FlipHorizontally, 0f);
                 }
                 else

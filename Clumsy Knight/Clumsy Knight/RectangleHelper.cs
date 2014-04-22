@@ -58,7 +58,7 @@
                                          (y - r2.Top) * r2.Width];
 
                     // If both pixels are not completely transparent,
-                    if (colorA.A != 0 && colorB.A != 0)
+                    if (colorA.A != 0 && colorB.A != 0/*&&colorB==new Color(255,0,0,255)*/)
                     {
                         // then an intersection has been found
                         return true;
