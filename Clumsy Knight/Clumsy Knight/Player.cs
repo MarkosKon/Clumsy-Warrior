@@ -22,6 +22,7 @@
         public bool hasJumped;
         public bool isOnLeft;
         public bool isOnRight;
+        public bool isHit=false;
 
         public float health=100;
         public float score=0;
@@ -71,7 +72,14 @@
                         frameHeight = 67;
                         currentFrame = 0;
                     }
-                    rectangle = new Rectangle(currentFrame * frameWidth, 9, frameWidth, frameHeight);
+                    if (speed.X>0)
+                    {
+                        rectangle = new Rectangle((13-currentFrame) * frameWidth, 420, frameWidth, frameHeight);
+                    }
+                    else
+                    {
+                        rectangle = new Rectangle(currentFrame * frameWidth, 9, frameWidth, frameHeight);
+                    }
                     Animate(gameTime,13);
                     break;
                 case PlayerState.walking:
@@ -82,7 +90,14 @@
                         frameHeight = 67;
                         currentFrame = 0;
                     }
-                    rectangle = new Rectangle(currentFrame * frameWidth, 200, frameWidth, frameHeight);
+                    if (speed.X > 0)
+                    {
+                        rectangle = new Rectangle((5-currentFrame) * frameWidth, 610, frameWidth, frameHeight);
+                    }
+                    else
+                    {
+                        rectangle = new Rectangle(currentFrame * frameWidth, 200, frameWidth, frameHeight); 
+                    }
                     Animate(gameTime,5);
                     break;
                 case PlayerState.attacking:
@@ -93,7 +108,14 @@
                         frameHeight = 96;
                         currentFrame = 0;
                     }
-                    rectangle = new Rectangle(currentFrame * frameWidth, 287, frameWidth, frameHeight);
+                    if (speed.X>0)
+                    {
+                        rectangle = new Rectangle((5-currentFrame) * frameWidth, 698, frameWidth, frameHeight);
+                    }
+                    else
+                    {
+                        rectangle = new Rectangle(currentFrame * frameWidth, 287, frameWidth, frameHeight);
+                    }
                     Animate(gameTime,5);
                     break;
             }
@@ -189,7 +211,6 @@
             //Change the position and the Y speed anyway.
             position += speed;
             speed.Y += 0.15f;
-            texture.GetData(0, rectangle, textureColors, 0, frameHeight * frameWidth);
         }
 
         public void Animate(GameTime gameTime,int targetFrames)
@@ -210,15 +231,7 @@
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            //Check the direction of the player and then draw.
-            if (speed.X > 0)
-            {
-                spriteBatch.Draw(texture, position, rectangle, Color.White, 0f, origin, 1f, SpriteEffects.FlipHorizontally, 0);
-            }
-            else
-            {
-                spriteBatch.Draw(texture, position, rectangle, Color.White, 0f, origin, 1f, SpriteEffects.None, 0);
-            }
+            spriteBatch.Draw(texture, position, rectangle, Color.White, 0f, origin, 1f, SpriteEffects.None, 0);
         }
     }
 }

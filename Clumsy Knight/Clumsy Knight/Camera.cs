@@ -15,9 +15,8 @@
         /// <summary>
         /// The Constructor
         /// </summary>
-        public Camera(/*Viewport view*/)
+        public Camera()
         {
-            //this.view = view;
         }
 
         /// <summary>

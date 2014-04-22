@@ -76,7 +76,14 @@
                     interval = 150;
                     frameWidth = 100;
                     frameHeight = 100;
-                    enemyRectangle = new Rectangle(0, 0, frameWidth, frameHeight);
+                    if (speed.X>0)
+                    {
+                        enemyRectangle = new Rectangle(600, 300, frameWidth, frameHeight);
+                    }
+                    else
+                    {
+                        enemyRectangle = new Rectangle(0, 0, frameWidth, frameHeight);
+                    }
                     //Find the centers.
                     Vector2 orcCenter=new Vector2(this.position.X + (this.enemyRectangle.Width / 2),this.position.Y + (this.enemyRectangle.Height / 2));
                     Vector2 playerCenter = new Vector2(player.position.X + (player.rectangle.Width / 2), player.position.Y + (player.rectangle.Height / 2));
@@ -110,8 +117,16 @@
                     interval = 150;
                     frameWidth = 100;
                     frameHeight = 100;
-                    enemyRectangle = new Rectangle(currentFrame * frameWidth, currentFrameY*frameHeight, frameWidth, frameHeight);
-                    AnimateAttacking(gameTime);
+                    if(speed.X>0)
+                    {
+                        enemyRectangle = new Rectangle((6-currentFrame) * frameWidth, (3+currentFrameY) * frameHeight, frameWidth, frameHeight);
+                        AnimateAttacking(gameTime);
+                    }
+                    else
+                    {
+                        enemyRectangle = new Rectangle(currentFrame * frameWidth, currentFrameY * frameHeight, frameWidth, frameHeight);
+                        AnimateAttacking(gameTime);
+                    }
                     if (attackingWaitTime > 15000)
                     {
                         attackingWaitTime = 0;
@@ -126,8 +141,6 @@
             {
                 isVisible = false;
             }
-            //foreach(Color color in textureColors)
-            enemyTexture.GetData(0, enemyRectangle, textureColors, currentFrame*currentFrameY, frameHeight * frameWidth);
         }
 
         /// <summary>
@@ -147,10 +160,6 @@
                 {
                     currentFrame = 0;
                     currentFrameY++;
-                    if (currentFrameY>2)
-                    {
-                        currentFrameY = 0;
-                    }
                 }
             }
         }
@@ -164,14 +173,7 @@
         {
             if (isVisible)
             { 
-                if (speed.X>0)
-                { 
-                    spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.White, rotation, origin, 1f, SpriteEffects.FlipHorizontally, 0f);
-                }
-                else
-                {
-                    spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
-                }
+                spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
             }
         }
     }

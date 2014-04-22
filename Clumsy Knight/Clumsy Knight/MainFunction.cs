@@ -34,10 +34,7 @@ namespace Clumsy_Knight
 
         //Instantiate some objects.
         //
-        Dragon boss;
-        Skeleton skeleton;
-        //or Orc orc;
-        Enemy orc;
+        public List<Enemy> enemies = new List<Enemy>();
 
 
         Background background;
@@ -65,11 +62,11 @@ namespace Clumsy_Knight
         protected override void Initialize()
         {
             IsMouseVisible = true;
-            boss= new Dragon(DifficultyLevel.normal, new Vector2(2500, 235));
-            skeleton=new Skeleton(DifficultyLevel.normal, new Vector2(1370, 255));
-            orc = new Orc(DifficultyLevel.normal,new Vector2(550,30));
+            enemies.Add(new Orc(DifficultyLevel.normal, new Vector2(2500, 235)));
+            enemies.Add(new Orc(DifficultyLevel.normal, new Vector2(1370, 255)));
+            enemies.Add(new Orc(DifficultyLevel.normal, new Vector2(550, 30)));
 
-            camera = new Camera(/*GraphicsDevice.Viewport*/);
+            camera = new Camera();
 
             map = new Map();
 
@@ -101,9 +98,10 @@ namespace Clumsy_Knight
             activeScreen = startScreen;
             activeScreen.Show();
 
-            boss.LoadContent(Content);
-            skeleton.LoadContent(Content);
-            orc.LoadContent(Content);
+            foreach (Enemy enemy in enemies)
+            {
+                enemy.LoadContent(Content);
+            }
 
             player = new Player(Content.Load<Texture2D>("sprites/player/knight"), new Vector2(550, 0), 96, 67);
             font = Content.Load<SpriteFont>("menufont");
@@ -195,20 +193,28 @@ namespace Clumsy_Knight
                     }
                     break;
                 case GameState.Playing:
-                    boss.Update(gameTime, player);
-                    skeleton.Update(gameTime, player);
-                    orc.Update(gameTime,player);
-                    player.Update(gameTime,this.map);
+                    player.Update(gameTime, this.map);
+                    //Check for collisions.
+                    player.texture.GetData(0, player.rectangle, player.textureColors, 0, player.frameHeight * player.frameWidth);
+                    Rectangle pRectangle = new Rectangle((int)player.position.X, (int)player.position.Y - player.frameHeight, player.frameWidth, player.frameHeight);
+                    foreach(Enemy enemy in enemies)
+                    {
+                        enemy.Update(gameTime, player);
+                        enemy.enemyTexture.GetData(0,enemy.enemyRectangle,enemy.textureColors,0,enemy.frameWidth*enemy.frameHeight);
+                        Rectangle oRectangle = new Rectangle((int)enemy.position.X, (int)enemy.position.Y, enemy.frameWidth, enemy.frameHeight);
+                        if (RectangleHelper.PixelCollision(pRectangle, player.textureColors, oRectangle, enemy.textureColors) && !player.isHit)
+                        {
+                            player.health -= enemy.damage / 5;
+                            player.isHit = true;
+                        }
+                        else
+                        {
+                            player.isHit = false;
+                        }
+                    }
                     background.Update(gameTime, player);
                     map.Update(gameTime, player);
                     camera.Update(gameTime, this);
-                    //Check for collisions.
-                    Rectangle pRectangle = new Rectangle((int)player.position.X, (int)player.position.Y - player.frameHeight, player.frameWidth, player.frameHeight);
-                    Rectangle oRectangle = new Rectangle((int)orc.position.X, (int)orc.position.Y, orc.frameWidth, orc.frameHeight);
-                    if (RectangleHelper.PixelCollision(pRectangle, player.textureColors, oRectangle, orc.textureColors))
-                    {
-                        player.health -= orc.damage;
-                    }
                     break;
                 //case GameState.HighScore:
                 // Here we put everything for the high score 
@@ -238,19 +244,16 @@ namespace Clumsy_Knight
 
                 case GameState.Playing:
                     background.Draw(spriteBatch);
-                    skeleton.Draw(spriteBatch);
-                    orc.Draw(spriteBatch);
-                    player.Draw(spriteBatch);
                     map.Draw(spriteBatch);
-                    boss.Draw(spriteBatch);
+                    foreach(Enemy enemy in enemies)
+                    {
+                        enemy.Draw(spriteBatch);
+                    }
+                    player.Draw(spriteBatch);
                     spriteBatch.DrawString(font, "Health", new Vector2(player.position.X, player.position.Y - 120), Color.Red);
                     spriteBatch.DrawString(font, player.health.ToString(), new Vector2(player.position.X, player.position.Y-100), Color.Black);
                     spriteBatch.DrawString(font, "Score", new Vector2(player.position.X+100, player.position.Y - 120), Color.Red);
                     spriteBatch.DrawString(font, player.score.ToString(), new Vector2(player.position.X + 100, player.position.Y-100), Color.Black);
-                    /*Rectangle pRectangle = new Rectangle((int)player.position.X, (int)player.position.Y - player.frameHeight, player.frameWidth, player.frameHeight);
-                    Rectangle oRectangle = new Rectangle((int)orc.position.X, (int)orc.position.Y, orc.frameWidth, orc.frameHeight);
-                    spriteBatch.Draw(player.texture, pRectangle, Color.Green);
-                    spriteBatch.Draw(orc.enemyTexture, oRectangle, Color.Blue);*/
                     break;
                 // case GameState.HighScore:
                 //we draw the high score
