@@ -37,7 +37,7 @@
                     r1.Bottom <= r2.Bottom + 30);
         }
         //Comment.
-        static bool PixelCollision(Rectangle r1, Color[] dataA,
+        public static bool PixelCollision(Rectangle r1, Color[] dataA,
                             Rectangle r2, Color[] dataB)
         {
             // Find the bounds of the rectangle intersection

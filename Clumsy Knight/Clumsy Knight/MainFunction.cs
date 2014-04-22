@@ -202,6 +202,13 @@ namespace Clumsy_Knight
                     background.Update(gameTime, player);
                     map.Update(gameTime, player);
                     camera.Update(gameTime, this);
+                    //Check for collisions.
+                    Rectangle pRectangle = new Rectangle((int)player.position.X, (int)player.position.Y - player.frameHeight, player.frameWidth, player.frameHeight);
+                    Rectangle oRectangle = new Rectangle((int)orc.position.X, (int)orc.position.Y, orc.frameWidth, orc.frameHeight);
+                    if (RectangleHelper.PixelCollision(pRectangle, player.textureColors, oRectangle, orc.textureColors))
+                    {
+                        player.health -= orc.damage;
+                    }
                     break;
                 //case GameState.HighScore:
                 // Here we put everything for the high score 

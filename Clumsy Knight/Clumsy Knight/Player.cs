@@ -5,7 +5,7 @@
     using Microsoft.Xna.Framework.Input;
     public class Player
     {
-        Texture2D texture;
+        public Texture2D texture;
         public Rectangle rectangle;
         Vector2 origin;
 
@@ -31,6 +31,8 @@
         PlayerState newPlayerState;
         PlayerState oldPlayerState;
 
+        public Color[] textureColors;
+
         public Player(Texture2D texture, Vector2 position, int newFrameWidth, int newFrameHeight)
         {
             origin = new Vector2(0,0);
@@ -48,6 +50,7 @@
             oldPlayerState = PlayerState.init;
             //I added this line because we need it in background initialization.
             rectangle = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
+            textureColors = new Color[texture.Width * texture.Height];
         }
 
         public void Update(GameTime gameTime,Map map)
@@ -69,7 +72,7 @@
                         currentFrame = 0;
                     }
                     rectangle = new Rectangle(currentFrame * frameWidth, 9, frameWidth, frameHeight);
-                    Animate(gameTime,14);
+                    Animate(gameTime,13);
                     break;
                 case PlayerState.walking:
                     if (oldPlayerState != PlayerState.walking)
@@ -186,6 +189,7 @@
             //Change the position and the Y speed anyway.
             position += speed;
             speed.Y += 0.15f;
+            texture.GetData(0, rectangle, textureColors, 0, frameHeight * frameWidth);
         }
 
         public void Animate(GameTime gameTime,int targetFrames)

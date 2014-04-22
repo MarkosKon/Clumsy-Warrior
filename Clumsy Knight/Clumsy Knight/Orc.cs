@@ -27,8 +27,8 @@
             health = 0;
             interval = 150;
             rotation = 0f;
-            frameWidth = 0;
-            frameHeight = 0;
+            frameWidth = 100;
+            frameHeight = 100;
             right = false;
             enemyState = EnemyState.standing;
             speed = new Vector2(1, 0);
@@ -59,6 +59,7 @@
         public override void LoadContent(ContentManager content)
         {
             enemyTexture = content.Load<Texture2D>("sprites/enemy/orc");
+            textureColors = new Color[enemyTexture.Width * enemyTexture.Height];
         }
 
         /// <summary>
@@ -121,6 +122,11 @@
                     //Something wrong.
                     break;
             }
+            if (health<=0)
+            {
+                isVisible = false;
+            }
+            enemyTexture.GetData(0, enemyRectangle, textureColors, currentFrame*currentFrameY, frameHeight * frameWidth);
         }
 
         /// <summary>
@@ -155,13 +161,16 @@
         /// don't know anything about it.</param>
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (speed.X>0)
-            {
-                spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.White, rotation, origin, 1f, SpriteEffects.FlipHorizontally, 0f);
-            }
-            else
-            {
-                spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+            if (isVisible)
+            { 
+                if (speed.X>0)
+                {
+                    spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.White, rotation, origin, 1f, SpriteEffects.FlipHorizontally, 0f);
+                }
+                else
+                {
+                    spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+                }
             }
         }
     }

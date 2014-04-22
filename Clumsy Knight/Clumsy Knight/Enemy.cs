@@ -11,7 +11,7 @@
     {
         protected int test;
         //The spritesheet.
-        protected Texture2D enemyTexture;
+        public Texture2D enemyTexture;
         //A rectangle that contains the current frame of a movement from the spritesheet.
         public Rectangle enemyRectangle;
         //Always is set to (0,0).
@@ -26,8 +26,8 @@
         //The current frame of the movement starting from 0.
         protected int currentFrame;
 
-        protected int frameHeight;
-        protected int frameWidth;
+        public int frameHeight;
+        public int frameWidth;
 
         //Temporary time to help us change the movement frames.
         protected float timer;
@@ -48,6 +48,10 @@
 
         //A struct declared at the end of MainFunction.cs
         public EnemyState enemyState;
+
+        public bool isVisible=true;
+
+        public Color[] textureColors;
 
         ///<summary>
         ///The constructor of the Abstract class.
