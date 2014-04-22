@@ -82,8 +82,8 @@
                     interval = 150;
                     frameWidth = 116;
                     frameHeight = 130;//150 (ignore this comment).
-                    enemyRectangle = new Rectangle(9 + currentFrame * frameWidth, 0, frameWidth, frameHeight);
-                    AnimateStanding(gameTime);
+                    enemyRectangle = new Rectangle(9 + currentFrameX * frameWidth, 0, frameWidth, frameHeight);
+                    Animate(gameTime,5);
                     //A patrol AI.
                     if (standingWaitTime > 4000)
                     {
@@ -95,8 +95,8 @@
                     interval = 150;
                     frameWidth = 132;
                     frameHeight = 120;
-                    enemyRectangle = new Rectangle(currentFrame * frameWidth, 150, frameWidth, frameHeight);
-                    AnimateWalking(gameTime);
+                    enemyRectangle = new Rectangle(currentFrameX * frameWidth, 150, frameWidth, frameHeight);
+                    Animate(gameTime,5);
                     position = position + speed;
                     //A patrol AI.
                     //
@@ -124,7 +124,7 @@
                             //Found a boundary change direction.
                             speed = -speed;
                             enemyState = EnemyState.standing;
-                            currentFrame = 0;
+                            currentFrameX = 0;
                         }
                     }
                     break;
@@ -132,8 +132,8 @@
                     interval = 180;
                     frameWidth = 140;
                     frameHeight = 130;
-                    enemyRectangle = new Rectangle(20+currentFrame * frameWidth, 671, frameWidth, frameHeight);
-                    AnimateAttacking(gameTime);
+                    enemyRectangle = new Rectangle(20+currentFrameX * frameWidth, 671, frameWidth, frameHeight);
+                    Animate(gameTime,5);
                     //A patrol AI.
                     if (attackingWaitTime > 13000)
                     {
@@ -145,135 +145,6 @@
                     frameWidth = 110;
                     frameHeight = 100;
                     enemyRectangle = new Rectangle(30, 802, frameWidth, frameHeight);
-                    break;
-                default:
-                    //Something went wrong.
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// This method "guides" the Draw method for the standing animation.
-        /// </summary>
-        /// <param name="gameTime">We need a GameTime parameter from the main because we
-        /// want to animate for a specific time.</param>
-        public override void AnimateStanding(GameTime gameTime)
-        {
-            timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            standingWaitTime += timer;
-            if (timer > interval)
-            {
-                if (!right)
-                {
-                    currentFrame++;
-                }
-                else
-                {
-                    currentFrame--;
-                }
-                timer = 0;
-                if (currentFrame > 2)
-                {
-                    right = true;
-                    currentFrame = 1;
-                }
-                else if (currentFrame <= 0)
-                {
-                    right = false;
-                    currentFrame = 0;
-                }
-            }
-        }
-
-        /// <summary>
-        /// This method "guides" the Draw method for the walking animation.
-        /// </summary>
-        /// <param name="gameTime">We need a GameTime parameter from the main because we
-        /// want to animate for a specific time.</param>
-        public override void AnimateWalking(GameTime gameTime)
-        {
-            timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            if (timer > interval)
-            {
-                currentFrame++;
-                timer = 0;
-                if (currentFrame > 5)
-                {
-                    currentFrame = 0;
-                }
-            }
-        }
-
-        /// <summary>
-        /// This method "guides" the Draw method for the attacking animation.
-        /// </summary>
-        /// <param name="gameTime">We need a GameTime parameter from the main because we
-        /// want to animate for a specific time.</param>
-        public override void AnimateAttacking(GameTime gameTime)
-        {
-            timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            attackingWaitTime += timer;
-            if (timer > interval)
-            {
-                currentFrame++;
-                timer = 0;
-                if (currentFrame > 4)
-                {
-                    currentFrame = 0;
-                }
-            }
-        }
-
-        /// <summary>
-        /// A method to draw the dragon on screen called from MainFunction.Draw.
-        /// </summary>
-        /// <param name="spriteBatch">We give spriteBatch as parameter because the current class
-        /// don't know anything about it.</param>
-        public override void Draw(SpriteBatch spriteBatch) 
-        {    
-            //What is the state of the enemy;                        
-            switch (enemyState)
-            {
-                case EnemyState.standing:
-                    //Checks the enemy's direction and draws the texture accordingly.
-                    if (speed.X > 0)
-                    {
-                        spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
-                    }
-                    else
-                    {
-                        spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.White, rotation, origin, 1f, SpriteEffects.FlipHorizontally, 0f);
-                    }
-                    break;
-                case EnemyState.walking:
-                    if (speed.X > 0)
-                    {
-                        spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.White, rotation, origin, 1f, SpriteEffects.FlipHorizontally, 0f);
-                    }
-                    else
-                    {
-                        spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
-                    }
-                    break;
-                case EnemyState.attacking:
-                    if (speed.X > 0)
-                    {
-                        spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
-                    }
-                    else
-                    {
-                        spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.White, rotation, origin, 1f, SpriteEffects.FlipHorizontally, 0f);
-                    }
-                    break;
-                case EnemyState.takingDamage:
-                    if (speed.X > 0)
-                    {
-                        spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.Red, rotation, origin, 1f, SpriteEffects.FlipHorizontally, 0f);
-                    }
-                    else
-                    {
-                        spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.Red, rotation, origin, 1f, SpriteEffects.None, 0f);
-                    }
                     break;
                 default:
                     //Something went wrong.

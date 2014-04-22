@@ -25,6 +25,7 @@
         public bool isHit=false;
 
         public float health=100;
+        public int damage = 20;
         public float score=0;
 
         //These state variable are used as a check to avoid initiliazing many times other member variables

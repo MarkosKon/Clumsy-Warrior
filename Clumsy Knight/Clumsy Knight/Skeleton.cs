@@ -11,11 +11,6 @@
     /// </summary>
     public class Skeleton : Enemy
     {
-        //Variables used to switch between states.
-        //
-        private float standingWaitTime;
-        private float attackingWaitTime;
-        private float walkingWaitTime;
 
         ///<summary>
         ///The constructor of the Skeleton class.
@@ -36,7 +31,7 @@
             frameWidth = 0;
             frameHeight = 0;
             enemyState = EnemyState.walking;
-            currentFrame = 0;
+            currentFrameX = 0;
             standingWaitTime = 0;
             walkingWaitTime = 0;
             attackingWaitTime = 0;
@@ -68,6 +63,7 @@
         public override void LoadContent(ContentManager content)
         {
             enemyTexture = content.Load<Texture2D>("sprites/enemy/skeleton");
+            textureColors = new Color[enemyTexture.Width * enemyTexture.Height];
         }
 
         /// <summary>
@@ -78,28 +74,10 @@
         /// used in AI.</param>
         public override void Update(GameTime gameTime, Player player)
         {
+            currentFrameY = 0;
             //What is the state of the enemy;
             switch (enemyState)
             {
-                case EnemyState.standing:
-                    //If skeleton was not standing recently initialize some values.
-                    if (standingWaitTime==0)
-                    {
-                        interval = 150;
-                        frameWidth = 44;
-                        frameHeight = 94;
-                        currentFrame = 0;
-                    }
-                    //If skeleton had been standing for a certain time, start walking.
-                    else if (standingWaitTime > 10000)
-                    {
-                        standingWaitTime = 0;
-                        enemyState = EnemyState.walking;
-                        break;
-                    }
-                    enemyRectangle = new Rectangle(32 + currentFrame * frameWidth, 11, frameWidth, frameHeight);
-                    AnimateStanding(gameTime);
-                    break;
                 case EnemyState.walking:
                     position = position + speed;
                     //If skeleton was not walking recently initialize some values.
@@ -108,17 +86,44 @@
                         interval = 100;
                         frameWidth = 53;
                         frameHeight = 94;
-                        currentFrame = 0;
+                        currentFrameX = 0;
                     }
-                    else if (walkingWaitTime>15000)
+                    else if (walkingWaitTime > 15000)
                     {
                         walkingWaitTime = 0;
                         enemyState = EnemyState.standing;
-                        speed = -speed;
                         break;
                     }
-                    enemyRectangle = new Rectangle(58 + currentFrame * frameWidth, 108, frameWidth, frameHeight);
-                    AnimateWalking(gameTime);
+                    if (speed.X<0)
+                        enemyRectangle = new Rectangle((8 - currentFrameX) * frameWidth, 400, frameWidth, frameHeight);
+                    else
+                        enemyRectangle = new Rectangle(58 + currentFrameX * frameWidth, 108, frameWidth, frameHeight);
+                    Animate(gameTime, 7);
+                    walkingWaitTime += timer;
+                    break;
+                case EnemyState.standing:
+                    //If skeleton was not standing recently initialize some values.
+                    if (standingWaitTime==0)
+                    {
+                        interval = 150;
+                        frameWidth = 44;
+                        frameHeight = 94;
+                        currentFrameX = 0;
+                    }
+                    //If skeleton had been standing for a certain time, start walking.
+                    else if (standingWaitTime > 10000)
+                    {
+                        standingWaitTime = 0;
+                        speed = -speed;
+                        enemyState = EnemyState.walking;
+                        break;
+                    }
+                    if (speed.X<0)
+                        enemyRectangle = new Rectangle(32 + currentFrameX * frameWidth, 11, frameWidth, frameHeight);
+                    else
+                        enemyRectangle = new Rectangle(-32+(5-currentFrameX) * frameWidth, 305, frameWidth, frameHeight);
+                    Animate(gameTime,4);
+                    standingWaitTime += timer;
                     break;
                 case EnemyState.attacking:
                     //If skeleton was not attacking recently initialize some values.
@@ -127,22 +132,21 @@
                         interval = 200;
                         frameWidth = 86;
                         frameHeight = 94;
-                        currentFrame = 0;
+                        currentFrameX = 0;
                     }
                     //If skeleton has been attacking recently, stops and stands for a while.
-                    else if (attackingWaitTime > 5000)
+                    else if (attackingWaitTime > 4000)
                     {
                         attackingWaitTime = 0;
                         enemyState = EnemyState.standing;
                         break;
                     }
-                    enemyRectangle = new Rectangle(6+currentFrame * frameWidth, 203, frameWidth, frameHeight);
-                    AnimateAttacking(gameTime);
-                    break;
-                case EnemyState.takingDamage:
-                    frameWidth = 110;
-                    frameHeight = 100;
-                    enemyRectangle = new Rectangle(30, 802, frameWidth, frameHeight);
+                    if (speed.X>0)
+                        enemyRectangle = new Rectangle(6 + currentFrameX * frameWidth, 203, frameWidth, frameHeight);
+                    else
+                        enemyRectangle = new Rectangle((3-currentFrameX) * frameWidth, 496, frameWidth, frameHeight);
+                    Animate(gameTime,3);
+                    attackingWaitTime += timer;
                     break;
                 default:
                     //Something went wrong.
@@ -169,90 +173,12 @@
                     this.speed.X = Math.Abs(this.speed.X);
                 }
                 //If the player is really near and haven't attacked recently, start attacking.
-                if (Math.Abs(playerCenter.X - skeletonCenter.X) < 10&&attackingWaitTime==0)
+                if (Math.Abs(playerCenter.X - skeletonCenter.X) < 20&&attackingWaitTime==0)
                 {
                     enemyState = EnemyState.attacking;
                     walkingWaitTime = 0;
                     standingWaitTime = 0;
                 }
-            }
-        }
-
-        /// <summary>
-        /// This method "guides" the Draw method for the standing animation.
-        /// </summary>
-        /// <param name="gameTime">We need a GameTime parameter from the main because we
-        /// want to animate for a specific time.</param>
-        public override void AnimateStanding(GameTime gameTime)
-        {
-            timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            standingWaitTime += timer;
-            if (timer > interval)
-            {
-                currentFrame++;
-                timer = 0;
-                if (currentFrame > 4)
-                {
-                    currentFrame = 0;
-                }
-            }
-        }
-
-        /// <summary>
-        /// This method "guides" the Draw method for the walking animation.
-        /// </summary>
-        /// <param name="gameTime">We need a GameTime parameter from the main because we
-        /// want to animate for a specific time.</param>
-        public override void AnimateWalking(GameTime gameTime)
-        {
-            timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            walkingWaitTime += timer;
-            if (timer > interval)
-            {
-                currentFrame++;
-                timer = 0;
-                if (currentFrame > 7)
-                {
-                    currentFrame = 0;
-                }
-            }
-        }
-
-        /// <summary>
-        /// This method "guides" the Draw method for the attacking animation.
-        /// </summary>
-        /// <param name="gameTime">We need a GameTime parameter from the main because we
-        /// want to animate for a specific time.</param>
-        public override void AnimateAttacking(GameTime gameTime)
-        {
-            timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            attackingWaitTime += timer;
-            if (timer > interval)
-            {
-                currentFrame++;
-                timer = 0;
-                if (currentFrame > 4)
-                {
-                    currentFrame = 0;
-                }
-            }
-        }
-
-        /// <summary>
-        /// A method to draw the skeleton on screen called from MainFunction.Draw.
-        /// </summary>
-        /// <param name="spriteBatch">We give spriteBatch as parameter because the current class
-        /// don't know anything about it.</param>
-        public override void Draw(SpriteBatch spriteBatch) 
-        {
-            //Checks the enemy's direction and draws the texture accordingly.
-            if (speed.X > 0)
-            {
-                spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
-            }
-            else
-            {
-                spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.White, rotation, origin, 1f, SpriteEffects.FlipHorizontally, 0f);
             }
         }
     }

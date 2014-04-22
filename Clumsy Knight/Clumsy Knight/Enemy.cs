@@ -24,7 +24,8 @@
         protected float rotation;
 
         //The current frame of the movement starting from 0.
-        protected int currentFrame;
+        protected int currentFrameX;
+        protected int currentFrameY;
 
         public int frameHeight;
         public int frameWidth;
@@ -50,8 +51,15 @@
         public EnemyState enemyState;
 
         public bool isVisible=true;
+        public bool isHit = false;
 
         public Color[] textureColors;
+
+        //Variables used to switch between states.
+        //
+        protected float standingWaitTime;
+        protected float attackingWaitTime;
+        protected float walkingWaitTime;
 
         ///<summary>
         ///The constructor of the Abstract class.
@@ -85,43 +93,37 @@
         }
 
         /// <summary>
-        /// A virtual AnimateStanding method.
+        /// This method "guides" the Draw method for the animation.
         /// </summary>
         /// <param name="gameTime">We need a GameTime parameter from the main because we
         /// want to animate for a specific time.</param>
-        public virtual void AnimateStanding(GameTime gameTime)
+        public void Animate(GameTime gameTime,int targetFrames)
         {
+            timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            if (timer > interval)
+            {
+                currentFrameX++;
+                timer = 0;
 
-        }
-
-        /// <summary>
-        /// A virtual AnimateWalking method.
-        /// </summary>
-        /// <param name="gameTime">We need a GameTime parameter from the main because we
-        /// want to animate for a specific time.</param>
-        public virtual void AnimateWalking(GameTime gameTime)
-        {
-
-        }
-
-        /// <summary>
-        /// A virtual AnimateAttacking method.
-        /// </summary>
-        /// <param name="gameTime">We need a GameTime parameter from the main because we
-        /// want to animate for a specific time.</param>
-        public virtual void AnimateAttacking(GameTime gameTime)
-        {
-
+                if (currentFrameX > targetFrames)
+                {
+                    currentFrameX = 0;
+                    currentFrameY++;
+                }
+            }
         }
 
         ///<summary>
-        /// A virtual Draw method.
+        /// A method to draw the sprite on screen.
         /// </summary>
         /// <param name="spriteBatch">We give spriteBatch as parameter because the current class
         /// don't know anything about it.</param>
-        public virtual void Draw(SpriteBatch spriteBatch) 
-        {                                                
-            
+        public void Draw(SpriteBatch spriteBatch) 
+        {
+            if (isVisible)
+            {
+                spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+            }
         }
     }
 }

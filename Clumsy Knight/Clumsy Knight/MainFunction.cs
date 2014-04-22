@@ -63,7 +63,7 @@ namespace Clumsy_Knight
         {
             IsMouseVisible = true;
             enemies.Add(new Orc(DifficultyLevel.normal, new Vector2(2500, 235)));
-            enemies.Add(new Orc(DifficultyLevel.normal, new Vector2(1370, 255)));
+            enemies.Add(new Skeleton(DifficultyLevel.normal, new Vector2(1370, 255)));
             enemies.Add(new Orc(DifficultyLevel.normal, new Vector2(550, 30)));
 
             camera = new Camera();
@@ -103,7 +103,7 @@ namespace Clumsy_Knight
                 enemy.LoadContent(Content);
             }
 
-            player = new Player(Content.Load<Texture2D>("sprites/player/knight"), new Vector2(550, 0), 96, 67);
+            player = new Player(Content.Load<Texture2D>("sprites/player/knight"), new Vector2(1700, 0), 96, 67);
             font = Content.Load<SpriteFont>("menufont");
 
             background = new Background(player);
@@ -194,22 +194,36 @@ namespace Clumsy_Knight
                     break;
                 case GameState.Playing:
                     player.Update(gameTime, this.map);
-                    //Check for collisions.
+                    //Check for collisions player-enemies.
                     player.texture.GetData(0, player.rectangle, player.textureColors, 0, player.frameHeight * player.frameWidth);
                     Rectangle pRectangle = new Rectangle((int)player.position.X, (int)player.position.Y - player.frameHeight, player.frameWidth, player.frameHeight);
-                    foreach(Enemy enemy in enemies)
+                    for (int i = 0; i < enemies.Count; i++)
                     {
-                        enemy.Update(gameTime, player);
-                        enemy.enemyTexture.GetData(0,enemy.enemyRectangle,enemy.textureColors,0,enemy.frameWidth*enemy.frameHeight);
-                        Rectangle oRectangle = new Rectangle((int)enemy.position.X, (int)enemy.position.Y, enemy.frameWidth, enemy.frameHeight);
-                        if (RectangleHelper.PixelCollision(pRectangle, player.textureColors, oRectangle, enemy.textureColors) && !player.isHit)
+                        enemies[i].Update(gameTime, player);
+                        enemies[i].enemyTexture.GetData(0, enemies[i].enemyRectangle, enemies[i].textureColors, 0, enemies[i].frameWidth * enemies[i].frameHeight);
+                        Rectangle oRectangle = new Rectangle((int)enemies[i].position.X, (int)enemies[i].position.Y, enemies[i].frameWidth, enemies[i].frameHeight);
+                        if (RectangleHelper.PixelCollision(pRectangle, player.textureColors, oRectangle, enemies[i].textureColors) && !player.isHit)
                         {
-                            player.health -= enemy.damage / 5;
+                            player.health -= enemies[i].damage / 5;
                             player.isHit = true;
                         }
                         else
                         {
                             player.isHit = false;
+                        }
+                        if (RectangleHelper.PixelCollision(oRectangle, enemies[i].textureColors, pRectangle, player.textureColors) && !enemies[i].isHit)
+                        {
+                            enemies[i].health -= player.damage / 5;
+                            enemies[i].isHit = true;
+                            if (enemies[i].health<=0)
+                            {
+                                enemies.RemoveAt(i);
+                                player.score += 20;
+                            }
+                        }
+                        else
+                        {
+                            enemies[i].isHit = false;
                         }
                     }
                     background.Update(gameTime, player);
@@ -248,6 +262,8 @@ namespace Clumsy_Knight
                     foreach(Enemy enemy in enemies)
                     {
                         enemy.Draw(spriteBatch);
+                        spriteBatch.DrawString(font, "Health", new Vector2(enemy.position.X, enemy.position.Y-20), Color.Red);
+                        spriteBatch.DrawString(font, enemy.health.ToString(), new Vector2(enemy.position.X, enemy.position.Y), Color.Black);
                     }
                     player.Draw(spriteBatch);
                     spriteBatch.DrawString(font, "Health", new Vector2(player.position.X, player.position.Y - 120), Color.Red);

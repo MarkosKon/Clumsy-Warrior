@@ -9,8 +9,6 @@
     /// </summary>
     public class Orc : Enemy
     {
-        private float attackingWaitTime;
-        private int currentFrameY;
 
         ///<summary>
         ///The constructor of the Orc class.
@@ -33,7 +31,7 @@
             enemyState = EnemyState.standing;
             speed = new Vector2(1, 0);
             attackingWaitTime = 0;
-            currentFrame = 0;
+            currentFrameX = 0;
             currentFrameY = 0;
             switch (this.difficulty)
             {
@@ -70,12 +68,11 @@
         /// used in AI.</param>
         public override void Update(GameTime gameTime, Player player)
         {
+            //The default state is standing. If the player is really near, the state will change for a limited
+            //time to attacking and will go back to standing to check again how close is the player.
             switch (enemyState)
             {
                 case EnemyState.standing:
-                    interval = 150;
-                    frameWidth = 100;
-                    frameHeight = 100;
                     if (speed.X>0)
                     {
                         enemyRectangle = new Rectangle(600, 300, frameWidth, frameHeight);
@@ -85,7 +82,7 @@
                         enemyRectangle = new Rectangle(0, 0, frameWidth, frameHeight);
                     }
                     //Find the centers.
-                    Vector2 orcCenter=new Vector2(this.position.X + (this.enemyRectangle.Width / 2),this.position.Y + (this.enemyRectangle.Height / 2));
+                    Vector2 orcCenter = new Vector2(this.position.X + (this.enemyRectangle.Width / 2), this.position.Y + (this.enemyRectangle.Height / 2));
                     Vector2 playerCenter = new Vector2(player.position.X + (player.rectangle.Width / 2), player.position.Y + (player.rectangle.Height / 2));
                     //Is the player near to the orc;
                     if (Math.Abs(playerCenter.X - orcCenter.X) < 120)
@@ -102,32 +99,30 @@
                             //Speed must be positive.
                             this.speed.X = Math.Abs(this.speed.X);
                         }
-                        //If the player is really near, start attacking.
-                        if (Math.Abs(playerCenter.X - orcCenter.X) < 70)
+                        //If the player is really close, start attacking.
+                        if (Math.Abs(playerCenter.X - orcCenter.X) < 80)
                         {
                             enemyState = EnemyState.attacking;
-                            currentFrame = 0;
-                            currentFrameY = 0;
-                            timer = 0;
-                            attackingWaitTime = 0;
                         }
                     }
                     break;
                 case EnemyState.attacking:
-                    interval = 150;
-                    frameWidth = 100;
-                    frameHeight = 100;
+                    if (attackingWaitTime == 0)
+                    {
+                        currentFrameX = 0;
+                        currentFrameY = 0;
+                    }
                     if(speed.X>0)
                     {
-                        enemyRectangle = new Rectangle((6-currentFrame) * frameWidth, (3+currentFrameY) * frameHeight, frameWidth, frameHeight);
-                        AnimateAttacking(gameTime);
+                        enemyRectangle = new Rectangle((6-currentFrameX) * frameWidth, (3+currentFrameY) * frameHeight, frameWidth, frameHeight);
                     }
                     else
                     {
-                        enemyRectangle = new Rectangle(currentFrame * frameWidth, currentFrameY * frameHeight, frameWidth, frameHeight);
-                        AnimateAttacking(gameTime);
+                        enemyRectangle = new Rectangle(currentFrameX * frameWidth, currentFrameY * frameHeight, frameWidth, frameHeight);
                     }
-                    if (attackingWaitTime > 15000)
+                    Animate(gameTime,6);
+                    attackingWaitTime += timer;
+                    if (attackingWaitTime > 12000)
                     {
                         attackingWaitTime = 0;
                         enemyState = EnemyState.standing;
@@ -136,44 +131,6 @@
                 default:
                     //Something wrong.
                     break;
-            }
-            if (health<=0)
-            {
-                isVisible = false;
-            }
-        }
-
-        /// <summary>
-        /// This method "guides" the Draw method for the attacking animation.
-        /// </summary>
-        /// <param name="gameTime">We need a GameTime parameter from the main because we
-        /// want to animate for a specific time.</param>
-        public override void AnimateAttacking(GameTime gameTime)
-        {
-            timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            attackingWaitTime += timer;
-            if (timer > interval)
-            {
-                currentFrame++;
-                timer = 0;
-                if (currentFrame > 6)
-                {
-                    currentFrame = 0;
-                    currentFrameY++;
-                }
-            }
-        }
-
-        /// <summary>
-        /// A method to draw the orc on screen called from MainFunction.Draw.
-        /// </summary>
-        /// <param name="spriteBatch">We give spriteBatch as parameter because the current class
-        /// don't know anything about it.</param>
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            if (isVisible)
-            { 
-                spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
             }
         }
     }
