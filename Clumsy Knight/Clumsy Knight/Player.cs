@@ -24,7 +24,7 @@
         public bool isOnRight;
         public bool isHit=false;
 
-        public float health=100;
+        public float health=200;
         public int damage = 20;
         public float score=0;
 

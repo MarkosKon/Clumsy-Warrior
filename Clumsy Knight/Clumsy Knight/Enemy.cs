@@ -35,10 +35,6 @@
         //The rate in which images from a movement change.
         protected float interval;
 
-        //This variable exists because we want to animate the 3 frames from "standing" movement in the following order.
-        //1-2-3-2-1-2-3-2.... not 1-2-3-1-2-3....
-        protected bool right;
-
         //Health, speed and damage are relative to the DifficultyLevel.
         //
         public DifficultyLevel difficulty;
@@ -53,6 +49,7 @@
         public bool isVisible=true;
         public bool isHit = false;
 
+        //An array to store the colors of a texture used for pixel collision.
         public Color[] textureColors;
 
         //Variables used to switch between states.
@@ -120,9 +117,12 @@
         /// don't know anything about it.</param>
         public void Draw(SpriteBatch spriteBatch) 
         {
+            Color color = Color.White;
+            if (isHit)
+                color = Color.Black;
             if (isVisible)
             {
-                spriteBatch.Draw(enemyTexture, position, enemyRectangle, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(enemyTexture, position, enemyRectangle, color, rotation, origin, 1f, SpriteEffects.None, 0f);
             }
         }
     }

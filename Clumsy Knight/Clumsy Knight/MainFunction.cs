@@ -35,17 +35,12 @@ namespace Clumsy_Knight
         //Instantiate some objects.
         //
         public List<Enemy> enemies = new List<Enemy>();
-
-
-        Background background;
-
-        Camera camera;
-
+        private Background background;
+        private Camera camera;
         public Player player;
+        public Map map;
 
-        //List<Platform> platforms = new List<Platform>();
 
-        Map map;
 
         public MainFunction()
         {
@@ -62,12 +57,10 @@ namespace Clumsy_Knight
         protected override void Initialize()
         {
             IsMouseVisible = true;
-            enemies.Add(new Orc(DifficultyLevel.normal, new Vector2(2500, 235)));
+            enemies.Add(new Dragon(DifficultyLevel.normal, new Vector2(2500, 235)));
             enemies.Add(new Skeleton(DifficultyLevel.normal, new Vector2(1370, 255)));
             enemies.Add(new Orc(DifficultyLevel.normal, new Vector2(550, 30)));
-
             camera = new Camera();
-
             map = new Map();
 
             base.Initialize();
@@ -102,14 +95,10 @@ namespace Clumsy_Knight
             {
                 enemy.LoadContent(Content);
             }
-
-            player = new Player(Content.Load<Texture2D>("sprites/player/knight"), new Vector2(1700, 0), 96, 67);
-            font = Content.Load<SpriteFont>("menufont");
-
+            player = new Player(Content.Load<Texture2D>("sprites/player/knight"), new Vector2(100, 0), 96, 67);
             background = new Background(player);
-
             background.LoadContent(Content);
-
+            font = Content.Load<SpriteFont>("menufont");
             Tile.Content = Content;
             map.Generate(new int[,]{
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -141,16 +130,8 @@ namespace Clumsy_Knight
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+            
         }
-
-
-        private bool CheckKey(Keys theKey)
-        {
-            return keyboardState.IsKeyUp(theKey) &&
-            oldKeyboardState.IsKeyDown(theKey);
-        }
-
 
         /// <summary>
         /// Allows the game to run logic such as updating the world,
@@ -262,10 +243,12 @@ namespace Clumsy_Knight
                     foreach(Enemy enemy in enemies)
                     {
                         enemy.Draw(spriteBatch);
+                        //Temporary display health display for enemies.
                         spriteBatch.DrawString(font, "Health", new Vector2(enemy.position.X, enemy.position.Y-20), Color.Red);
                         spriteBatch.DrawString(font, enemy.health.ToString(), new Vector2(enemy.position.X, enemy.position.Y), Color.Black);
                     }
                     player.Draw(spriteBatch);
+                    //Temporary health, score display for player.
                     spriteBatch.DrawString(font, "Health", new Vector2(player.position.X, player.position.Y - 120), Color.Red);
                     spriteBatch.DrawString(font, player.health.ToString(), new Vector2(player.position.X, player.position.Y-100), Color.Black);
                     spriteBatch.DrawString(font, "Score", new Vector2(player.position.X+100, player.position.Y - 120), Color.Red);
@@ -278,6 +261,12 @@ namespace Clumsy_Knight
             base.Draw(gameTime);
             spriteBatch1.End();
             spriteBatch.End();
+        }
+
+        private bool CheckKey(Keys theKey)
+        {
+            return keyboardState.IsKeyUp(theKey) &&
+            oldKeyboardState.IsKeyDown(theKey);
         }
     }
 

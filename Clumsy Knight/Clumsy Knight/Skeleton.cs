@@ -25,7 +25,6 @@
             //
             origin = new Vector2(0, 0);
             health = 0;
-            right = false;
             interval = 150;
             rotation = 0f;
             frameWidth = 0;
@@ -75,7 +74,8 @@
         public override void Update(GameTime gameTime, Player player)
         {
             currentFrameY = 0;
-            //What is the state of the enemy;
+            //Check the state of the skeleton mainly for initializing/changing values used for draw,animate.
+            //
             switch (enemyState)
             {
                 case EnemyState.walking:

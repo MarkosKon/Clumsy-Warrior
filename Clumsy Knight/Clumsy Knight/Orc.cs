@@ -27,7 +27,6 @@
             rotation = 0f;
             frameWidth = 100;
             frameHeight = 100;
-            right = false;
             enemyState = EnemyState.standing;
             speed = new Vector2(1, 0);
             attackingWaitTime = 0;
@@ -37,11 +36,11 @@
             {
                 case DifficultyLevel.normal:
                     health = 200;
-                    damage = 20;
+                    damage = 30;
                     break;
                 case DifficultyLevel.hard:
                     health = 300;
-                    damage = 30;
+                    damage = 40;
                     break;
                 default:
                     //Something went wrong.

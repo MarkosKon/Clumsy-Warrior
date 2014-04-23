@@ -11,12 +11,6 @@
     /// </summary>
     public class Dragon :  Enemy 
     {
-
-        //Variables used in AI patrol.
-        //
-        private float standingWaitTime;
-        private float attackingWaitTime;
-
         ///<summary>
         ///The constructor of the Dragon class.
         /// </summary>
@@ -30,23 +24,24 @@
             //
             origin = new Vector2(0, 0);
             health = 0;
-            right = false;
             interval = 150;
             rotation = 0f;
             frameWidth = 0;
             frameHeight = 0;
             enemyState = EnemyState.walking;
             standingWaitTime = 0;
+            walkingWaitTime = 0;
+            attackingWaitTime = 0;
             //Initialize members according to the game difficulty.
             switch (this.difficulty)
             {
                 case DifficultyLevel.normal:
-                    health = 100;
+                    health = 300;
                     speed = new Vector2(2,0);
                     damage = 10;
                     break;
                 case DifficultyLevel.hard:
-                    health = 200;
+                    health = 500;
                     speed = new Vector2(2.8f, 0);
                     damage = 20;
                     break;
@@ -65,6 +60,7 @@
         public override void LoadContent(ContentManager content)
         {
             enemyTexture = content.Load<Texture2D>("sprites/enemy/dragon");
+            textureColors = new Color[enemyTexture.Width * enemyTexture.Height];
         }
 
         /// <summary>
@@ -75,80 +71,107 @@
         /// used in AI.</param>
         public override void Update(GameTime gameTime, Player player)
         {
-            //What is the state of the enemy;
+            currentFrameY = 0;
+            //Check the state of the dragon mainly for initializing/changing values used for draw,animate.
+            //
             switch (enemyState)
             {
                 case EnemyState.standing:
-                    interval = 150;
-                    frameWidth = 116;
-                    frameHeight = 130;//150 (ignore this comment).
-                    enemyRectangle = new Rectangle(9 + currentFrameX * frameWidth, 0, frameWidth, frameHeight);
-                    Animate(gameTime,5);
-                    //A patrol AI.
-                    if (standingWaitTime > 4000)
+                    if (standingWaitTime==0)
+                    { 
+                        interval = 150;
+                        frameWidth = 116;
+                        frameHeight = 130;
+                        currentFrameX = 0;
+                    }
+                    else if (standingWaitTime > 10000)
                     {
                         standingWaitTime = 0;
-                        enemyState = EnemyState.attacking;
+                        enemyState = EnemyState.walking;
+                        break;
                     }
+                    if (speed.X<0)
+                        enemyRectangle = new Rectangle(currentFrameX * frameWidth, 0, frameWidth, frameHeight);
+                    else
+                        enemyRectangle = new Rectangle(4+(4-currentFrameX) * frameWidth, 410, frameWidth, frameHeight);
+                    Animate(gameTime,4);
+                    standingWaitTime += timer;
                     break;
                 case EnemyState.walking:
-                    interval = 150;
-                    frameWidth = 132;
-                    frameHeight = 120;
-                    enemyRectangle = new Rectangle(currentFrameX * frameWidth, 150, frameWidth, frameHeight);
-                    Animate(gameTime,5);
-                    position = position + speed;
-                    //A patrol AI.
-                    //
-                    //Is the player near to the dragon;
-                    if (Math.Abs(player.position.X - this.position.X) < 200)
-                    {
-                        //Is the player left to the dragon;
-                        if ((player.position.X+(player.rectangle.Width/2) - (this.position.X+(this.enemyRectangle.Width/2))) < 0)
-                        {
-                            this.speed.X = (-1.0f) * Math.Abs(this.speed.X);//speed must be negative.
-                        }
-                        //Is the player right to the dragon;
-                        else
-                        {
-                            //In other words speed must be positive.
-                            this.speed.X = Math.Abs(this.speed.X);
-                        }
+                    if (walkingWaitTime==0)
+                    { 
+                        interval = 150;
+                        frameWidth = 132;
+                        frameHeight = 120;
+                        currentFrameX = 0;
                     }
-                    //Is the player away from the dragon;
+                    else if (walkingWaitTime>20000)
+                    {
+                        walkingWaitTime = 0;
+                        enemyState = EnemyState.standing;
+                        speed = -speed;
+                        break;
+                    }
+                    if (speed.X < 0)
+                        enemyRectangle = new Rectangle(currentFrameX * frameWidth, 150, frameWidth, frameHeight);
                     else
-                    {
-                        //Do your regular thing.
-                        if (position.X <= 2450 || position.X >= 3000)
-                        {
-                            //Found a boundary change direction.
-                            speed = -speed;
-                            enemyState = EnemyState.standing;
-                            currentFrameX = 0;
-                        }
-                    }
+                        enemyRectangle = new Rectangle((5-currentFrameX) * frameWidth, 553, frameWidth, frameHeight);
+                    Animate(gameTime,5);
+                    walkingWaitTime += timer;
+                    position = position + speed;
                     break;
                 case EnemyState.attacking:
-                    interval = 180;
-                    frameWidth = 140;
-                    frameHeight = 130;
-                    enemyRectangle = new Rectangle(20+currentFrameX * frameWidth, 671, frameWidth, frameHeight);
-                    Animate(gameTime,5);
-                    //A patrol AI.
-                    if (attackingWaitTime > 13000)
+                    if (attackingWaitTime==0)
+                    { 
+                        interval = 180;
+                        frameWidth = 140;
+                        frameHeight = 125;
+                        currentFrameX = 0;
+                    }
+                    else if (attackingWaitTime > 13000)
                     {
                         attackingWaitTime = 0;
                         enemyState = EnemyState.walking;
+                        break;
                     }
-                    break;
-                case EnemyState.takingDamage:
-                    frameWidth = 110;
-                    frameHeight = 100;
-                    enemyRectangle = new Rectangle(30, 802, frameWidth, frameHeight);
+                    if (speed.X<0)
+                        enemyRectangle = new Rectangle(currentFrameX * frameWidth, 280, frameWidth, frameHeight);
+                    else
+                        enemyRectangle = new Rectangle((4-currentFrameX) * frameWidth, 680, frameWidth, frameHeight);
+                    Animate(gameTime,4);
+                    attackingWaitTime += timer;
                     break;
                 default:
                     //Something went wrong.
                     break;
+            }
+            //The following conditions are considered critical and override the previous if true.
+            //
+            //Find the centers.
+            Vector2 dragonCenter = new Vector2(this.position.X + (this.enemyRectangle.Width / 2), this.position.Y + (this.enemyRectangle.Height / 2));
+            Vector2 playerCenter = new Vector2(player.position.X + (player.rectangle.Width / 2), player.position.Y + (player.rectangle.Height / 2));
+            //Is the player near to the dragon;
+            if (Math.Abs(playerCenter.X - dragonCenter.X) < 200)
+            {
+                //Is the player left to the dragon;
+                if ((playerCenter.X - dragonCenter.X) < 0)
+                {
+                    //In other words speed must be negative.
+                    this.speed.X = (-1.0f) * Math.Abs(this.speed.X);
+                }
+                //Is the player right to the dragon;
+                else
+                {
+                    //Speed must be negative.
+                    this.speed.X = Math.Abs(this.speed.X);
+                }
+                //If the player is really near and haven't attacked recently, start attacking.
+                if (Math.Abs(playerCenter.X - dragonCenter.X) < 40 && attackingWaitTime == 0)
+                {
+                    enemyState = EnemyState.attacking;
+                    walkingWaitTime = 0;
+                    standingWaitTime = 0;
+                }
             }
         }
     }
