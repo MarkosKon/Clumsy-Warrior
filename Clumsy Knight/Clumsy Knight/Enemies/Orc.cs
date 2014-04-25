@@ -1,9 +1,8 @@
-﻿namespace Clumsy_Knight
+﻿namespace Clumsy_Knight.Enemies
 {
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
-    using System;
     /// <summary>
     /// The orc is a regular monster that doesnt't move but hit hard (:O).
     /// </summary>

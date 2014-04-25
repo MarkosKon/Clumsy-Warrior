@@ -1,4 +1,4 @@
-﻿namespace Clumsy_Knight
+﻿namespace Clumsy_Knight.Enemies
 {
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
@@ -25,16 +25,16 @@
         protected float rotation;
 
         //The current frame of the movement starting from 0.
-        protected int currentFrameX;
+        public int currentFrameX;
         protected int currentFrameY;
 
         public int frameHeight;
         public int frameWidth;
 
         //Temporary time to help us change the movement frames.
-        protected float timer;
+        public float timer;
         //The rate in which images from a movement change.
-        protected float interval;
+        public float interval;
 
         //Health, speed and damage are relative to the DifficultyLevel.
         //
@@ -55,9 +55,9 @@
 
         //Variables used to switch between states.
         //
-        protected float standingWaitTime;
-        protected float attackingWaitTime;
-        protected float walkingWaitTime;
+        public float standingWaitTime;
+        public float attackingWaitTime;
+        public float walkingWaitTime;
 
         ///<summary>
         ///The constructor of the Abstract class.
