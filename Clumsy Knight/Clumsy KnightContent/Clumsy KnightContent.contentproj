@@ -70,13 +70,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="sprites\player\Ball.png">
-      <Name>Ball</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="sprites\platform\Platform.jpg">
       <Name>Platform</Name>
       <Importer>TextureImporter</Importer>
@@ -113,13 +106,6 @@
   <ItemGroup>
     <Compile Include="sprites\enemy\Skeleton.png">
       <Name>Skeleton</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="sprites\player\FlameGuy.jpg">
-      <Name>FlameGuy</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

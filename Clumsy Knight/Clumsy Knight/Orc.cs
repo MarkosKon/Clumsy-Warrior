@@ -80,30 +80,7 @@
                     {
                         enemyRectangle = new Rectangle(0, 0, frameWidth, frameHeight);
                     }
-                    //Find the centers.
-                    Vector2 orcCenter = new Vector2(this.position.X + (this.enemyRectangle.Width / 2), this.position.Y + (this.enemyRectangle.Height / 2));
-                    Vector2 playerCenter = new Vector2(player.position.X + (player.rectangle.Width / 2), player.position.Y + (player.rectangle.Height / 2));
-                    //Is the player near to the orc;
-                    if (Math.Abs(playerCenter.X - orcCenter.X) < 120)
-                    {
-                        //Is the player left to the orc;
-                        if ((playerCenter.X - orcCenter.X) < 0)
-                        {
-                            //In other words, speed must be negative.
-                            this.speed.X = (-1.0f) * Math.Abs(this.speed.X);
-                        }
-                        //Is the player right to the orc;
-                        else
-                        {
-                            //Speed must be positive.
-                            this.speed.X = Math.Abs(this.speed.X);
-                        }
-                        //If the player is really close, start attacking.
-                        if (Math.Abs(playerCenter.X - orcCenter.X) < 80)
-                        {
-                            enemyState = EnemyState.attacking;
-                        }
-                    }
+                    WhereIsPlayer(player, 120, 80);
                     break;
                 case EnemyState.attacking:
                     if (attackingWaitTime == 0)

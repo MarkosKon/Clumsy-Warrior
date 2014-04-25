@@ -145,34 +145,8 @@
                     //Something went wrong.
                     break;
             }
-            //The following conditions are considered critical and override the previous if true.
-            //
-            //Find the centers.
-            Vector2 dragonCenter = new Vector2(this.position.X + (this.enemyRectangle.Width / 2), this.position.Y + (this.enemyRectangle.Height / 2));
-            Vector2 playerCenter = new Vector2(player.position.X + (player.rectangle.Width / 2), player.position.Y + (player.rectangle.Height / 2));
-            //Is the player near to the dragon;
-            if (Math.Abs(playerCenter.X - dragonCenter.X) < 200)
-            {
-                //Is the player left to the dragon;
-                if ((playerCenter.X - dragonCenter.X) < 0)
-                {
-                    //In other words speed must be negative.
-                    this.speed.X = (-1.0f) * Math.Abs(this.speed.X);
-                }
-                //Is the player right to the dragon;
-                else
-                {
-                    //Speed must be negative.
-                    this.speed.X = Math.Abs(this.speed.X);
-                }
-                //If the player is really near and haven't attacked recently, start attacking.
-                if (Math.Abs(playerCenter.X - dragonCenter.X) < 40 && attackingWaitTime == 0)
-                {
-                    enemyState = EnemyState.attacking;
-                    walkingWaitTime = 0;
-                    standingWaitTime = 0;
-                }
-            }
+            //Override the previous if player is near.
+            WhereIsPlayer(player, 200, 40);
         }
     }
 }
