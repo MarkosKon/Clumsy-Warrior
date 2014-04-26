@@ -5,7 +5,7 @@
     using Microsoft.Xna.Framework.Graphics;
     using Microsoft.Xna.Framework.Input;
     using System;
-    using System.Collections.Generic;//
+    using System.Collections.Generic;
 
     /// <summary>
     /// A background class used for drawing a dynamic 
@@ -13,102 +13,33 @@
     /// </summary>
     public class Background
     {
-        // Variables for the sky object.
-        //
-        public Texture2D skyTexture;
-        public Rectangle skyRectangle;
-        public Vector2 skyPosition;
+        private List<BackgroundObject> objects=new List<BackgroundObject>();
 
-        // Variables for the sun object.
-        //
-        public Texture2D sunTexture;
-        public Rectangle sunRectangle;
-        public Vector2 sunPosition;
-
-        // Variables for the ground object.
-        //
-        public Texture2D groundTexture;
-        public Rectangle groundRectangle;
-        public Rectangle groundRectangle2;
-        public Vector2 groundPosition;
-        public Vector2 groundPosition2;
-
-        // Variables for the mountain object.
-        //
-        public Texture2D mountainTexture;
-        public Rectangle mountainRectangle;
-        public Vector2 mountainPosition;
-
-        // Variables for the castle object.
-        //
-        public Texture2D castleTexture;
-        public Rectangle castleRectangle;
-        public Vector2 castlePosition;
-
-        // Variables for the cloud objects.
-        //
-        public Texture2D[] cloudTexture;
-        public Rectangle[] cloudRectangle;
-        public Vector2[] cloudPosition;
-        private Vector2 cloudSpeed;
-
+        // Used to place randomly the clouds if they disappear from the screen.
         Random rnd;
         
         /// <summary>
-        /// The constructor
+        /// The Constructor.
         /// </summary>
-        public Background(Player player)
+        /// <param name="player">A Player parameter from MainFunction.</param>
+        /// <param name="contentManager">A ContentManager parameter.</param>
+        public Background(Player player, ContentManager contentManager)
         {
             // Center vector calculates how much the camera will move everything to left or right.
-            Vector2 center = new Vector2((player.position.X /*+ (player.rectangle.Width / 2)*/) - 400, 0);
+            Vector2 center = new Vector2(player.position.X - 400, 0);
+
             rnd=new Random();
 
-            // Place everything according to player and to camera.
-            skyRectangle = new Rectangle(0, 0, 800, 480);
-            skyPosition = new Vector2(center.X, 0);
-
-            sunRectangle = new Rectangle(0, 0, 100, 100);
-            sunPosition = new Vector2(center.X+3, 0);
-
-            groundRectangle = new Rectangle(0, 0, 800, 136);
-            groundRectangle2 = new Rectangle(0, 0, 800, 136);
-            groundPosition = new Vector2(center.X, center.Y+220);
-            groundPosition2 = new Vector2(center.X+798, center.Y+220);
-
-            mountainRectangle = new Rectangle(0, 0, 498, 247);
-            mountainPosition = new Vector2(center.X+100, center.Y+100);
-
-            // Castle is placed staticly (doesn't move).
-            castleRectangle = new Rectangle(0, 0, 300, 150);
-            castlePosition = new Vector2(2900, 217);
-
-            cloudRectangle=new Rectangle[3];
-            cloudTexture = new Texture2D[3];
-            cloudPosition = new Vector2[3];
-            cloudRectangle[0]=new Rectangle(0,0,120,60);
-            cloudRectangle[1]=new Rectangle(0, 0, 150, 83);
-            cloudRectangle[2]=new Rectangle(0, 0, 85, 48);
-            for (int i = 0; i < 3;i++ )
-            {
-                cloudPosition[i]=new Vector2(rnd.Next((int)center.X-30,(int)center.X+670), rnd.Next((int)center.Y,(int)center.Y+200));
-            }
-        }
-
-        /// <summary>
-        /// A method to load content for background "objects" called from MainFunction.LoadContent.
-        /// </summary>
-        /// <param name="content">We need a content parameter from the main because we
-        /// want to load the texture in this class.</param>
-        public void LoadContent(ContentManager contentManager)
-        {
-            skyTexture = contentManager.Load<Texture2D>("sprites/background/sky/sky");
-            sunTexture = contentManager.Load<Texture2D>("sprites/background/sun/sun");
-            groundTexture = contentManager.Load<Texture2D>("sprites/background/ground/ground");
-            mountainTexture = contentManager.Load<Texture2D>("sprites/background/mountain/mountain");
-            castleTexture = contentManager.Load<Texture2D>("sprites/background/castle/castle");
-            cloudTexture[0]=contentManager.Load<Texture2D>("sprites/background/clouds/cloud1");
-            cloudTexture[1]=contentManager.Load<Texture2D>("sprites/background/clouds/cloud2");
-            cloudTexture[2]=contentManager.Load<Texture2D>("sprites/background/clouds/cloud3");
+            // Place everything according to player's position and to camera.
+            objects.Add(new BackgroundObject(contentManager.Load<Texture2D>("sprites/background/sky/sky"), new Rectangle(0 , 0, 800, 480), new Vector2(center.X, 0)));
+            objects.Add(new BackgroundObject(contentManager.Load<Texture2D>("sprites/background/sun/sun"), new Rectangle(0, 0, 100, 100), new Vector2(center.X + 3, 0)));
+            objects.Add(new BackgroundObject(contentManager.Load<Texture2D>("sprites/background/mountain/mountain"), new Rectangle(0, 0, 498, 247), new Vector2(center.X + 100, center.Y + 100)));
+            objects.Add(new BackgroundObject(contentManager.Load<Texture2D>("sprites/background/clouds/cloud1"), new Rectangle(0, 0, 120, 60), new Vector2(rnd.Next((int)center.X - 30, (int)center.X + 670), rnd.Next((int)center.Y, (int)center.Y + 200))));
+            objects.Add(new BackgroundObject(contentManager.Load<Texture2D>("sprites/background/clouds/cloud2"), new Rectangle(0, 0, 150, 83), new Vector2(rnd.Next((int)center.X - 30, (int)center.X + 670), rnd.Next((int)center.Y, (int)center.Y + 200))));
+            objects.Add(new BackgroundObject(contentManager.Load<Texture2D>("sprites/background/clouds/cloud3"), new Rectangle(0, 0, 85, 48), new Vector2(rnd.Next((int)center.X - 30, (int)center.X + 670), rnd.Next((int)center.Y, (int)center.Y + 200))));
+            objects.Add(new BackgroundObject(contentManager.Load<Texture2D>("sprites/background/ground/ground"), new Rectangle(0, 0, 800, 136), new Vector2(center.X, center.Y+220)));
+            objects.Add(new BackgroundObject(contentManager.Load<Texture2D>("sprites/background/ground/ground"), new Rectangle(0, 0, 800, 136), new Vector2(center.X + 798, center.Y + 220)));
+            objects.Add(new BackgroundObject(contentManager.Load<Texture2D>("sprites/background/castle/castle"), new Rectangle(0, 0, 300, 150), new Vector2(2900, 217)));
         }
 
         /// <summary>
@@ -121,68 +52,66 @@
             // in order to give a feel of perspective.
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
-                for (int i = 0; i < 3; i++)
+                for (int i = 3; i < 6; i++)
                 {
-                    cloudSpeed.X = player.speed.X + (player.speed.X/30);
-                    cloudPosition[i] += cloudSpeed;
+                    objects[i].objectPosition.X += player.speed.X + (player.speed.X / 30);
                 }
-                skyPosition.X += player.speed.X;
-                sunPosition.X += player.speed.X;
-                mountainPosition.X += player.speed.X - (player.speed.X/30);
-                groundPosition.X += player.speed.X - (player.speed.X/6);
-                groundPosition2.X += player.speed.X - (player.speed.X/6);
+                objects[0].objectPosition.X += player.speed.X;
+                objects[1].objectPosition.X += player.speed.X;
+                objects[2].objectPosition.X += player.speed.X - (player.speed.X / 30);
+                objects[6].objectPosition.X += player.speed.X - (player.speed.X / 6);
+                objects[7].objectPosition.X += player.speed.X - (player.speed.X / 6);
             }
             // The same if the player goes left.
             else if (Keyboard.GetState().IsKeyDown(Keys.Left)&&player.speed.X!=0)
             {
-                for (int i = 0; i < 3; i++)
+                for (int i = 3; i < 6; i++)
                 {
-                    cloudSpeed.X = player.speed.X - (player.speed.X/15);
-                    cloudPosition[i] += cloudSpeed;
+                    objects[i].objectPosition.X += player.speed.X - (player.speed.X / 15);
                 }
-                skyPosition.X += player.speed.X;
-                sunPosition.X += player.speed.X;
-                mountainPosition.X += player.speed.X - (player.speed.X/30);
-                groundPosition.X += player.speed.X - (player.speed.X / 6); 
-                groundPosition2.X += player.speed.X - (player.speed.X / 6); 
+                objects[0].objectPosition.X += player.speed.X;
+                objects[1].objectPosition.X += player.speed.X;
+                objects[2].objectPosition.X += player.speed.X - (player.speed.X / 30);
+                objects[6].objectPosition.X += player.speed.X - (player.speed.X / 6);
+                objects[7].objectPosition.X += player.speed.X - (player.speed.X / 6); 
             }
             // The clouds are constantly moving regardless of the player's movement.
             else
             {
-                for (int i = 0; i <3; i++)
+                for (int i = 3; i < 6; i++)
                 {
-                    cloudSpeed.X = 0.1f;
-                    cloudPosition[i] += cloudSpeed;
+                    //cloudSpeed.X = 0.1f;
+                    objects[i].objectPosition.X += 0.1f;
                 }
             }
             // If a cloud disappers from the screen randomly change its position to appear on the left of the screen. 
-            for (int i = 0; i < 3; i++)
+            for (int i = 3; i < 6; i++)
             {
-                if (cloudPosition[i].X >= (skyPosition.X+800))
+                if (objects[i].objectPosition.X >= (objects[0].objectPosition.X + 800))
                 {
-                    cloudPosition[i].X = skyPosition.X-rnd.Next(150,500);
-                    cloudPosition[i].Y = skyPosition.Y + rnd.Next(0, 200);
+                    objects[i].objectPosition.X = objects[0].objectPosition.X - rnd.Next(150, 500);
+                    objects[i].objectPosition.Y = objects[0].objectPosition.Y + rnd.Next(0, 200);
                 }
             }
             // Loop the ground if the player goes right.
             //
-            if (groundPosition.X <= (skyPosition.X - 800))
+            if (objects[6].objectPosition.X <= (objects[0].objectPosition.X - 800))
             {
-                groundPosition.X=skyPosition.X+797;
+                objects[6].objectPosition.X = objects[0].objectPosition.X + 797;
             }
-            if (groundPosition2.X <= (skyPosition.X - 800))
+            if (objects[7].objectPosition.X <= (objects[0].objectPosition.X - 800))
             {
-                groundPosition2.X = skyPosition.X + 797;
+                objects[7].objectPosition.X = objects[0].objectPosition.X + 797;
             }
             // Loop the ground if the player goes left.
             //
-            if (groundPosition.X >= (skyPosition.X + 800)) 
+            if (objects[6].objectPosition.X >= (objects[0].objectPosition.X + 800)) 
             {
-                groundPosition.X = skyPosition.X - 797;
+                objects[6].objectPosition.X = objects[0].objectPosition.X - 797;
             }
-            if (groundPosition2.X >= (skyPosition.X + 800))
+            if (objects[7].objectPosition.X >= (objects[0].objectPosition.X + 800))
             {
-                groundPosition2.X = skyPosition.X - 797;
+                objects[7].objectPosition.X = objects[0].objectPosition.X - 797;
             }
         }
         /// <summary>
@@ -192,16 +121,10 @@
         /// don't know anything about it.</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(skyTexture,skyPosition,skyRectangle,Color.White);
-            spriteBatch.Draw(sunTexture,sunPosition,sunRectangle,Color.White);
-            spriteBatch.Draw(mountainTexture, mountainPosition, mountainRectangle, Color.White);
-            for (int i = 0; i < 3; i++)
+            foreach(BackgroundObject bObject in objects)
             {
-                spriteBatch.Draw(cloudTexture[i], cloudPosition[i], cloudRectangle[i], Color.White);
+                bObject.Draw(spriteBatch);
             }
-            spriteBatch.Draw(groundTexture,groundPosition, groundRectangle, Color.White);
-            spriteBatch.Draw(groundTexture, groundPosition2, groundRectangle2, Color.White);
-            spriteBatch.Draw(castleTexture, castlePosition, castleRectangle, Color.White);
         }
 
     }
