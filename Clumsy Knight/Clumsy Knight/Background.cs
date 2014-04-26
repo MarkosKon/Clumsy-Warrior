@@ -23,10 +23,10 @@
         /// </summary>
         /// <param name="player">A Player parameter from MainFunction.</param>
         /// <param name="contentManager">A ContentManager parameter.</param>
-        public Background(Player player, ContentManager contentManager)
+        public Background(float playerPositionX, ContentManager contentManager)
         {
             // Center vector calculates how much the camera will move everything to left or right.
-            Vector2 center = new Vector2(player.position.X - 400, 0);
+            Vector2 center = new Vector2(playerPositionX - 400, 0);
 
             rnd=new Random();
 
@@ -46,7 +46,7 @@
         /// A method to update background "objects" called from MainFunction.Update.
         /// </summary>
         /// <param name="gameTime">A GameTime parameter from the main.</param>
-        public void Update(GameTime gameTime,Player player)
+        public void Update(GameTime gameTime, Player player)
         {
             // If the player moves right move the background objects accordingly
             // in order to give a feel of perspective.

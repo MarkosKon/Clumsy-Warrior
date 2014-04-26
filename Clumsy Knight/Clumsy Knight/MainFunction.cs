@@ -95,7 +95,7 @@ namespace Clumsy_Knight
                 enemy.LoadContent(Content);
             }
             player = new Player(Content.Load<Texture2D>("sprites/player/knight"), new Vector2(100, 0), 96, 67);
-            background = new Background(player, Content);
+            background = new Background(player.position.X, Content);
             font = Content.Load<SpriteFont>("menufont");
             Tile.Content = Content;
             map.Generate(new int[,]{
