@@ -28,8 +28,8 @@
         public int damage = 20;
         public float score=0;
 
-        //These state variable are used as a check to avoid initiliazing many times other member variables
-        //used for drawing a specific movement from the spritesheet.
+        // These state variable are used as a check to avoid initiliazing many times other member variables
+        // used for drawing a specific movement from the spritesheet.
         PlayerState newPlayerState;
         PlayerState oldPlayerState;
 
@@ -50,22 +50,21 @@
             isOnRight=true;
             newPlayerState = PlayerState.standing;
             oldPlayerState = PlayerState.init;
-            //I added this line because we need it in background initialization.
             rectangle = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
             textureColors = new Color[texture.Width * texture.Height];
         }
 
         public void Update(GameTime gameTime,Map map)
         {
-            //The animation frames dimensions differ from movement to movement so we specify as origin the bottom left of the frame.
-            //By doing this the player will not fall inside the tiles if the frameHeight increases.
+            // The animation frames dimensions differ from movement to movement so we specify as origin the bottom left of the frame.
+            // By doing this the player will not fall inside the tiles if the frameHeight increases.
             origin = new Vector2(0,frameHeight);
-            //According to player state initialize/change some values used by draw.
+            // According to player state initialize/change some values used by draw.
             //
             switch(newPlayerState)
             {
                 case PlayerState.standing:
-                    //If player was not standing in the previous update call.
+                    // If player was not standing in the previous update call.
                     if (oldPlayerState!=PlayerState.standing)
                     {
                         interval = 150;
@@ -121,10 +120,10 @@
                     break;
             }
             oldPlayerState = newPlayerState;
-            //The following code changes the state and member variables of the player. It is focused on the behaviour of
-            //the player unlike with the previous tha focuses on the drawing of the player.
+            // The following code changes the state and member variables of the player. It is focused on the behaviour of
+            // the player unlike with the previous tha focuses on the drawing of the player.
             //
-            //Check for keyboard input.
+            // Check for keyboard input.
             //
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
@@ -149,8 +148,8 @@
                 newPlayerState = PlayerState.attacking;
                 if (speed.X > 0)
                 {
-                    //We assign small numbers in speed.X instead of 0 because we don't want to change the direction
-                    //of the player (Draw method draws according to player's direction).
+                    // We assign small numbers in speed.X instead of 0 because we don't want to change the direction
+                    // of the player (Draw method draws according to player's direction).
                     speed.X = 0.00001f;
                 }
                 else
@@ -183,7 +182,7 @@
                 hasJumped = false;
                 speed.Y = 0;
             }
-            //Check for collisions with the map.
+            // Check for collisions with the map.
             //
             Rectangle arectangle = new Rectangle((int)position.X, (int)position.Y-frameHeight, frameWidth, frameHeight);
             foreach (BigFatTile tile in map.CollisionMap1)
@@ -209,7 +208,7 @@
                     speed.X = -0.00001f;
                 }
             }
-            //Change the position and the Y speed anyway.
+            // Change the position and the Y speed anyway.
             position += speed;
             speed.Y += 0.15f;
         }

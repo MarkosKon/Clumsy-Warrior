@@ -10,8 +10,8 @@
     public class Orc : Enemy
     {
 
-        ///<summary>
-        ///The constructor of the Orc class.
+        /// <summary>
+        /// The constructor of the Orc class.
         /// </summary>
         /// <param name="difficulty">The game difficulty.</param>
         /// <param name="position">The position of the enemy on the screen.</param>
@@ -19,7 +19,7 @@
         {
             this.difficulty = difficulty;
             this.position = position;
-            //Some initialization follows.
+            // Some initialization follows.
             //
             origin = new Vector2(0, 0);
             health = 0;
@@ -43,7 +43,7 @@
                     damage = 40;
                     break;
                 default:
-                    //Something went wrong.
+                    // Something went wrong.
                     break;
             }
         }
@@ -60,15 +60,15 @@
         }
 
         /// <summary>
-        ///A method to update orc's parameters called from MainFunction.Update.
+        /// A method to update orc's parameters called from MainFunction.Update.
         /// </summary>
         /// <param name="gameTime">A GameTime parameter from the main.</param>
         /// <param name="player">The player object from the main as a parameter
         /// used in AI.</param>
         public override void Update(GameTime gameTime, Player player)
         {
-            //The default state is standing. If the player is really near, the state will change for a limited
-            //time to attacking and will go back to standing to check again how close is the player.
+            // The default state is standing. If the player is really near, the state will change for a limited
+            // time to attacking and will go back to standing to check again how close is the player.
             switch (enemyState)
             {
                 case EnemyState.standing:
@@ -105,7 +105,7 @@
                     }
                     break;
                 default:
-                    //Something wrong.
+                    // Something wrong.
                     break;
             }
         }

@@ -13,19 +13,19 @@
     /// </summary>
     public class Background
     {
-        //Variables for the sky object.
+        // Variables for the sky object.
         //
         public Texture2D skyTexture;
         public Rectangle skyRectangle;
         public Vector2 skyPosition;
 
-        //Variables for the sun object.
+        // Variables for the sun object.
         //
         public Texture2D sunTexture;
         public Rectangle sunRectangle;
         public Vector2 sunPosition;
 
-        //Variables for the ground object.
+        // Variables for the ground object.
         //
         public Texture2D groundTexture;
         public Rectangle groundRectangle;
@@ -33,19 +33,19 @@
         public Vector2 groundPosition;
         public Vector2 groundPosition2;
 
-        //Variables for the mountain object.
+        // Variables for the mountain object.
         //
         public Texture2D mountainTexture;
         public Rectangle mountainRectangle;
         public Vector2 mountainPosition;
 
-        //Variables for the castle object.
+        // Variables for the castle object.
         //
         public Texture2D castleTexture;
         public Rectangle castleRectangle;
         public Vector2 castlePosition;
 
-        //Variables for the cloud objects.
+        // Variables for the cloud objects.
         //
         public Texture2D[] cloudTexture;
         public Rectangle[] cloudRectangle;
@@ -59,11 +59,11 @@
         /// </summary>
         public Background(Player player)
         {
-            //Center vector calculates how much the camera will move everything to left or right.
+            // Center vector calculates how much the camera will move everything to left or right.
             Vector2 center = new Vector2((player.position.X /*+ (player.rectangle.Width / 2)*/) - 400, 0);
             rnd=new Random();
 
-            //Place everything according to player and to camera.
+            // Place everything according to player and to camera.
             skyRectangle = new Rectangle(0, 0, 800, 480);
             skyPosition = new Vector2(center.X, 0);
 
@@ -78,7 +78,7 @@
             mountainRectangle = new Rectangle(0, 0, 498, 247);
             mountainPosition = new Vector2(center.X+100, center.Y+100);
 
-            //Castle is placed staticly (doesn't move).
+            // Castle is placed staticly (doesn't move).
             castleRectangle = new Rectangle(0, 0, 300, 150);
             castlePosition = new Vector2(2900, 217);
 
@@ -112,14 +112,14 @@
         }
 
         /// <summary>
-        ///A method to update background "objects" called from MainFunction.Update.
+        /// A method to update background "objects" called from MainFunction.Update.
         /// </summary>
         /// <param name="gameTime">A GameTime parameter from the main.</param>
         public void Update(GameTime gameTime,Player player)
         {
-            //If the player moves right move the background objects accordingly
-            //in order to give a feel of perspective.
-            if (Keyboard.GetState().IsKeyDown(Keys.Right) /*&& Math.Abs(player.speed.X) != 0.001f*/)
+            // If the player moves right move the background objects accordingly
+            // in order to give a feel of perspective.
+            if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
                 for (int i = 0; i < 3; i++)
                 {
@@ -132,7 +132,7 @@
                 groundPosition.X += player.speed.X - (player.speed.X/6);
                 groundPosition2.X += player.speed.X - (player.speed.X/6);
             }
-            //The same if the player goes left.
+            // The same if the player goes left.
             else if (Keyboard.GetState().IsKeyDown(Keys.Left)&&player.speed.X!=0)
             {
                 for (int i = 0; i < 3; i++)
@@ -146,7 +146,7 @@
                 groundPosition.X += player.speed.X - (player.speed.X / 6); 
                 groundPosition2.X += player.speed.X - (player.speed.X / 6); 
             }
-            //The clouds are constantly moving regardless of the player's movement.
+            // The clouds are constantly moving regardless of the player's movement.
             else
             {
                 for (int i = 0; i <3; i++)
@@ -155,7 +155,7 @@
                     cloudPosition[i] += cloudSpeed;
                 }
             }
-            //If a cloud disappers from the screen randomly change its position to appear on the left of the screen. 
+            // If a cloud disappers from the screen randomly change its position to appear on the left of the screen. 
             for (int i = 0; i < 3; i++)
             {
                 if (cloudPosition[i].X >= (skyPosition.X+800))
@@ -164,7 +164,7 @@
                     cloudPosition[i].Y = skyPosition.Y + rnd.Next(0, 200);
                 }
             }
-            //Loop the ground if the player goes right.
+            // Loop the ground if the player goes right.
             //
             if (groundPosition.X <= (skyPosition.X - 800))
             {
@@ -174,7 +174,7 @@
             {
                 groundPosition2.X = skyPosition.X + 797;
             }
-            //Loop the ground if the player goes left.
+            // Loop the ground if the player goes left.
             //
             if (groundPosition.X >= (skyPosition.X + 800)) 
             {

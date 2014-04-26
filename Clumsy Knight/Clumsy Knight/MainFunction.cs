@@ -12,7 +12,6 @@ namespace Clumsy_Knight
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         SpriteBatch spriteBatch1;
-        //Temporary, for displaying player score and health.
         SpriteFont font;
 
         bool paused = false;
@@ -27,12 +26,12 @@ namespace Clumsy_Knight
         KeyboardState oldKeyboardState;
 
         HighScoreScreen scoreScreen;
-        //MenuComponent menuComponent;
+        // MenuComponent menuComponent;
         GameScreen activeScreen;
         StartScreen startScreen;
         ActionScreen actionScreen;
 
-        //Instantiate some objects.
+        // Instantiate some objects.
         //
         public List<Enemy> enemies = new List<Enemy>();
         private Background background;
@@ -175,7 +174,7 @@ namespace Clumsy_Knight
                     break;
                 case GameState.Playing:
                     player.Update(gameTime, this.map);
-                    //Check for collisions player-enemies.
+                    // Check for collisions player-enemies.
                     player.texture.GetData(0, player.rectangle, player.textureColors, 0, player.frameHeight * player.frameWidth);
                     Rectangle pRectangle = new Rectangle((int)player.position.X, (int)player.position.Y - player.frameHeight, player.frameWidth, player.frameHeight);
                     for (int i = 0; i < enemies.Count; i++)
@@ -243,12 +242,10 @@ namespace Clumsy_Knight
                     foreach(Enemy enemy in enemies)
                     {
                         enemy.Draw(spriteBatch);
-                        //Temporary display health display for enemies.
                         spriteBatch.DrawString(font, "Health", new Vector2(enemy.position.X, enemy.position.Y-20), Color.Red);
                         spriteBatch.DrawString(font, enemy.health.ToString(), new Vector2(enemy.position.X, enemy.position.Y), Color.Black);
                     }
                     player.Draw(spriteBatch);
-                    //Temporary health, score display for player.
                     spriteBatch.DrawString(font, "Health", new Vector2(player.position.X, player.position.Y - 120), Color.Red);
                     spriteBatch.DrawString(font, player.health.ToString(), new Vector2(player.position.X, player.position.Y-100), Color.Black);
                     spriteBatch.DrawString(font, "Score", new Vector2(player.position.X+100, player.position.Y - 120), Color.Red);

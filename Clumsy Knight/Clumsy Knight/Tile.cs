@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Clumsy_Knight
 {
-    //This class is for the bricks and tiles of the map.
+    // This class is for the bricks and tiles of the map.
     public class Tile
     {
         protected Texture2D texture;

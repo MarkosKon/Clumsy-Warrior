@@ -11,8 +11,8 @@
     /// </summary>
     public class Dragon :  Enemy 
     {
-        ///<summary>
-        ///The constructor of the Dragon class.
+        /// <summary>
+        /// The constructor of the Dragon class.
         /// </summary>
         /// <param name="difficulty">The game difficulty.</param>
         /// <param name="position">The position of the enemy on the screen.</param>
@@ -20,7 +20,7 @@
         {
             this.difficulty = difficulty;
             this.position = position;
-            //Some initialization follows.
+            // Some initialization follows.
             //
             origin = new Vector2(0, 0);
             health = 0;
@@ -32,7 +32,7 @@
             standingWaitTime = 0;
             walkingWaitTime = 0;
             attackingWaitTime = 0;
-            //Initialize members according to the game difficulty.
+            // Initialize members according to the game difficulty.
             switch (this.difficulty)
             {
                 case DifficultyLevel.normal:
@@ -46,14 +46,14 @@
                     damage = 20;
                     break;
                 default:
-                    //Something went wrong.
+                    // Something went wrong.
                     break;
             }
 
         }
 
         /// <summary>
-        ///A method to load dragon's spritesheet called from MainFunction.LoadContent.
+        /// A method to load dragon's spritesheet called from MainFunction.LoadContent.
         /// </summary>
         /// <param name="content">We need a content parameter from the main because we
         /// want to load the texture in this class.</param>
@@ -64,7 +64,7 @@
         }
 
         /// <summary>
-        ///A method to update dragon's parameters called from MainFunction.Update.
+        /// A method to update dragon's parameters called from MainFunction.Update.
         /// </summary>
         /// <param name="gameTime">A GameTime parameter from the main.</param>
         /// <param name="player">The player object from the main as a parameter
@@ -72,7 +72,7 @@
         public override void Update(GameTime gameTime, Player player)
         {
             currentFrameY = 0;
-            //Check the state of the dragon mainly for initializing/changing values used for draw,animate.
+            // Check the state of the dragon mainly for initializing/changing values used for draw,animate.
             //
             switch (enemyState)
             {
@@ -142,10 +142,10 @@
                     attackingWaitTime += timer;
                     break;
                 default:
-                    //Something went wrong.
+                    // Something went wrong.
                     break;
             }
-            //Override the previous if player is near.
+            // Override the previous if player is near.
             WhereIsPlayer(player, 200, 40);
         }
     }

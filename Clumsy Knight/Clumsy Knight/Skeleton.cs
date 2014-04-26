@@ -12,8 +12,8 @@
     public class Skeleton : Enemy
     {
 
-        ///<summary>
-        ///The constructor of the Skeleton class.
+        /// <summary>
+        /// The constructor of the Skeleton class.
         /// </summary>
         /// <param name="difficulty">The game difficulty.</param>
         /// <param name="position">The position of the enemy on the screen.</param>
@@ -21,7 +21,7 @@
         {
             this.difficulty = difficulty;
             this.position = position;
-            //Some initialization follows.
+            // Some initialization follows.
             //
             origin = new Vector2(0, 0);
             health = 0;
@@ -34,7 +34,7 @@
             standingWaitTime = 0;
             walkingWaitTime = 0;
             attackingWaitTime = 0;
-            //Initialize members according to the game difficulty.
+            // Initialize members according to the game difficulty.
             switch (this.difficulty)
             {
                 case DifficultyLevel.normal:
@@ -48,7 +48,7 @@
                     damage = 15;
                     break;
                 default:
-                    //Something went wrong.
+                    // Something went wrong.
                     break;
             }
 
@@ -66,7 +66,7 @@
         }
 
         /// <summary>
-        ///A method to update skeleton's parameters called from MainFunction.Update.
+        /// A method to update skeleton's parameters called from MainFunction.Update.
         /// </summary>
         /// <param name="gameTime">A GameTime parameter from the main.</param>
         /// <param name="player">The player object from the main as a parameter
@@ -74,13 +74,13 @@
         public override void Update(GameTime gameTime, Player player)
         {
             currentFrameY = 0;
-            //Check the state of the skeleton mainly for initializing/changing values used for draw,animate.
+            // Check the state of the skeleton mainly for initializing/changing values used for draw,animate.
             //
             switch (enemyState)
             {
                 case EnemyState.walking:
                     position = position + speed;
-                    //If skeleton was not walking recently initialize some values.
+                    // If skeleton was not walking recently initialize some values.
                     if (walkingWaitTime == 0)
                     {
                         interval = 100;
@@ -102,7 +102,7 @@
                     walkingWaitTime += timer;
                     break;
                 case EnemyState.standing:
-                    //If skeleton was not standing recently initialize some values.
+                    // If skeleton was not standing recently initialize some values.
                     if (standingWaitTime==0)
                     {
                         interval = 150;
@@ -110,7 +110,7 @@
                         frameHeight = 94;
                         currentFrameX = 0;
                     }
-                    //If skeleton had been standing for a certain time, start walking.
+                    // If skeleton had been standing for a certain time, start walking.
                     else if (standingWaitTime > 10000)
                     {
                         standingWaitTime = 0;
@@ -126,7 +126,7 @@
                     standingWaitTime += timer;
                     break;
                 case EnemyState.attacking:
-                    //If skeleton was not attacking recently initialize some values.
+                    // If skeleton was not attacking recently initialize some values.
                     if (attackingWaitTime==0)
                     { 
                         interval = 200;
@@ -134,7 +134,7 @@
                         frameHeight = 94;
                         currentFrameX = 0;
                     }
-                    //If skeleton has been attacking recently, stops and stands for a while.
+                    // If skeleton has been attacking recently, stops and stands for a while.
                     else if (attackingWaitTime > 4000)
                     {
                         attackingWaitTime = 0;
@@ -149,7 +149,7 @@
                     attackingWaitTime += timer;
                     break;
                 default:
-                    //Something went wrong.
+                    // Something went wrong.
                     break;
             }
             WhereIsPlayer(player, 100, 30);
