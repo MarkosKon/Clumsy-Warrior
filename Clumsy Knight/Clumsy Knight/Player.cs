@@ -189,7 +189,7 @@
             // Check for collisions with the map.
             //
             Rectangle arectangle = new Rectangle((int)position.X, (int)position.Y-frameHeight, frameWidth, frameHeight);
-            foreach (BigFatTile tile in map.CollisionMap1)
+            foreach (Tile tile in map.CollisionMap1)
             {
                 if (arectangle.isOnTopOf(tile.Rectangle))
                 {

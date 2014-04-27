@@ -10,9 +10,9 @@ namespace Clumsy_Knight
     //
     public class Map
     {
-        public List<BigFatTile> collisionMap1 = new List<BigFatTile>();
+        public List<Tile> collisionMap1 = new List<Tile>();
 
-        public List<BigFatTile> CollisionMap1
+        public List<Tile> CollisionMap1
         {
             get { return collisionMap1; }
         }
@@ -38,7 +38,7 @@ namespace Clumsy_Knight
                     int number = map[y, x];
 
                     if (number > 0)
-                        collisionMap1.Add(new BigFatTile(number, new Rectangle(-277+x * size, -420+y* size, size, size)));
+                        collisionMap1.Add(new Tile(number, new Rectangle(-277+x * size, -420+y* size, size, size)));
 
                     width = (x + 1) * size;
                     height = (y + 1) * size;
@@ -52,7 +52,7 @@ namespace Clumsy_Knight
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (BigFatTile tile in collisionMap1)
+            foreach (Tile tile in collisionMap1)
                 tile.Draw(spriteBatch);
         }
     }

@@ -72,16 +72,15 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Background.cs" />
-    <Compile Include="BackgroundObject.cs" />
-    <Compile Include="Button.cs" />
+    <Compile Include="Background\Background.cs" />
+    <Compile Include="Background\BackgroundObject.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Data\MenuComponent.cs" />
-    <Compile Include="Dragon.cs" />
-    <Compile Include="Enemy.cs" />
+    <Compile Include="Enemies\Dragon.cs" />
+    <Compile Include="Enemies\Enemy.cs" />
     <Compile Include="MainFunction.cs" />
     <Compile Include="Map.cs" />
-    <Compile Include="Orc.cs" />
+    <Compile Include="Enemies\Orc.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -91,7 +90,7 @@
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="Screens\HighScoreScreen.cs" />
     <Compile Include="Screens\StartScreen.cs" />
-    <Compile Include="Skeleton.cs" />
+    <Compile Include="Enemies\Skeleton.cs" />
     <Compile Include="Sounds.cs" />
     <Compile Include="Tile.cs" />
   </ItemGroup>

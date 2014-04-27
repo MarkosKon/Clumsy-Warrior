@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Content;
 namespace Clumsy_Knight
 {
     // This class is for the bricks and tiles of the map.
-    public class Tile
+    public class TileBase
     {
         protected Texture2D texture;
 
@@ -32,9 +32,9 @@ namespace Clumsy_Knight
             spriteBatch.Draw(texture,rectangle, Color.White);
         }
     }
-    public class BigFatTile : Tile
+    public class Tile : TileBase
     {
-        public BigFatTile(int i, Rectangle newRectangle)
+        public Tile(int i, Rectangle newRectangle)
         {
             texture = Content.Load<Texture2D>("sprites/map/Map" + i);
             this.Rectangle = newRectangle;
