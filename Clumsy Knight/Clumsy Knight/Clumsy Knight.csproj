@@ -92,6 +92,7 @@
     <Compile Include="Screens\HighScoreScreen.cs" />
     <Compile Include="Screens\StartScreen.cs" />
     <Compile Include="Skeleton.cs" />
+    <Compile Include="Sounds.cs" />
     <Compile Include="Tile.cs" />
   </ItemGroup>
   <ItemGroup>

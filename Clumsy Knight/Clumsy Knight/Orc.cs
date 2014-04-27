@@ -36,11 +36,11 @@
             {
                 case DifficultyLevel.normal:
                     health = 200;
-                    damage = 30;
+                    damage = 6;
                     break;
                 case DifficultyLevel.hard:
                     health = 300;
-                    damage = 40;
+                    damage = 8;
                     break;
                 default:
                     // Something went wrong.

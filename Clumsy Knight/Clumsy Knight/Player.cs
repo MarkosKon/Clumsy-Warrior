@@ -25,8 +25,10 @@
         public bool isHit=false;
 
         public float health=200;
-        public int damage = 20;
+        public int damage = 4;
         public float score=0;
+
+        Sounds sounds = new Sounds();
 
         // These state variable are used as a check to avoid initiliazing many times other member variables
         // used for drawing a specific movement from the spritesheet.
@@ -54,7 +56,7 @@
             textureColors = new Color[texture.Width * texture.Height];
         }
 
-        public void Update(GameTime gameTime,Map map)
+        public void Update(GameTime gameTime, Map map, Sounds sounds)
         {
             // The animation frames dimensions differ from movement to movement so we specify as origin the bottom left of the frame.
             // By doing this the player will not fall inside the tiles if the frameHeight increases.
@@ -103,7 +105,7 @@
                 case PlayerState.attacking:
                     if (oldPlayerState != PlayerState.attacking)
                     {
-                        interval = 100;
+                        interval = 60;
                         frameWidth = 145;
                         frameHeight = 96;
                         currentFrame = 0;
@@ -176,6 +178,8 @@
                 position.Y -= 10;
                 speed.Y = -5;
                 hasJumped = true;
+                //effect.Play();
+                sounds.playerJumpingSound.Play();
             }
             if (position.Y >= 480)
             {

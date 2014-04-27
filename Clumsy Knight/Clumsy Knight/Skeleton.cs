@@ -40,12 +40,12 @@
                 case DifficultyLevel.normal:
                     health = 100;
                     speed = new Vector2(1.5f, 0);
-                    damage = 10;
+                    damage = 2;
                     break;
                 case DifficultyLevel.hard:
                     health = 200;
                     speed = new Vector2(2, 0);
-                    damage = 15;
+                    damage = 3;
                     break;
                 default:
                     // Something went wrong.

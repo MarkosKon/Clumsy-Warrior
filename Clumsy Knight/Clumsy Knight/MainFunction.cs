@@ -1,8 +1,10 @@
 namespace Clumsy_Knight
 {
     using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Audio;
     using Microsoft.Xna.Framework.Graphics;
     using Microsoft.Xna.Framework.Input;
+    using Microsoft.Xna.Framework.Media;
     using System.Collections.Generic;
     /// <summary>
     /// This is the main function of the game.
@@ -14,10 +16,10 @@ namespace Clumsy_Knight
         SpriteBatch spriteBatch1;
         SpriteFont font;
 
-        bool paused = false;
-        Texture2D pausedTexture;
-        Rectangle pausedRectangle;
-        Button btnPlay, btnQuit;
+        //bool paused = false;
+        //Texture2D pausedTexture;
+        //Rectangle pausedRectangle;
+        //Button btnPlay, btnQuit;
 
 
         GameState CurrentGameState = GameState.Mainmenu;
@@ -38,6 +40,7 @@ namespace Clumsy_Knight
         private Camera camera;
         public Player player;
         public Map map;
+        Sounds sounds = new Sounds();
 
 
 
@@ -95,6 +98,7 @@ namespace Clumsy_Knight
                 enemy.LoadContent(Content);
             }
             player = new Player(Content.Load<Texture2D>("sprites/player/knight"), new Vector2(100, 0), 96, 67);
+            sounds.LoadContent(Content);
             background = new Background(player.position.X, Content);
             font = Content.Load<SpriteFont>("menufont");
             Tile.Content = Content;
@@ -172,7 +176,7 @@ namespace Clumsy_Knight
                     }
                     break;
                 case GameState.Playing:
-                    player.Update(gameTime, this.map);
+                    player.Update(gameTime, this.map, sounds);
                     // Check for collisions player-enemies.
                     player.texture.GetData(0, player.rectangle, player.textureColors, 0, player.frameHeight * player.frameWidth);
                     Rectangle pRectangle = new Rectangle((int)player.position.X, (int)player.position.Y - player.frameHeight, player.frameWidth, player.frameHeight);
@@ -183,7 +187,7 @@ namespace Clumsy_Knight
                         Rectangle oRectangle = new Rectangle((int)enemies[i].position.X, (int)enemies[i].position.Y, enemies[i].frameWidth, enemies[i].frameHeight);
                         if (RectangleHelper.PixelCollision(pRectangle, player.textureColors, oRectangle, enemies[i].textureColors) && !player.isHit)
                         {
-                            player.health -= enemies[i].damage / 5;
+                            player.health -= enemies[i].damage;
                             player.isHit = true;
                         }
                         else
@@ -192,10 +196,11 @@ namespace Clumsy_Knight
                         }
                         if (RectangleHelper.PixelCollision(oRectangle, enemies[i].textureColors, pRectangle, player.textureColors) && !enemies[i].isHit)
                         {
-                            enemies[i].health -= player.damage / 5;
+                            enemies[i].health -= player.damage;
                             enemies[i].isHit = true;
                             if (enemies[i].health<=0)
                             {
+                                sounds.enemyDeathSound.Play();
                                 enemies.RemoveAt(i);
                                 player.score += 20;
                             }
