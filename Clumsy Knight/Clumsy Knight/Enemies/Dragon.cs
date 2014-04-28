@@ -105,7 +105,7 @@
                         frameHeight = 120;
                         currentFrameX = 0;
                     }
-                    else if (walkingWaitTime>20000)
+                    else if (walkingWaitTime>15000)
                     {
                         walkingWaitTime = 0;
                         enemyState = EnemyState.standing;

@@ -28,16 +28,16 @@
         {
             return (r1.Right <= r2.Left + 5 &&
                     r1.Right >= r2.Left - 5 &&
-                    r1.Top >= r2.Top - 30 &&
-                    r1.Bottom <= r2.Bottom + 30);
+                    r1.Top >= r2.Top - 40 &&
+                    r1.Bottom <= r2.Bottom + 40);
         }
 
         public static bool isOnRightOf(this Rectangle r1, Rectangle r2)
         {
             return (r1.Left >= r2.Right - 5 &&
                     r1.Left <= r2.Right + 5 &&
-                    r1.Top >= r2.Top - 30 &&
-                    r1.Bottom <= r2.Bottom + 30);
+                    r1.Top >= r2.Top - 40 &&
+                    r1.Bottom <= r2.Bottom + 40);
         }
 
         public static bool PixelCollision(Rectangle r1, Color[] dataA,

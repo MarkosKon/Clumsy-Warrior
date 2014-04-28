@@ -38,7 +38,7 @@ namespace Clumsy_Knight
                     int number = map[y, x];
 
                     if (number > 0)
-                        collisionMap1.Add(new Tile(number, new Rectangle(-277+x * size, -420+y* size, size, size)));
+                        collisionMap1.Add(new Tile(number, new Rectangle(-277+x * size, -150+y* size, size, size)));
 
                     width = (x + 1) * size;
                     height = (y + 1) * size;

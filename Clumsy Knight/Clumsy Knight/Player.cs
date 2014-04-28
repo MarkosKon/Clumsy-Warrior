@@ -176,7 +176,7 @@
             if (Keyboard.GetState().IsKeyDown(Keys.Space) && hasJumped == false)
             {
                 position.Y -= 10;
-                speed.Y = -5;
+                speed.Y = -6;
                 hasJumped = true;
                 //effect.Play();
                 sounds.playerJumpingSound.Play();

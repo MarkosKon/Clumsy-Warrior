@@ -39,7 +39,7 @@
             objects.Add(new BackgroundObject(contentManager.Load<Texture2D>("sprites/background/clouds/cloud3"), new Rectangle(0, 0, 85, 48), new Vector2(rnd.Next((int)center.X - 30, (int)center.X + 670), rnd.Next((int)center.Y, (int)center.Y + 200))));
             objects.Add(new BackgroundObject(contentManager.Load<Texture2D>("sprites/background/ground/ground"), new Rectangle(0, 0, 800, 136), new Vector2(center.X, center.Y+220)));
             objects.Add(new BackgroundObject(contentManager.Load<Texture2D>("sprites/background/ground/ground"), new Rectangle(0, 0, 800, 136), new Vector2(center.X + 798, center.Y + 220)));
-            objects.Add(new BackgroundObject(contentManager.Load<Texture2D>("sprites/background/castle/castle"), new Rectangle(0, 0, 300, 150), new Vector2(2900, 217)));
+            objects.Add(new BackgroundObject(contentManager.Load<Texture2D>("sprites/background/castle/castle"), new Rectangle(0, 0, 300, 150), new Vector2(3510, 40)));
         }
 
         /// <summary>
