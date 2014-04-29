@@ -1,6 +1,9 @@
 ﻿namespace Clumsy_Knight
 {
     using Microsoft.Xna.Framework;
+    /// <summary>
+    /// A concrete state.
+    /// </summary>
     class DragonWalking : EnemyState
     {
         public DragonWalking(EnemyState state)
@@ -9,6 +12,11 @@
             Initialize();
         }
 
+        /// <summary>
+        /// This concrete state is the default state and has two constructors
+        /// for the initialization from the dragon constructor.
+        /// </summary>
+        /// <param name="dragon">Dragon object passed from the dragon contructor.</param>
         public DragonWalking(Dragon dragon)
         {
             this.enemy = dragon;

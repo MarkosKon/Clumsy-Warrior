@@ -3,7 +3,6 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
-    using System;
 
     /// <summary>
     /// An abstract class with reusable content that specific enemies inherit from.
@@ -25,17 +24,8 @@
         // If we want to rotate the image to z-axis.
         protected float rotation;
 
-        // The current frame of the movement starting from 0.
-        /*public int currentFrameX;
-        public int currentFrameY;
-
-        public int frameHeight;
-        public int frameWidth;*/
-
         // Temporary time to help us change the movement frames.
         public float timer;
-        // The rate in which images from a movement change.
-        //public float interval;
 
         // Health, speed and damage are relative to the DifficultyLevel.
         //
@@ -44,9 +34,6 @@
         // It is a vector because we add / subtract it to the position.
         public Vector2 speed;
         public int damage;
-
-        // A struct declared at the end of MainFunction.cs
-        //public EnemyState enemyState;
 
         public bool isVisible=true;
         public bool isHit = false;
@@ -90,67 +77,7 @@
         {
 
         }
-        /*
-        /// <summary>
-        /// This method "guides" the Draw method for the animation.
-        /// </summary>
-        /// <param name="gameTime">We need a GameTime parameter from the main because we
-        /// want to animate for a specific time.</param>
-        /// <param name="targetFrames">How many frames horizontally is the current animation.</param>
-        public void Animate(GameTime gameTime,int targetFrames)
-        {
-            timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            if (timer > interval)
-            {
-                currentFrameX++;
-                timer = 0;
-
-                if (currentFrameX > targetFrames)
-                {
-                    currentFrameX = 0;
-                    currentFrameY++;
-                }
-            }
-        }
         
-        /// <summary>
-        /// This method checks where is player and changes the state if the player is near.
-        /// It is called from the derived enemy's Update.
-        /// </summary>
-        /// <param name="player">The player object passed from the Update method.</param>
-        /// <param name="detectDistance">Change the enemy's direction if the player has been detected near.</param>
-        /// <param name="attackDistance">Start attacking the player if he is really near.</param>
-        public void WhereIsPlayer(Player player,int detectDistance, int attackDistance)
-        {
-            // Find the centers.
-            Vector2 dragonCenter = new Vector2(this.position.X + (this.enemyRectangle.Width / 2), this.position.Y + (this.enemyRectangle.Height / 2));
-            Vector2 playerCenter = new Vector2(player.position.X + (player.rectangle.Width / 2), player.position.Y - (player.rectangle.Height / 2));
-            // Is the player near to the enemy;
-            if (Math.Abs(playerCenter.X - dragonCenter.X) < detectDistance)
-            {
-                // Is the player left to the enemy;
-                if ((playerCenter.X - dragonCenter.X) < 0)
-                {
-                    // In other words speed must be negative.
-                    this.speed.X = (-1.0f) * Math.Abs(this.speed.X);
-                }
-                // Is the player right to the enemy;
-                else
-                {
-                    // Speed must be negative.
-                    this.speed.X = Math.Abs(this.speed.X);
-                }
-                // If the player is really near and haven't attacked recently, start attacking.
-                if (Math.Abs(playerCenter.X - dragonCenter.X) < attackDistance && attackingWaitTime == 0)
-                {
-                    enemyState = EnemyState.attacking;
-                    walkingWaitTime = 0;
-                    standingWaitTime = 0;
-                }
-            }
-        }
-        */
-
         /// <summary>
         /// A method to draw the sprite on screen.
         /// </summary>

@@ -1,10 +1,8 @@
 namespace Clumsy_Knight
 {
     using Microsoft.Xna.Framework;
-    using Microsoft.Xna.Framework.Audio;
     using Microsoft.Xna.Framework.Graphics;
     using Microsoft.Xna.Framework.Input;
-    using Microsoft.Xna.Framework.Media;
     using System.Collections.Generic;
     /// <summary>
     /// This is the main function of the game.
@@ -99,7 +97,7 @@ namespace Clumsy_Knight
             {
                 enemy.LoadContent(Content);
             }
-            player = new Player(Content.Load<Texture2D>("sprites/player/knight"), new Vector2(2000, 0), 96, 67);
+            player = new Player(Content.Load<Texture2D>("sprites/player/knight"), new Vector2(50, 0), 96, 67);
             sounds.LoadContent(Content);
             background = new Background(player.position.X, Content);
             font = Content.Load<SpriteFont>("menufont");
@@ -179,7 +177,6 @@ namespace Clumsy_Knight
                     for (int i = 0; i < enemies.Count; i++)
                     {
                         enemies[i].Update(gameTime, player);
-                        //enemies[i].enemyTexture.GetData(0, enemies[i].enemyRectangle, enemies[i].textureColors, 0, enemies[i].frameWidth * enemies[i].frameHeight);
                         Rectangle oRectangle = new Rectangle((int)enemies[i].position.X, (int)enemies[i].position.Y, enemies[i].state.frameWidth, enemies[i].state.frameHeight);
                         if (RectangleHelper.PixelCollision(pRectangle, player.textureColors, oRectangle, enemies[i].textureColors) && !player.isHit)
                         {
@@ -283,18 +280,6 @@ namespace Clumsy_Knight
         normal,
         hard
     }
-
-    /*/// <summary>
-    /// This enum struct represents the different states of an enemy.
-    /// </summary>
-    public enum EnemyState
-    {
-        standing,
-        walking,
-        attacking,
-        takingDamage,
-        dying
-    }*/
 
     /// <summary>
     /// This enum struct represents the different states of the player.

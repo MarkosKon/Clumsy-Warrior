@@ -1,6 +1,9 @@
 ﻿namespace Clumsy_Knight
 {
     using Microsoft.Xna.Framework;
+    /// <summary>
+    /// A concrete state.
+    /// </summary>
     class OrcStanding : EnemyState
     {
         public OrcStanding(EnemyState state)
@@ -9,6 +12,11 @@
             Initialize();
         }
 
+        /// <summary>
+        /// This concrete state is the default state and has two constructors
+        /// for the initialization from the orc constructor.
+        /// </summary>
+        /// <param name="orc">Orc object passed from the orc contructor.</param>
         public OrcStanding(Orc orc)
         {
             this.enemy = orc;

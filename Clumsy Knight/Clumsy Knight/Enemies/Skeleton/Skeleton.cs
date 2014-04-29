@@ -46,7 +46,6 @@
                     // Something went wrong.
                     break;
             }
-
         }
 
         /// <summary>
@@ -61,7 +60,7 @@
         }
 
         /// <summary>
-        /// A method to update skeleton's parameters called from MainFunction.Update.
+        /// A method to update skeleton's/state's parameters called from MainFunction.Update.
         /// </summary>
         /// <param name="gameTime">A GameTime parameter from the main.</param>
         /// <param name="player">The player object from the main as a parameter

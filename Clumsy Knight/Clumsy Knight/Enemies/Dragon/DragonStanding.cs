@@ -1,7 +1,9 @@
 ﻿namespace Clumsy_Knight
 {
     using Microsoft.Xna.Framework;
-    using Microsoft.Xna.Framework.Graphics;
+    /// <summary>
+    /// A concrete state.
+    /// </summary>
     class DragonStanding : EnemyState
     {
         public DragonStanding(EnemyState state)
