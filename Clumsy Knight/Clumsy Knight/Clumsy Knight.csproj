@@ -76,11 +76,20 @@
     <Compile Include="Background\BackgroundObject.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Data\MenuComponent.cs" />
-    <Compile Include="Enemies\Dragon.cs" />
+    <Compile Include="Enemies\Dragon\Dragon.cs" />
+    <Compile Include="Enemies\Dragon\DragonAttacking.cs" />
+    <Compile Include="Enemies\Dragon\DragonStanding.cs" />
+    <Compile Include="Enemies\EnemyState.cs" />
+    <Compile Include="Enemies\Dragon\DragonWalking.cs" />
     <Compile Include="Enemies\Enemy.cs" />
+    <Compile Include="Enemies\Orc\OrcAttacking.cs" />
+    <Compile Include="Enemies\Orc\OrcStanding.cs" />
+    <Compile Include="Enemies\Skeleton\SkeletonAttacking.cs" />
+    <Compile Include="Enemies\Skeleton\SkeletonStanding.cs" />
+    <Compile Include="Enemies\Skeleton\SkeletonWalking.cs" />
     <Compile Include="MainFunction.cs" />
     <Compile Include="Map.cs" />
-    <Compile Include="Enemies\Orc.cs" />
+    <Compile Include="Enemies\Orc\Orc.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -90,7 +99,7 @@
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="Screens\HighScoreScreen.cs" />
     <Compile Include="Screens\StartScreen.cs" />
-    <Compile Include="Enemies\Skeleton.cs" />
+    <Compile Include="Enemies\Skeleton\Skeleton.cs" />
     <Compile Include="Sounds.cs" />
     <Compile Include="Tile.cs" />
   </ItemGroup>

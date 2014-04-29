@@ -10,6 +10,7 @@
     /// </summary>
     public abstract class Enemy
     {
+        public EnemyState state;
         // The spritesheet.
         public Texture2D enemyTexture;
         // A rectangle that contains the current frame of a movement from the spritesheet.
@@ -25,16 +26,16 @@
         protected float rotation;
 
         // The current frame of the movement starting from 0.
-        protected int currentFrameX;
-        protected int currentFrameY;
+        /*public int currentFrameX;
+        public int currentFrameY;
 
         public int frameHeight;
-        public int frameWidth;
+        public int frameWidth;*/
 
         // Temporary time to help us change the movement frames.
-        protected float timer;
+        public float timer;
         // The rate in which images from a movement change.
-        protected float interval;
+        //public float interval;
 
         // Health, speed and damage are relative to the DifficultyLevel.
         //
@@ -45,7 +46,7 @@
         public int damage;
 
         // A struct declared at the end of MainFunction.cs
-        public EnemyState enemyState;
+        //public EnemyState enemyState;
 
         public bool isVisible=true;
         public bool isHit = false;
@@ -55,9 +56,9 @@
 
         // Variables used to switch between states.
         //
-        protected float standingWaitTime;
-        protected float attackingWaitTime;
-        protected float walkingWaitTime;
+        public float standingWaitTime;
+        public float attackingWaitTime;
+        public float walkingWaitTime;
 
         /// <summary>
         /// The constructor of the Abstract class.
@@ -89,7 +90,7 @@
         {
 
         }
-
+        /*
         /// <summary>
         /// This method "guides" the Draw method for the animation.
         /// </summary>
@@ -111,7 +112,7 @@
                 }
             }
         }
-
+        
         /// <summary>
         /// This method checks where is player and changes the state if the player is near.
         /// It is called from the derived enemy's Update.
@@ -148,6 +149,7 @@
                 }
             }
         }
+        */
 
         /// <summary>
         /// A method to draw the sprite on screen.

@@ -24,11 +24,12 @@
             //
             origin = new Vector2(0, 0);
             health = 0;
-            interval = 150;
+            //interval = 150;
             rotation = 0f;
-            frameWidth = 0;
-            frameHeight = 0;
-            enemyState = EnemyState.walking;
+            //frameWidth = 0;
+            //frameHeight = 0;
+            //enemyState = EnemyState.walking;
+            state = new DragonWalking(this);
             standingWaitTime = 0;
             walkingWaitTime = 0;
             attackingWaitTime = 0;
@@ -71,10 +72,11 @@
         /// used in AI.</param>
         public override void Update(GameTime gameTime, Player player)
         {
-            currentFrameY = 0;
+            state.Update(gameTime, player);
+            //currentFrameY = 0;
             // Check the state of the dragon mainly for initializing/changing values used for draw,animate.
             //
-            switch (enemyState)
+            /*switch (enemyState)
             {
                 case EnemyState.standing:
                     if (standingWaitTime==0)
@@ -144,9 +146,9 @@
                 default:
                     // Something went wrong.
                     break;
-            }
+            }*/
             // Override the previous if player is near.
-            WhereIsPlayer(player, 200, 40);
+            //WhereIsPlayer(player, 200, 40);
         }
     }
 }

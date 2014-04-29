@@ -61,6 +61,7 @@ namespace Clumsy_Knight
             IsMouseVisible = true;
             enemies.Add(new Dragon(DifficultyLevel.normal, new Vector2(2200, 235)));
             enemies.Add(new Skeleton(DifficultyLevel.normal, new Vector2(700, 255)));
+            enemies.Add(new Skeleton(DifficultyLevel.normal, new Vector2(1200, 255)));
             enemies.Add(new Orc(DifficultyLevel.normal, new Vector2(250, 75)));
             enemies.Add(new Orc(DifficultyLevel.normal, new Vector2(1600, 30)));
             camera = new Camera();
@@ -98,7 +99,7 @@ namespace Clumsy_Knight
             {
                 enemy.LoadContent(Content);
             }
-            player = new Player(Content.Load<Texture2D>("sprites/player/knight"), new Vector2(50, 0), 96, 67);
+            player = new Player(Content.Load<Texture2D>("sprites/player/knight"), new Vector2(2000, 0), 96, 67);
             sounds.LoadContent(Content);
             background = new Background(player.position.X, Content);
             font = Content.Load<SpriteFont>("menufont");
@@ -178,8 +179,8 @@ namespace Clumsy_Knight
                     for (int i = 0; i < enemies.Count; i++)
                     {
                         enemies[i].Update(gameTime, player);
-                        enemies[i].enemyTexture.GetData(0, enemies[i].enemyRectangle, enemies[i].textureColors, 0, enemies[i].frameWidth * enemies[i].frameHeight);
-                        Rectangle oRectangle = new Rectangle((int)enemies[i].position.X, (int)enemies[i].position.Y, enemies[i].frameWidth, enemies[i].frameHeight);
+                        //enemies[i].enemyTexture.GetData(0, enemies[i].enemyRectangle, enemies[i].textureColors, 0, enemies[i].frameWidth * enemies[i].frameHeight);
+                        Rectangle oRectangle = new Rectangle((int)enemies[i].position.X, (int)enemies[i].position.Y, enemies[i].state.frameWidth, enemies[i].state.frameHeight);
                         if (RectangleHelper.PixelCollision(pRectangle, player.textureColors, oRectangle, enemies[i].textureColors) && !player.isHit)
                         {
                             player.health -= enemies[i].damage;
@@ -283,7 +284,7 @@ namespace Clumsy_Knight
         hard
     }
 
-    /// <summary>
+    /*/// <summary>
     /// This enum struct represents the different states of an enemy.
     /// </summary>
     public enum EnemyState
@@ -293,7 +294,7 @@ namespace Clumsy_Knight
         attacking,
         takingDamage,
         dying
-    }
+    }*/
 
     /// <summary>
     /// This enum struct represents the different states of the player.
