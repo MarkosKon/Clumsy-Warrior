@@ -7,7 +7,7 @@
     /// </summary>
     public abstract class EnemyState
     {
-        //The (abstract) subject.
+        //The (abstract) context.
         public Enemy enemy;
 
         // The current frame of the movement starting from 0.
