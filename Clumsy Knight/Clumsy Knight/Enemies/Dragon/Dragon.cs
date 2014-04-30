@@ -49,7 +49,6 @@
                 default:
                     throw new NotImplementedException
                             ("Unrecognized game difficulty value.");
-                    //break;
             }
 
         }

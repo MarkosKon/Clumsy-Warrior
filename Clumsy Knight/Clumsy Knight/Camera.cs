@@ -9,7 +9,6 @@
     {
         public Matrix transform;
         Vector2 center;
-        // Viewport view;
 
         /// <summary>
         /// The Constructor

@@ -14,19 +14,12 @@ namespace Clumsy_Knight
         SpriteBatch spriteBatch1;
         SpriteFont font;
 
-        //bool paused = false;
-        //Texture2D pausedTexture;
-        //Rectangle pausedRectangle;
-        //Button btnPlay, btnQuit;
-
-
         GameState CurrentGameState = GameState.Mainmenu;
 
         KeyboardState keyboardState;
         KeyboardState oldKeyboardState;
 
         HighScoreScreen scoreScreen;
-        // MenuComponent menuComponent;
         GameScreen activeScreen;
         StartScreen startScreen;
         ActionScreen actionScreen;
@@ -82,11 +75,11 @@ namespace Clumsy_Knight
             Components.Add(startScreen);
             startScreen.Hide();
 
-            actionScreen = new ActionScreen(this, spriteBatch1);//, Content.Load<Texture2D>("Destiny"));            
+            actionScreen = new ActionScreen(this, spriteBatch1);          
             Components.Add(actionScreen);
             actionScreen.Hide();
 
-            scoreScreen = new HighScoreScreen(this, spriteBatch1);//, Content.Load<Texture2D>("Map3"));
+            scoreScreen = new HighScoreScreen(this, spriteBatch1);
             Components.Add(scoreScreen);
             startScreen.Hide();
 
@@ -207,9 +200,6 @@ namespace Clumsy_Knight
                     map.Update(gameTime, player);
                     camera.Update(gameTime, this);
                     break;
-                //case GameState.HighScore:
-                // Here we put everything for the high score 
-                // break;
             }
             base.Update(gameTime);
             oldKeyboardState = keyboardState;
@@ -248,9 +238,6 @@ namespace Clumsy_Knight
                     spriteBatch.DrawString(font, "Score", new Vector2(player.position.X+100, player.position.Y - 120), Color.Red);
                     spriteBatch.DrawString(font, player.score.ToString(), new Vector2(player.position.X + 100, player.position.Y-100), Color.Black);
                     break;
-                // case GameState.HighScore:
-                //we draw the high score
-                //   break;
             }
             base.Draw(gameTime);
             spriteBatch1.End();

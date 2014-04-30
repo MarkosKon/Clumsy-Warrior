@@ -23,6 +23,7 @@
 
         public override void Update(GameTime gameTime, Player player)
         {
+            // Decide if we want the right or the left animation of a movement by checking the direction.
             if (enemy.speed.X < 0)
                 enemy.enemyRectangle = new Rectangle(32 + currentFrameX * frameWidth, 11, frameWidth, frameHeight);
             else

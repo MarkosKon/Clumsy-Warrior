@@ -21,7 +21,7 @@
         /// <summary>
         /// The Constructor.
         /// </summary>
-        /// <param name="player">A Player parameter from MainFunction.</param>
+        /// <param name="player">The position of the player passed from MainFunction.</param>
         /// <param name="contentManager">A ContentManager parameter.</param>
         public Background(float playerPositionX, ContentManager contentManager)
         {
@@ -80,7 +80,6 @@
             {
                 for (int i = 3; i < 6; i++)
                 {
-                    //cloudSpeed.X = 0.1f;
                     objects[i].objectPosition.X += 0.1f;
                 }
             }

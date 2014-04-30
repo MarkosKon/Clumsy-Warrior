@@ -40,6 +40,15 @@
                     r1.Bottom <= r2.Bottom + 40);
         }
 
+        /// <summary>
+        /// A class that check's for pixel collision's. 
+        /// Taken from: http://xboxforums.create.msdn.com/forums/p/23774/139805.aspx
+        /// </summary>
+        /// <param name="r1">First object's rectangle.</param>
+        /// <param name="dataA">First object's color array.</param>
+        /// <param name="r2">Second object's rectangle.</param>
+        /// <param name="dataB">Second object's color array.</param>
+        /// <returns></returns>
         public static bool PixelCollision(Rectangle r1, Color[] dataA,
                             Rectangle r2, Color[] dataB)
         {

@@ -3,6 +3,7 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
+    using System;
     /// <summary>
     /// The orc is a regular monster that doesnt't move but hit hard (:O).
     /// </summary>
@@ -37,8 +38,8 @@
                     damage = 8;
                     break;
                 default:
-                    // Something went wrong.
-                    break;
+                    throw new NotImplementedException
+                            ("Unrecognized game difficulty value.");
             }
         }
 
