@@ -6,7 +6,7 @@
     /// A class with extension methods that decide whether or not we have a collision between two rectangles
     /// from four different directions and a method for pixel collision.
     /// </summary>
-    static class RectangleHelper
+    public static class RectangleHelper
     {
         public static bool isOnTopOf(this Rectangle r1, Rectangle r2)
         {

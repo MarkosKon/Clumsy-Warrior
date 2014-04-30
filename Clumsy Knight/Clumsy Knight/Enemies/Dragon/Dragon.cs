@@ -47,8 +47,9 @@
                     damage = 4;
                     break;
                 default:
-                    // Something went wrong.
-                    break;
+                    throw new NotImplementedException
+                            ("Unrecognized game difficulty value.");
+                    //break;
             }
 
         }
@@ -73,82 +74,6 @@
         public override void Update(GameTime gameTime, Player player)
         {
             state.Update(gameTime, player);
-            //currentFrameY = 0;
-            // Check the state of the dragon mainly for initializing/changing values used for draw,animate.
-            //
-            /*switch (enemyState)
-            {
-                case EnemyState.standing:
-                    if (standingWaitTime==0)
-                    { 
-                        interval = 150;
-                        frameWidth = 116;
-                        frameHeight = 130;
-                        currentFrameX = 0;
-                    }
-                    else if (standingWaitTime > 10000)
-                    {
-                        standingWaitTime = 0;
-                        enemyState = EnemyState.walking;
-                        break;
-                    }
-                    if (speed.X<0)
-                        enemyRectangle = new Rectangle(currentFrameX * frameWidth, 0, frameWidth, frameHeight);
-                    else
-                        enemyRectangle = new Rectangle(4+(4-currentFrameX) * frameWidth, 410, frameWidth, frameHeight);
-                    Animate(gameTime,4);
-                    standingWaitTime += timer;
-                    break;
-                case EnemyState.walking:
-                    if (walkingWaitTime==0)
-                    { 
-                        interval = 150;
-                        frameWidth = 132;
-                        frameHeight = 120;
-                        currentFrameX = 0;
-                    }
-                    else if (walkingWaitTime>15000)
-                    {
-                        walkingWaitTime = 0;
-                        enemyState = EnemyState.standing;
-                        speed = -speed;
-                        break;
-                    }
-                    if (speed.X < 0)
-                        enemyRectangle = new Rectangle(currentFrameX * frameWidth, 150, frameWidth, frameHeight);
-                    else
-                        enemyRectangle = new Rectangle((5-currentFrameX) * frameWidth, 553, frameWidth, frameHeight);
-                    Animate(gameTime,5);
-                    walkingWaitTime += timer;
-                    position = position + speed;
-                    break;
-                case EnemyState.attacking:
-                    if (attackingWaitTime==0)
-                    { 
-                        interval = 180;
-                        frameWidth = 140;
-                        frameHeight = 125;
-                        currentFrameX = 0;
-                    }
-                    else if (attackingWaitTime > 13000)
-                    {
-                        attackingWaitTime = 0;
-                        enemyState = EnemyState.walking;
-                        break;
-                    }
-                    if (speed.X<0)
-                        enemyRectangle = new Rectangle(currentFrameX * frameWidth, 280, frameWidth, frameHeight);
-                    else
-                        enemyRectangle = new Rectangle((4-currentFrameX) * frameWidth, 680, frameWidth, frameHeight);
-                    Animate(gameTime,4);
-                    attackingWaitTime += timer;
-                    break;
-                default:
-                    // Something went wrong.
-                    break;
-            }*/
-            // Override the previous if player is near.
-            //WhereIsPlayer(player, 200, 40);
         }
     }
 }
